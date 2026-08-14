@@ -38,6 +38,9 @@ class SidePanelViewModel @Inject constructor(
     private val locationManager =
         context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+    // 정리를 위해 현재 활성 리스너 추적
+    private var activeLocationListener: LocationListener? = null
+
     init {
         loadCalendar()
         refreshWeather()
@@ -59,8 +62,8 @@ class SidePanelViewModel @Inject constructor(
     }
 
     fun onPermissionGranted() {
-        refreshWeather()
         loadCalendar()
+        refreshWeather()
     }
 
     private fun loadCalendar() {
@@ -81,12 +84,13 @@ class SidePanelViewModel @Inject constructor(
             PackageManager.PERMISSION_GRANTED
 
     private fun fetchLocation(onResult: (Location?) -> Unit) {
-        // 마지막으로 알려진 위치 먼저 시도
         val providers = listOf(
             LocationManager.GPS_PROVIDER,
             LocationManager.NETWORK_PROVIDER,
             LocationManager.PASSIVE_PROVIDER,
         )
+
+        // 캐시된 위치 먼저 사용
         val cached = providers
             .filter { locationManager.isProviderEnabled(it) }
             .mapNotNull { runCatching { locationManager.getLastKnownLocation(it) }.getOrNull() }
@@ -104,18 +108,26 @@ class SidePanelViewModel @Inject constructor(
             return
         }
 
+        // 기존 리스너 해제
+        activeLocationListener?.let { locationManager.removeUpdates(it) }
+
         val listener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
                 locationManager.removeUpdates(this)
+                activeLocationListener = null
                 onResult(location)
             }
             @Deprecated("Deprecated in Java")
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
         }
+        activeLocationListener = listener
 
         runCatching {
             locationManager.requestLocationUpdates(enabledProvider, 0L, 0f, listener)
-        }.onFailure { onResult(null) }
+        }.onFailure {
+            activeLocationListener = null
+            onResult(null)
+        }
     }
 
     private fun fetchWeather(lat: Double, lon: Double) {
@@ -126,5 +138,11 @@ class SidePanelViewModel @Inject constructor(
                 onFailure = { WeatherState.Error(it.message ?: "알 수 없는 오류") },
             )
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        activeLocationListener?.let { locationManager.removeUpdates(it) }
+        activeLocationListener = null
     }
 }
