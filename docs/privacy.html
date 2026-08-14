@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>개인정보 처리방침 — BYD Launcher</title>
+  <meta name="description" content="BYD Launcher 앱의 개인정보 처리방침" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0A0C12;
+      --surface:   #12151E;
+      --card:      #1A1E2A;
+      --border:    #232840;
+      --cyan:      #00C8F0;
+      --text:      #EEF2FF;
+      --text-sub:  #8B93B0;
+      --text-dim:  #4A5070;
+      --radius:    12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { font-size: 18px; font-weight: 600; color: var(--cyan); letter-spacing: -0.5px; }
+    .nav-back { font-size: 14px; color: var(--text-sub); }
+    .nav-back:hover { color: var(--text); text-decoration: none; }
+
+    /* CONTENT */
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    .page-label {
+      font-size: 12px;
+      color: var(--cyan);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .updated {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 48px;
+    }
+
+    .intro {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--cyan);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 24px;
+      font-size: 15px;
+      color: var(--text-sub);
+      margin-bottom: 48px;
+    }
+
+    /* SECTIONS */
+    .policy-section { margin-bottom: 40px; }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p { font-size: 15px; color: var(--text-sub); margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      font-size: 15px;
+      color: var(--text-sub);
+      padding-left: 20px;
+      position: relative;
+    }
+    li::before {
+      content: '·';
+      color: var(--cyan);
+      position: absolute;
+      left: 6px;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .info-table th {
+      background: var(--card);
+      color: var(--text-sub);
+      font-weight: 500;
+      text-align: left;
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+    }
+    .info-table td {
+      color: var(--text-sub);
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .info-table tr:nth-child(even) td { background: var(--surface); }
+
+    .highlight {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .contact-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+    .contact-box p { margin-bottom: 6px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { font-size: 14px; color: var(--text-sub); }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { font-size: 13px; color: var(--text-dim); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">BYD Launcher</span>
+  <a class="nav-back" href="index.html">← 홈으로</a>
+</nav>
+
+<div class="content">
+  <div class="page-label">Privacy Policy</div>
+  <h1>개인정보 처리방침</h1>
+  <p class="updated">최종 업데이트: 2025년 8월 14일</p>
+
+  <div class="intro">
+    BYD Launcher는 사용자의 개인정보를 소중히 여깁니다. 본 앱은 기능 제공을 위해 필요한 최소한의 권한만 요청하며, 수집한 정보를 외부에 전송하거나 제3자와 공유하지 않습니다.
+  </div>
+
+  <!-- 1 -->
+  <div class="policy-section">
+    <h2>1. 수집하는 정보 및 목적</h2>
+    <table class="info-table">
+      <thead>
+        <tr>
+          <th>정보</th>
+          <th>권한</th>
+          <th>수집 목적</th>
+          <th>외부 전송</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>위치 (도시 수준)</td>
+          <td><code>ACCESS_COARSE_LOCATION</code><br /><code>ACCESS_FINE_LOCATION</code></td>
+          <td>날씨 정보 조회를 위한 위도·경도 확인</td>
+          <td>OpenWeatherMap API에 위도·경도만 전송 (도시명 수준)</td>
+        </tr>
+        <tr>
+          <td>캘린더 일정</td>
+          <td><code>READ_CALENDAR</code></td>
+          <td>오늘 일정 표시 (제목·시각)</td>
+          <td>전송 없음 — 기기 내부에서만 처리</td>
+        </tr>
+        <tr>
+          <td>설치된 앱 목록</td>
+          <td>—</td>
+          <td>앱 서랍 및 즐겨찾기 표시</td>
+          <td>전송 없음</td>
+        </tr>
+        <tr>
+          <td>즐겨찾기 설정</td>
+          <td>—</td>
+          <td>선택한 앱 패키지명을 기기에 저장</td>
+          <td>전송 없음</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2 -->
+  <div class="policy-section">
+    <h2>2. 제3자 서비스</h2>
+    <p>날씨 정보 제공을 위해 <span class="highlight">OpenWeatherMap</span>을 사용합니다. 날씨 조회 시 기기의 위도·경도가 OpenWeatherMap 서버로 전송됩니다. OpenWeatherMap의 개인정보처리방침은 아래에서 확인하세요.</p>
+    <ul>
+      <li><a href="https://openweathermap.org/privacy-policy" target="_blank" rel="noopener">OpenWeatherMap 개인정보처리방침</a></li>
+    </ul>
+    <p>그 외 분석 SDK, 광고 SDK, 크래시 리포팅 서비스 등 어떤 제3자 서비스도 포함하지 않습니다.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="policy-section">
+    <h2>3. 정보 보관 및 삭제</h2>
+    <ul>
+      <li>위치 정보는 날씨 요청 시에만 사용되며, 앱 내부에 저장되지 않습니다.</li>
+      <li>즐겨찾기 앱 목록(패키지명)은 기기 내 DataStore에 저장되며 앱 삭제 시 함께 삭제됩니다.</li>
+      <li>캘린더 데이터는 표시 목적으로만 읽으며 별도로 저장하지 않습니다.</li>
+    </ul>
+  </div>
+
+  <!-- 4 -->
+  <div class="policy-section">
+    <h2>4. 권한 거부 시 동작</h2>
+    <ul>
+      <li><span class="highlight">위치 권한 거부</span> — 날씨 카드에 "위치 권한 필요" 메시지가 표시됩니다. 나머지 기능은 정상 동작합니다.</li>
+      <li><span class="highlight">캘린더 권한 거부</span> — 캘린더 카드에 일정이 표시되지 않습니다. 나머지 기능은 정상 동작합니다.</li>
+    </ul>
+  </div>
+
+  <!-- 5 -->
+  <div class="policy-section">
+    <h2>5. 미성년자 보호</h2>
+    <p>BYD Launcher는 차량 인포테인먼트 전용 앱으로, 만 14세 미만 아동을 대상으로 하지 않습니다. 아동의 개인정보를 의도적으로 수집하지 않습니다.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="policy-section">
+    <h2>6. 방침 변경</h2>
+    <p>본 방침이 변경될 경우 GitHub 저장소의 이 페이지를 통해 공지합니다. 변경 후 앱을 계속 사용하면 변경된 방침에 동의한 것으로 간주합니다.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="policy-section">
+    <h2>7. 문의</h2>
+    <div class="contact-box">
+      <p>개인정보 처리와 관련한 문의는 GitHub Issues를 통해 남겨주세요.</p>
+      <p><a href="https://github.com/GeyuongGongPark/BYDLauncher/issues" target="_blank" rel="noopener">github.com/GeyuongGongPark/BYDLauncher/issues</a></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index.html">홈</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/releases" target="_blank" rel="noopener">릴리즈</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/issues" target="_blank" rel="noopener">버그 신고</a>
+  </div>
+  <p class="footer-copy">© 2025 BYD Launcher · MIT License</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BYD Launcher — BYD 차량용 홈 런처</title>
+  <meta name="description" content="BYD Atto 3, Seal, Dolphin 등 DiLink 인포테인먼트를 위한 오픈소스 홈 런처. 날씨, 캘린더, 즐겨찾기 앱을 한 화면에서." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0A0C12;
+      --surface:   #12151E;
+      --card:      #1A1E2A;
+      --border:    #232840;
+      --cyan:      #00C8F0;
+      --cyan-dim:  #0090B0;
+      --text:      #EEF2FF;
+      --text-sub:  #8B93B0;
+      --text-dim:  #4A5070;
+      --radius:    12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--cyan);
+      letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a { color: var(--text-sub); font-size: 14px; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* HERO */
+    .hero {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 96px 24px 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 12px;
+      color: var(--cyan);
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 300;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--cyan); }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-sub);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .btn-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: opacity .15s;
+    }
+    .btn:hover { opacity: .85; text-decoration: none; }
+    .btn-primary { background: var(--cyan); color: var(--bg); }
+    .btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+
+    /* SECTION */
+    section { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
+    .section-label {
+      font-size: 12px;
+      color: var(--cyan);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      margin-bottom: 48px;
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .feature-card p { font-size: 14px; color: var(--text-sub); }
+
+    /* DEVICES */
+    .devices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .device-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .device-name { font-size: 16px; font-weight: 500; }
+    .device-meta { font-size: 13px; color: var(--text-sub); }
+    .device-badge {
+      display: inline-block;
+      margin-top: 4px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 2px 10px;
+      font-size: 11px;
+      color: var(--cyan);
+    }
+
+    /* INSTALL */
+    .steps { display: flex; flex-direction: column; gap: 16px; }
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: var(--bg);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content h3 { font-size: 16px; margin-bottom: 4px; }
+    .step-content p { font-size: 14px; color: var(--text-sub); }
+
+    /* DIVIDER */
+    hr { border: none; border-top: 1px solid var(--border); margin: 0 24px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { font-size: 14px; color: var(--text-sub); }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { font-size: 13px; color: var(--text-dim); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">BYD Launcher</span>
+  <div class="nav-links">
+    <a href="#features">기능</a>
+    <a href="#devices">지원 기기</a>
+    <a href="#install">설치</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">오픈소스 · Android · DiLink 3.0 / 5.0</div>
+  <h1>BYD 차량을 위한<br /><span>스마트 런처</span></h1>
+  <p>Atto 3, Seal, Dolphin의 인포테인먼트 화면을 더 빠르고 직관적으로. 날씨, 일정, 즐겨찾기 앱을 한 화면에.</p>
+  <div class="btn-group">
+    <a class="btn btn-primary" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">
+      ↓ 최신 APK 다운로드
+    </a>
+    <a class="btn btn-secondary" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">
+      GitHub 보기
+    </a>
+  </div>
+</div>
+
+<hr />
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">Features</div>
+  <div class="section-title">필요한 건 모두, 불필요한 건 없이</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🌤</div>
+      <h3>위치 기반 날씨</h3>
+      <p>GPS 없이도 네트워크 위치로 현재 온도·습도·날씨 아이콘 표시. Play Services 불필요.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h3>캘린더 위젯</h3>
+      <p>기기 캘린더와 동기화. 오늘의 일정을 최대 5개, 색상과 시작 시각 표시.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">★</div>
+      <h3>즐겨찾기 앱</h3>
+      <p>자주 쓰는 앱 최대 8개 고정. 길게 눌러 편집 모드 진입, 순서 변경 가능.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <h3>앱 서랍 검색</h3>
+      <p>설치된 앱 전체를 이름으로 즉시 검색. 앱 추가/삭제 시 자동 갱신.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">↻</div>
+      <h3>회전 디스플레이 대응</h3>
+      <p>Atto 3(12.8"), Seal(15.6")의 회전 화면을 자동 감지해 레이아웃 전환.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>전체화면 몰입</h3>
+      <p>시스템 상태바·네비게이션 바 자동 숨김. 화면을 최대한 활용.</p>
+    </div>
+  </div>
+</section>
+
+<hr />
+
+<!-- DEVICES -->
+<section id="devices">
+  <div class="section-label">Compatibility</div>
+  <div class="section-title">지원 기기</div>
+  <div class="devices-grid">
+    <div class="device-card">
+      <span class="device-name">Atto 3</span>
+      <span class="device-meta">12.8" 회전 디스플레이</span>
+      <span class="device-badge">DiLink 3.0</span>
+    </div>
+    <div class="device-card">
+      <span class="device-name">Seal</span>
+      <span class="device-meta">15.6" 회전 디스플레이</span>
+      <span class="device-badge">DiLink 5.0</span>
+    </div>
+    <div class="device-card">
+      <span class="device-name">Seal U DM-i</span>
+      <span class="device-meta">10.25" 고정 디스플레이</span>
+      <span class="device-badge">DiLink 5.0</span>
+    </div>
+    <div class="device-card">
+      <span class="device-name">Dolphin</span>
+      <span class="device-meta">12.8" 회전 디스플레이</span>
+      <span class="device-badge">DiLink 3.0</span>
+    </div>
+  </div>
+  <p style="margin-top:20px; font-size:13px; color:var(--text-dim);">* Android 9 (API 28) 이상의 DiLink 시스템 전반에서 동작합니다.</p>
+</section>
+
+<hr />
+
+<!-- INSTALL -->
+<section id="install">
+  <div class="section-label">Installation</div>
+  <div class="section-title">설치 방법</div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>APK 다운로드</h3>
+        <p><a href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">최신 릴리즈</a>에서 <code>app-release.apk</code> 파일을 다운로드합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>알 수 없는 출처 허용</h3>
+        <p>인포테인먼트에서 <b>설정 → 보안 → 알 수 없는 출처 허용</b>을 켭니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>APK 설치</h3>
+        <p>파일 매니저에서 다운로드한 APK를 열어 설치합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>기본 런처 설정</h3>
+        <p>홈 버튼을 누르면 런처 선택 팝업이 나타납니다. <b>BYD Launcher</b>를 선택하고 <b>항상</b>을 탭합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/releases" target="_blank" rel="noopener">릴리즈</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/issues" target="_blank" rel="noopener">버그 신고</a>
+    <a href="privacy.html">개인정보 처리방침</a>
+  </div>
+  <p class="footer-copy">© 2025 BYD Launcher · MIT License</p>
+</footer>
+
+</body>
+</html>
