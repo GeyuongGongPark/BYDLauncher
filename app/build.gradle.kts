@@ -63,6 +63,8 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.okhttp)
+    implementation(libs.coil.compose)
+    implementation(libs.datastore.preferences)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
