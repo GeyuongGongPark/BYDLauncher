@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build & Release APK
+    runs-on: ubuntu-latest
+
+    env:
+      HAS_SIGNING_KEY: ${{ secrets.SIGNING_KEY_BASE64 != '' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Remove local Java home override
+        run: sed -i '/org.gradle.java.home/d' gradle.properties
+
+      - name: Build Release APK
+        run: ./gradlew :app:assembleRelease
+
+      - name: Sign APK
+        id: sign_apk
+        if: env.HAS_SIGNING_KEY == 'true'
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+          alias: ${{ secrets.SIGNING_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Locate APK
+        id: locate_apk
+        run: |
+          SIGNED="${{ steps.sign_apk.outputs.signedReleaseFile }}"
+          if [ -n "$SIGNED" ]; then
+            echo "path=$SIGNED" >> $GITHUB_OUTPUT
+            echo "label=app-release-signed.apk" >> $GITHUB_OUTPUT
+          else
+            APK=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+            echo "path=$APK" >> $GITHUB_OUTPUT
+            echo "label=app-release-unsigned.apk" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: BYD Launcher ${{ github.ref_name }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: ${{ steps.locate_apk.outputs.path }}
+          body: |
+            ## BYD Launcher ${{ github.ref_name }}
+
+            ### 설치 방법
+            1. 아래 APK 파일 다운로드
+            2. 기기에서 **설정 > 보안 > 알 수 없는 출처** 허용
+            3. APK 설치 후 홈 버튼 누르면 런처 선택 화면 표시
+
+            ### 대상 기기
+            - BYD Atto 3, Seal, Seal U DM-i, Dolphin
+            - DiLink 3.0 / 5.0 (Android 9+)
+            - 회전 디스플레이 지원 (Atto 3 12.8", Seal 15.6")
