@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BYD Launcher — BYD 차량용 홈 런처</title>
-  <meta name="description" content="BYD Atto 3, Seal, Dolphin용 오픈소스 홈 런처. 날씨, 캘린더, 즐겨찾기 앱을 한 화면에서." />
+  <meta name="description" content="BYD Atto 3, Seal, Dolphin용 오픈소스 홈 런처. 날씨, 캘린더, 네비게이션을 한 화면에서." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -177,17 +177,18 @@
     .app-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
     .app-content { flex: 1; padding: 14px 12px; }
 
-    /* 즐겨찾기 그리드 in 목업 */
-    .fav-label { font-size: 9px; color: #8B93B0; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-    .fav-edit-btn { color: #00C8F0; font-size: 9px; }
-    .fav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .fav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .fav-icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
+    /* 네비게이션 섹션 in 목업 */
+    .navi-label { font-size: 9px; color: #8B93B0; margin-bottom: 8px; }
+    .navi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; }
+    .navi-card {
+      background: #1A1E2A;
+      border: 1px solid #232840;
+      border-radius: 8px;
+      padding: 8px 10px;
+      display: flex; align-items: center; gap: 7px;
     }
-    .fav-name { font-size: 7px; color: #8B93B0; text-align: center; }
+    .navi-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .navi-name { font-size: 9px; color: #EEF2FF; font-weight: 500; }
 
     /* 앱 독 */
     .app-dock {
@@ -200,6 +201,20 @@
     .dock-item { display: flex; flex-direction: column; align-items: center; gap: 3px; }
     .dock-icon { font-size: 18px; }
     .dock-label { font-size: 7px; color: #8B93B0; }
+
+    /* 네비 fallback 카드 목업 */
+    .navi-active-mock {
+      flex: 1;
+      margin: 10px;
+      background: #1A1E2A;
+      border: 1px solid #232840;
+      border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    }
+    .navi-active-icon { font-size: 36px; }
+    .navi-active-name { font-size: 13px; font-weight: 500; color: #EEF2FF; }
+    .navi-active-hint { font-size: 9px; color: #8B93B0; }
+    .navi-change-btn { font-size: 9px; color: #00C8F0; margin-top: 2px; }
 
     /* Portrait 홈화면 */
     .app-portrait {
@@ -261,27 +276,16 @@
     .drawer-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
     .drawer-name { font-size: 8px; color: #8B93B0; text-align: center; }
 
-    /* 즐겨찾기 편집 모드 목업 */
-    .fav-edit-inner { padding: 16px; background: #080A10; }
-    .fav-edit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 10px; color: #8B93B0; }
-    .fav-edit-done { color: #00C8F0; font-size: 10px; }
-    .fav-edit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .fav-edit-item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .fav-edit-icon { width: 48px; height: 48px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 24px; background: #1A1E2A; position: relative; }
-    .fav-x {
-      position: absolute; top: -5px; right: -5px;
-      width: 16px; height: 16px; border-radius: 50%;
-      background: #00C8F0; color: #080A10;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 9px; font-weight: 700;
+    /* 네비 선택 full-mock */
+    .navi-select-inner { padding: 16px; background: #080A10; }
+    .navi-select-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 10px; color: #8B93B0; }
+    .navi-select-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .navi-select-card {
+      background: #1A1E2A; border: 1px solid #232840; border-radius: 10px;
+      padding: 14px 12px; display: flex; align-items: center; gap: 10px;
     }
-    .fav-empty {
-      width: 48px; height: 48px; border-radius: 11px;
-      border: 1.5px dashed #232840;
-      display: flex; align-items: center; justify-content: center;
-      color: #4A5070; font-size: 18px;
-    }
-    .fav-edit-name { font-size: 8px; color: #8B93B0; }
+    .navi-select-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .navi-select-name { font-size: 13px; font-weight: 500; color: #EEF2FF; }
 
     /* ── 디바이스 그리드 ── */
     .device-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
@@ -367,7 +371,7 @@
 <div class="hero">
   <div class="badge">오픈소스 · Android · DiLink 3.0 / 5.0</div>
   <h1>BYD 차량 화면을<br /><em>내 방식으로</em></h1>
-  <p>Atto 3, Seal, Dolphin의 인포테인먼트를 더 빠르고 직관적으로.<br />날씨, 일정, 즐겨찾기를 한 화면에서.</p>
+  <p>Atto 3, Seal, Dolphin의 인포테인먼트를 더 빠르고 직관적으로.<br />날씨, 일정, 네비게이션을 한 화면에서.</p>
   <div class="btn-row">
     <a class="btn btn-p" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">↓ APK 다운로드</a>
     <a class="btn btn-s" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub 보기</a>
@@ -378,7 +382,7 @@
 <div class="stats-bar">
   <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 차종</div></div>
   <div class="stat"><div class="stat-val">28+</div><div class="stat-label">Android API 지원</div></div>
-  <div class="stat"><div class="stat-val">8</div><div class="stat-label">즐겨찾기 슬롯</div></div>
+  <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 네비 앱</div></div>
   <div class="stat"><div class="stat-val">100%</div><div class="stat-label">오픈소스</div></div>
 </div>
 
@@ -389,14 +393,14 @@
   <div class="sec-label">Features</div>
   <div class="sec-title">필요한 건 모두, 불필요한 건 없이</div>
 
-  <!-- 1. Landscape 홈화면 -->
+  <!-- 1. Landscape 홈화면 — 네비게이션 -->
   <div class="showcase">
     <div class="showcase-text">
-      <h3>Landscape 홈화면</h3>
-      <p>좌측 패널에 시계·날씨·캘린더를, 우측에 즐겨찾기 앱과 빠른 실행 독을 배치합니다. 회전 디스플레이를 장착한 Atto 3(12.8"), Seal(15.6")에서 가로 모드로 최적 경험을 제공합니다.</p>
+      <h3>Landscape 홈 — 네비게이션 통합</h3>
+      <p>가로 화면에서 좌측 패널에 시계·날씨·캘린더를, 우측에 네비게이션 앱을 배치합니다. 카카오맵·T맵·네이버지도·구글맵 중 설치된 앱을 탭 한 번으로 선택하면 메인 영역에 바로 연결됩니다. 회전 디스플레이를 장착한 Atto 3(12.8"), Seal(15.6")에서 최적 경험을 제공합니다.</p>
       <div class="tag-list">
         <span class="tag">SidePanel</span>
-        <span class="tag">즐겨찾기 그리드</span>
+        <span class="tag">네비게이션 통합</span>
         <span class="tag">AppDock</span>
         <span class="tag">회전 대응</span>
       </div>
@@ -407,7 +411,7 @@
           <!-- SidePanel -->
           <div class="app-sidepanel">
             <div class="app-clock-big">14:32</div>
-            <div class="app-date">8월 14일 목요일</div>
+            <div class="app-date">8월 15일 금요일</div>
             <hr class="mini-divider" />
             <div class="mini-card">
               <div class="mini-card-label">날씨</div>
@@ -431,22 +435,27 @@
               </div>
             </div>
           </div>
-          <!-- Main -->
+          <!-- Main — 네비 선택 UI -->
           <div class="app-main">
             <div class="app-content">
-              <div class="fav-label">
-                <span>즐겨찾기</span>
-                <span class="fav-edit-btn">편집</span>
-              </div>
-              <div class="fav-grid">
-                <div class="fav-item"><div class="fav-icon" style="background:#1A3A5C">🗺</div><div class="fav-name">지도</div></div>
-                <div class="fav-item"><div class="fav-icon" style="background:#1A2A1A">🎵</div><div class="fav-name">음악</div></div>
-                <div class="fav-item"><div class="fav-icon" style="background:#2A1A1A">📞</div><div class="fav-name">전화</div></div>
-                <div class="fav-item"><div class="fav-icon" style="background:#1A1A2A">🌐</div><div class="fav-name">브라우저</div></div>
-                <div class="fav-item"><div class="fav-icon" style="background:#2A2A1A">📸</div><div class="fav-name">카메라</div></div>
-                <div class="fav-item"><div class="fav-icon" style="background:#1A2A2A">💬</div><div class="fav-name">메시지</div></div>
-                <div class="fav-item"><div class="fav-icon" style="background:#2A1A2A">⚙️</div><div class="fav-name">설정</div></div>
-                <div class="fav-item"><div class="fav-icon" style="background:#1A1E2A; border:1px dashed #232840; color:#4A5070; font-size:14px">+</div><div class="fav-name"></div></div>
+              <div class="navi-label">내비게이션</div>
+              <div class="navi-grid">
+                <div class="navi-card">
+                  <div class="navi-icon" style="background:#FFCD00">🗺</div>
+                  <div class="navi-name">카카오맵</div>
+                </div>
+                <div class="navi-card">
+                  <div class="navi-icon" style="background:#E8002D">🧭</div>
+                  <div class="navi-name">T맵</div>
+                </div>
+                <div class="navi-card">
+                  <div class="navi-icon" style="background:#03C75A">📍</div>
+                  <div class="navi-name">네이버지도</div>
+                </div>
+                <div class="navi-card">
+                  <div class="navi-icon" style="background:#4285F4">🌐</div>
+                  <div class="navi-name">구글맵</div>
+                </div>
               </div>
             </div>
             <div class="app-dock">
@@ -484,7 +493,7 @@
           <div class="portrait-content">
             <div>
               <div class="p-clock">14:32</div>
-              <div class="p-date">8월 14일 목요일</div>
+              <div class="p-date">8월 15일 금요일</div>
             </div>
             <div class="p-card">
               <div class="p-card-label">날씨</div>
@@ -570,73 +579,70 @@
             <span class="search-placeholder">앱 검색</span>
           </div>
           <div class="drawer-grid">
-            <div class="drawer-app"><div class="drawer-icon" style="background:#1A3A5C">🗺</div><div class="drawer-name">지도</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#FFCD00">🗺</div><div class="drawer-name">카카오맵</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#E8002D">🧭</div><div class="drawer-name">T맵</div></div>
             <div class="drawer-app"><div class="drawer-icon" style="background:#1A2A1A">🎵</div><div class="drawer-name">음악</div></div>
             <div class="drawer-app"><div class="drawer-icon" style="background:#2A1A1A">📞</div><div class="drawer-name">전화</div></div>
             <div class="drawer-app"><div class="drawer-icon" style="background:#1A1A2A">🌐</div><div class="drawer-name">브라우저</div></div>
             <div class="drawer-app"><div class="drawer-icon" style="background:#2A2A1A">📸</div><div class="drawer-name">카메라</div></div>
             <div class="drawer-app"><div class="drawer-icon" style="background:#1A2A2A">💬</div><div class="drawer-name">메시지</div></div>
             <div class="drawer-app"><div class="drawer-icon" style="background:#2A1A2A">📧</div><div class="drawer-name">메일</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#1A3A2A">🗒</div><div class="drawer-name">메모</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#3A1A1A">▶️</div><div class="drawer-name">YouTube</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#1A2A3A">📍</div><div class="drawer-name">카카오맵</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#1A3A2A">▶️</div><div class="drawer-name">YouTube</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#03C75A">📍</div><div class="drawer-name">네이버지도</div></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 5. 즐겨찾기 편집 -->
+  <!-- 5. 네비게이션 임베딩 -->
   <div class="showcase">
     <div class="showcase-text">
-      <h3>즐겨찾기 편집 모드</h3>
-      <p>앱 아이콘을 길게 누르면 편집 모드로 진입합니다. X 버튼으로 앱을 제거하고, 빈 슬롯의 + 버튼으로 앱을 추가합니다. 선택 내용은 DataStore에 저장되어 재시작 후에도 유지됩니다. 최대 8개 슬롯을 지원합니다.</p>
+      <h3>네비게이션 앱 연동</h3>
+      <p>카카오맵, T맵, 네이버지도, 구글맵 중 기기에 설치된 앱을 Landscape 홈 화면에서 바로 선택해 연결합니다. 선택된 앱은 홈 화면 메인 영역에 표시되며, 탭 한 번으로 즉시 실행됩니다. 시스템 앱으로 설치 시 VirtualDisplay를 통한 인앱 임베딩을 지원합니다.</p>
       <div class="tag-list">
-        <span class="tag">길게 누르기 편집</span>
-        <span class="tag">DataStore 영구 저장</span>
-        <span class="tag">최대 8슬롯</span>
+        <span class="tag">카카오맵</span>
+        <span class="tag">T맵</span>
+        <span class="tag">네이버지도</span>
+        <span class="tag">구글맵</span>
+        <span class="tag">VirtualDisplay 임베딩</span>
+        <span class="tag">DataStore 선택 저장</span>
       </div>
     </div>
     <div class="showcase-mock">
       <div class="display-mock" style="width:360px">
-        <div class="fav-edit-inner">
-          <div class="fav-edit-header">
-            <span>즐겨찾기</span>
-            <span class="fav-edit-done">완료</span>
+        <div class="navi-select-inner">
+          <div class="navi-select-header">
+            <span>내비게이션</span>
           </div>
-          <div class="fav-edit-grid">
-            <div class="fav-edit-item">
-              <div class="fav-edit-icon">🗺<div class="fav-x">✕</div></div>
-              <div class="fav-edit-name">지도</div>
+          <div class="navi-select-grid">
+            <div class="navi-select-card">
+              <div class="navi-select-icon" style="background:#FFCD00">🗺</div>
+              <div class="navi-select-name">카카오맵</div>
             </div>
-            <div class="fav-edit-item">
-              <div class="fav-edit-icon">🎵<div class="fav-x">✕</div></div>
-              <div class="fav-edit-name">음악</div>
+            <div class="navi-select-card">
+              <div class="navi-select-icon" style="background:#E8002D">🧭</div>
+              <div class="navi-select-name">T맵</div>
             </div>
-            <div class="fav-edit-item">
-              <div class="fav-edit-icon">📞<div class="fav-x">✕</div></div>
-              <div class="fav-edit-name">전화</div>
+            <div class="navi-select-card">
+              <div class="navi-select-icon" style="background:#03C75A">📍</div>
+              <div class="navi-select-name">네이버지도</div>
             </div>
-            <div class="fav-edit-item">
-              <div class="fav-edit-icon">⚙️<div class="fav-x">✕</div></div>
-              <div class="fav-edit-name">설정</div>
+            <div class="navi-select-card">
+              <div class="navi-select-icon" style="background:#4285F4">🌐</div>
+              <div class="navi-select-name">구글맵</div>
             </div>
-            <div class="fav-edit-item">
-              <div class="fav-empty">+</div>
-              <div class="fav-edit-name"></div>
+          </div>
+          <!-- 선택 후 상태 -->
+          <div style="margin-top:12px;background:#1A1E2A;border:1px solid #00C8F0;border-radius:10px;padding:14px 12px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:38px;height:38px;border-radius:9px;background:#FFCD00;display:flex;align-items:center;justify-content:center;font-size:22px">🗺</div>
+              <div>
+                <div style="font-size:13px;font-weight:500;color:#EEF2FF">카카오맵</div>
+                <div style="font-size:10px;color:#8B93B0">탭하여 실행</div>
+              </div>
             </div>
-            <div class="fav-edit-item">
-              <div class="fav-empty">+</div>
-              <div class="fav-edit-name"></div>
-            </div>
-            <div class="fav-edit-item">
-              <div class="fav-empty">+</div>
-              <div class="fav-edit-name"></div>
-            </div>
-            <div class="fav-edit-item">
-              <div class="fav-empty">+</div>
-              <div class="fav-edit-name"></div>
-            </div>
+            <div style="font-size:11px;color:#00C8F0">변경</div>
           </div>
         </div>
       </div>
