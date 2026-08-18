@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BYDLauncher">
 
+        <!--
+            Kinex와 동일한 구조:
+            - MainActivity: HOME + HOME_ONLY + DEFAULT (LAUNCHER 없음)
+            - activity-alias: LAUNCHER 전용
+            DiLink는 HOME + LAUNCHER가 같은 activity에 있으면 설치를 차단함.
+        -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -26,10 +32,22 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.HOME_ONLY" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 앱 서랍 진입점 (Kinex의 MainActivityLauncher alias와 동일) -->
+        <activity-alias
+            android:name=".MainActivityLauncher"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
     </application>
 
