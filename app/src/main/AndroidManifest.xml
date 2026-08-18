@@ -23,12 +23,29 @@
             android:screenOrientation="unspecified"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:windowSoftInputMode="adjustNothing">
+            <!-- 설치 진입점 — HOME 없이 일반 앱으로 설치 허용 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            HomeLauncher alias: 첫 실행 시 MainActivity.enableHomeLauncher()로 활성화.
+            설치 시 enabled=false 이므로 DiLink의 "desktop app" 설치 차단을 우회함.
+        -->
+        <activity-alias
+            android:name=".HomeLauncher"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity-alias>
 
     </application>
 
