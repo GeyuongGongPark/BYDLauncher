@@ -76,5 +76,9 @@ fun SidePanel(modifier: Modifier = Modifier) {
             events = calendarEvents,
             modifier = Modifier.padding(horizontal = 16.dp),
         )
+
+        Spacer(Modifier.height(12.dp))
+
+        CampingModeButton(modifier = Modifier.padding(horizontal = 16.dp))
     }
 }

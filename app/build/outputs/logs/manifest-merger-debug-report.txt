@@ -1,0 +1,455 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:2:1-62:12
+INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:2:1-62:12
+MERGED from [androidx.hilt:hilt-navigation-compose:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/aba71df34ff4e96a806c80b80bd83be5/transformed/hilt-navigation-compose-1.2.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.hilt:hilt-navigation:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/ee489f84324d6fd3e6a1f767ff54899a/transformed/hilt-navigation-1.2.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.dagger:hilt-android:2.50] /Users/ggpark/.gradle/caches/8.9/transforms/472c21cce1dea2b800ba0c268f159660/transformed/hilt-android-2.50/AndroidManifest.xml:16:1-19:12
+MERGED from [androidx.fragment:fragment:1.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/45d57bd325d8af92c6800c9eb66284d3/transformed/fragment-1.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/71c15e7baa310bd952c82301ee7d4ccc/transformed/material3-release/AndroidManifest.xml:17:1-22:12
+MERGED from [io.coil-kt:coil-compose:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/a86ddb70daddf40f0df9961c5da29283/transformed/coil-compose-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/38a5c8997400acc76ff3f97a3dc9853d/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-compose:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/cc556cb0a1edaba2a49f4b099a3fe83c/transformed/navigation-compose-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.compose.material:material-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/a8847556735aa342124d737b88544169/transformed/material-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/154c40b45f0151940e7440e1d9a5e5a7/transformed/material-icons-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/d6b524853c8c1f7f92ae9e1411a498ae/transformed/material-icons-extended-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.material:material-ripple-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/55ca17d3bbff586415b022320741cb1a/transformed/material-ripple-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/996062c85003902df9163227616c494f/transformed/animation-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.animation:animation-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/8a4d77506d7cce4b7ab617127d35bb92/transformed/animation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/65ab3da7e27fb89e810ea3d4f5352b57/transformed/foundation-layout-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.foundation:foundation-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/1881ff8416bd3136dc84fca8a08a92c0/transformed/foundation-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/4860d0572d4800f57b9b909d5aa80439/transformed/ui-tooling-data-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/f1a93fc888c2d939b7e52fbdc907d9cb/transformed/ui-unit-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/586762ace2511ffb5b654c4f0aba1981/transformed/ui-geometry-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-util-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/cc19e6a67f3adf7d261a2ab2c5f6bba4/transformed/ui-util-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-text-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/9f1912c448127c52728f721f6653265b/transformed/ui-text-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/b5bf927ace15546e7ff3904028f01765/transformed/ui-tooling-preview-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/ecef8c8adf077a82b800faf33c100fc2/transformed/ui-graphics-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:17:1-28:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/699841e95d8f9003a1ce61710cbfe05e/transformed/navigation-runtime-ktx-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-runtime:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/0b3ee29b2603e0ff196b54af6fb8c9c5/transformed/navigation-runtime-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/fabf7a737e5b120ce19e8c7fdac73a50/transformed/navigation-common-ktx-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-common:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/91c85137e4b1f8ef2663d44fd5bcf868/transformed/navigation-common-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/ggpark/.gradle/caches/8.9/transforms/d26dfe2475fea95aaafe4e619742371a/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/ggpark/.gradle/caches/8.9/transforms/1bd6732786062cff9e27c6425966b1ec/transformed/savedstate-1.2.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/594999843aa3ea5e96c9887ff14189bb/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:17:1-35:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/c924a39de38ce73b34fa7c8295f99eab/transformed/lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/287c356a21e6bd22eeb325bfd7592de0/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/17dc9c6b34c8434072b2f2b94559106c/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/fcf9855664c8c17f1b7c5047c8d7c38d/transformed/lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/20c8ab8e4bea4cb9eefa9b0d07863311/transformed/lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/d5adb6907128dedd53441a93ee280433/transformed/coil-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-base:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/0d6826f0b73df8a295b172f58f12842d/transformed/coil-base-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/4b4f0d19b8c538c21b746cc832134a7f/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/e3f064c6037c02b68b7d5523280c52c0/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/f03457be74d7c4a551143e0def8e179f/transformed/lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/ed4ba5d86c799eb86d3d3da461153870/transformed/lifecycle-viewmodel-compose-2.7.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /Users/ggpark/.gradle/caches/8.9/transforms/fb7e9f4c1c02e0654b7c429980697db5/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.compose.ui:ui-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/7dcfebb0b76ff6b2664d2f0f7604a306/transformed/ui-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity-ktx:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/f51332a448d4764c56a09b4f2e6ad910/transformed/activity-ktx-1.8.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity-compose:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/a15e845022128e8bf656a51d33471c25/transformed/activity-compose-1.8.2/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.activity:activity:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/99dd5296c3f48338ee1b833410b111a8/transformed/activity-1.8.2/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/b2246a553cca6a76717c4bec3a81fa67/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/5512f956686ab716ae3b600e51ec61bc/transformed/autofill-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/3112b9824bb27a0cdd68724293f53dba/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/7966bd06419991ec137fbbdb63388602/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/ggpark/.gradle/caches/8.9/transforms/b1ad781400ac72d5c33da0988ae45812/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/ggpark/.gradle/caches/8.9/transforms/23206f7010434d4f968b4ee3045b1d40/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/b8a2c21fa898d30de060c0af7a180af2/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/fb0efb14bb267db44581f96020e80797/transformed/core-ktx-1.12.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/c3d15c3450f93fdf33964c167a8b0eb0/transformed/datastore-core-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/16ab439006bb434e658ea1d23e97426c/transformed/datastore-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/6f615194f56bcb29b91f1fb8ad3af7d3/transformed/datastore-preferences-release/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/a73cd4356e4b3cf29cc25f200cceca33/transformed/runtime-saveable-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/bdba3f72e586b78a07a39cd397e84996/transformed/runtime-release/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/ggpark/.gradle/caches/8.9/transforms/72311721aa2d10a1d9ebb484ee014d64/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/a53757455e678bea2dc161622c643fde/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/a342fce255341292420a098e980f5824/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/7d268195412519115ae86b96541a612e/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:17:1-55:12
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/136c30ee82bcdfe57d788f3116fd5c51/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/c215c7d3fa67c9c27be6d4674ce68b22/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /Users/ggpark/.gradle/caches/8.9/transforms/4e717891a1dece8e99e62970757cd4e9/transformed/exifinterface-1.3.7/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.dagger:dagger-lint-aar:2.50] /Users/ggpark/.gradle/caches/8.9/transforms/34de6b5e50fa92ab98f012ff16779cf8/transformed/dagger-lint-aar-2.50/AndroidManifest.xml:16:1-19:12
+	package
+		INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:4:5-67
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:4:22-64
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:5:5-81
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:5:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:6:5-79
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:6:22-76
+uses-permission#android.permission.READ_CALENDAR
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:7:5-72
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:7:22-69
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:8:5-77
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:8:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_SPECIAL_USE
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:9:5-89
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:9:22-86
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:10:5-77
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:10:22-74
+application
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:12:5-60:19
+INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:12:5-60:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:28:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/a53757455e678bea2dc161622c643fde/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/a53757455e678bea2dc161622c643fde/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/136c30ee82bcdfe57d788f3116fd5c51/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/136c30ee82bcdfe57d788f3116fd5c51/transformed/startup-runtime-1.1.1/AndroidManifest.xml:25:5-31:19
+	android:extractNativeLibs
+		INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:28:18-86
+	android:supportsRtl
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:18:9-35
+	android:label
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:16:9-41
+	android:roundIcon
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:17:9-54
+	android:icon
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:15:9-43
+	android:allowBackup
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:14:9-36
+	android:theme
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:19:9-49
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:13:9-44
+activity#com.bydlauncher.MainActivity
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:27:9-41:20
+	android:screenOrientation
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:32:13-52
+	android:stateNotNeeded
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:31:13-42
+	android:launchMode
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:30:13-44
+	android:windowSoftInputMode
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:34:13-56
+	android:exported
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:29:13-36
+	android:configChanges
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:33:13-87
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:28:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.DEFAULT+category:name:android.intent.category.HOME+category:name:android.intent.category.HOME_ONLY
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:35:13-40:29
+action#android.intent.action.MAIN
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:36:17-69
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:36:25-66
+category#android.intent.category.HOME
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:37:17-73
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:37:27-70
+category#android.intent.category.HOME_ONLY
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:38:17-78
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:38:27-75
+category#android.intent.category.DEFAULT
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:39:17-76
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:39:27-73
+activity-alias#com.bydlauncher.MainActivityLauncher
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:44:9-53:26
+	android:enabled
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:48:13-35
+	android:exported
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:47:13-36
+	android:targetActivity
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:46:13-51
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:45:13-49
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:49:13-52:29
+category#android.intent.category.LAUNCHER
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:51:17-77
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:51:27-74
+service#com.bydlauncher.camping.service.CampingService
+ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:55:9-58:58
+	android:exported
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:57:13-37
+	android:foregroundServiceType
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:58:13-55
+	android:name
+		ADDED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml:56:13-59
+uses-sdk
+INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+MERGED from [androidx.hilt:hilt-navigation-compose:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/aba71df34ff4e96a806c80b80bd83be5/transformed/hilt-navigation-compose-1.2.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.hilt:hilt-navigation-compose:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/aba71df34ff4e96a806c80b80bd83be5/transformed/hilt-navigation-compose-1.2.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.hilt:hilt-navigation:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/ee489f84324d6fd3e6a1f767ff54899a/transformed/hilt-navigation-1.2.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.hilt:hilt-navigation:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/ee489f84324d6fd3e6a1f767ff54899a/transformed/hilt-navigation-1.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.dagger:hilt-android:2.50] /Users/ggpark/.gradle/caches/8.9/transforms/472c21cce1dea2b800ba0c268f159660/transformed/hilt-android-2.50/AndroidManifest.xml:18:3-42
+MERGED from [com.google.dagger:hilt-android:2.50] /Users/ggpark/.gradle/caches/8.9/transforms/472c21cce1dea2b800ba0c268f159660/transformed/hilt-android-2.50/AndroidManifest.xml:18:3-42
+MERGED from [androidx.fragment:fragment:1.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/45d57bd325d8af92c6800c9eb66284d3/transformed/fragment-1.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/45d57bd325d8af92c6800c9eb66284d3/transformed/fragment-1.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/71c15e7baa310bd952c82301ee7d4ccc/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.material3:material3-android:1.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/71c15e7baa310bd952c82301ee7d4ccc/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [io.coil-kt:coil-compose:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/a86ddb70daddf40f0df9961c5da29283/transformed/coil-compose-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/a86ddb70daddf40f0df9961c5da29283/transformed/coil-compose-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/38a5c8997400acc76ff3f97a3dc9853d/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/38a5c8997400acc76ff3f97a3dc9853d/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-compose:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/cc556cb0a1edaba2a49f4b099a3fe83c/transformed/navigation-compose-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-compose:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/cc556cb0a1edaba2a49f4b099a3fe83c/transformed/navigation-compose-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.compose.material:material-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/a8847556735aa342124d737b88544169/transformed/material-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/a8847556735aa342124d737b88544169/transformed/material-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/154c40b45f0151940e7440e1d9a5e5a7/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-core-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/154c40b45f0151940e7440e1d9a5e5a7/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/d6b524853c8c1f7f92ae9e1411a498ae/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-icons-extended-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/d6b524853c8c1f7f92ae9e1411a498ae/transformed/material-icons-extended-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/55ca17d3bbff586415b022320741cb1a/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.material:material-ripple-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/55ca17d3bbff586415b022320741cb1a/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/996062c85003902df9163227616c494f/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-core-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/996062c85003902df9163227616c494f/transformed/animation-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/8a4d77506d7cce4b7ab617127d35bb92/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.animation:animation-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/8a4d77506d7cce4b7ab617127d35bb92/transformed/animation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/65ab3da7e27fb89e810ea3d4f5352b57/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-layout-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/65ab3da7e27fb89e810ea3d4f5352b57/transformed/foundation-layout-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/1881ff8416bd3136dc84fca8a08a92c0/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.foundation:foundation-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/1881ff8416bd3136dc84fca8a08a92c0/transformed/foundation-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/4860d0572d4800f57b9b909d5aa80439/transformed/ui-tooling-data-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-data-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/4860d0572d4800f57b9b909d5aa80439/transformed/ui-tooling-data-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/f1a93fc888c2d939b7e52fbdc907d9cb/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-unit-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/f1a93fc888c2d939b7e52fbdc907d9cb/transformed/ui-unit-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/586762ace2511ffb5b654c4f0aba1981/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-geometry-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/586762ace2511ffb5b654c4f0aba1981/transformed/ui-geometry-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/cc19e6a67f3adf7d261a2ab2c5f6bba4/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-util-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/cc19e6a67f3adf7d261a2ab2c5f6bba4/transformed/ui-util-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/9f1912c448127c52728f721f6653265b/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-text-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/9f1912c448127c52728f721f6653265b/transformed/ui-text-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/b5bf927ace15546e7ff3904028f01765/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/b5bf927ace15546e7ff3904028f01765/transformed/ui-tooling-preview-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/ecef8c8adf077a82b800faf33c100fc2/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-graphics-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/ecef8c8adf077a82b800faf33c100fc2/transformed/ui-graphics-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/699841e95d8f9003a1ce61710cbfe05e/transformed/navigation-runtime-ktx-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/699841e95d8f9003a1ce61710cbfe05e/transformed/navigation-runtime-ktx-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/0b3ee29b2603e0ff196b54af6fb8c9c5/transformed/navigation-runtime-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-runtime:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/0b3ee29b2603e0ff196b54af6fb8c9c5/transformed/navigation-runtime-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/fabf7a737e5b120ce19e8c7fdac73a50/transformed/navigation-common-ktx-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common-ktx:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/fabf7a737e5b120ce19e8c7fdac73a50/transformed/navigation-common-ktx-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/91c85137e4b1f8ef2663d44fd5bcf868/transformed/navigation-common-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.navigation:navigation-common:2.5.1] /Users/ggpark/.gradle/caches/8.9/transforms/91c85137e4b1f8ef2663d44fd5bcf868/transformed/navigation-common-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/ggpark/.gradle/caches/8.9/transforms/d26dfe2475fea95aaafe4e619742371a/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /Users/ggpark/.gradle/caches/8.9/transforms/d26dfe2475fea95aaafe4e619742371a/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/ggpark/.gradle/caches/8.9/transforms/1bd6732786062cff9e27c6425966b1ec/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.2.1] /Users/ggpark/.gradle/caches/8.9/transforms/1bd6732786062cff9e27c6425966b1ec/transformed/savedstate-1.2.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/594999843aa3ea5e96c9887ff14189bb/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/594999843aa3ea5e96c9887ff14189bb/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/c924a39de38ce73b34fa7c8295f99eab/transformed/lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/c924a39de38ce73b34fa7c8295f99eab/transformed/lifecycle-livedata-core-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/287c356a21e6bd22eeb325bfd7592de0/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/287c356a21e6bd22eeb325bfd7592de0/transformed/lifecycle-livedata-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/17dc9c6b34c8434072b2f2b94559106c/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/17dc9c6b34c8434072b2f2b94559106c/transformed/lifecycle-livedata-core-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/fcf9855664c8c17f1b7c5047c8d7c38d/transformed/lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/fcf9855664c8c17f1b7c5047c8d7c38d/transformed/lifecycle-viewmodel-savedstate-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/20c8ab8e4bea4cb9eefa9b0d07863311/transformed/lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/20c8ab8e4bea4cb9eefa9b0d07863311/transformed/lifecycle-viewmodel-ktx-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/d5adb6907128dedd53441a93ee280433/transformed/coil-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/d5adb6907128dedd53441a93ee280433/transformed/coil-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/0d6826f0b73df8a295b172f58f12842d/transformed/coil-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] /Users/ggpark/.gradle/caches/8.9/transforms/0d6826f0b73df8a295b172f58f12842d/transformed/coil-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/4b4f0d19b8c538c21b746cc832134a7f/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/4b4f0d19b8c538c21b746cc832134a7f/transformed/lifecycle-runtime-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/e3f064c6037c02b68b7d5523280c52c0/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/e3f064c6037c02b68b7d5523280c52c0/transformed/lifecycle-viewmodel-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/f03457be74d7c4a551143e0def8e179f/transformed/lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/f03457be74d7c4a551143e0def8e179f/transformed/lifecycle-runtime-ktx-2.7.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/ed4ba5d86c799eb86d3d3da461153870/transformed/lifecycle-viewmodel-compose-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/ed4ba5d86c799eb86d3d3da461153870/transformed/lifecycle-viewmodel-compose-2.7.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /Users/ggpark/.gradle/caches/8.9/transforms/fb7e9f4c1c02e0654b7c429980697db5/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:21:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /Users/ggpark/.gradle/caches/8.9/transforms/fb7e9f4c1c02e0654b7c429980697db5/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:21:5-44
+MERGED from [androidx.compose.ui:ui-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/7dcfebb0b76ff6b2664d2f0f7604a306/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.ui:ui-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/7dcfebb0b76ff6b2664d2f0f7604a306/transformed/ui-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/f51332a448d4764c56a09b4f2e6ad910/transformed/activity-ktx-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-ktx:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/f51332a448d4764c56a09b4f2e6ad910/transformed/activity-ktx-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/a15e845022128e8bf656a51d33471c25/transformed/activity-compose-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity-compose:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/a15e845022128e8bf656a51d33471c25/transformed/activity-compose-1.8.2/AndroidManifest.xml:5:5-44
+MERGED from [androidx.activity:activity:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/99dd5296c3f48338ee1b833410b111a8/transformed/activity-1.8.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.8.2] /Users/ggpark/.gradle/caches/8.9/transforms/99dd5296c3f48338ee1b833410b111a8/transformed/activity-1.8.2/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/b2246a553cca6a76717c4bec3a81fa67/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/b2246a553cca6a76717c4bec3a81fa67/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/5512f956686ab716ae3b600e51ec61bc/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.autofill:autofill:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/5512f956686ab716ae3b600e51ec61bc/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/3112b9824bb27a0cdd68724293f53dba/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/3112b9824bb27a0cdd68724293f53dba/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/7966bd06419991ec137fbbdb63388602/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/7966bd06419991ec137fbbdb63388602/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/ggpark/.gradle/caches/8.9/transforms/b1ad781400ac72d5c33da0988ae45812/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/ggpark/.gradle/caches/8.9/transforms/b1ad781400ac72d5c33da0988ae45812/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/ggpark/.gradle/caches/8.9/transforms/23206f7010434d4f968b4ee3045b1d40/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/ggpark/.gradle/caches/8.9/transforms/23206f7010434d4f968b4ee3045b1d40/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/b8a2c21fa898d30de060c0af7a180af2/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/b8a2c21fa898d30de060c0af7a180af2/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/fb0efb14bb267db44581f96020e80797/transformed/core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.core:core-ktx:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/fb0efb14bb267db44581f96020e80797/transformed/core-ktx-1.12.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/c3d15c3450f93fdf33964c167a8b0eb0/transformed/datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/c3d15c3450f93fdf33964c167a8b0eb0/transformed/datastore-core-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/16ab439006bb434e658ea1d23e97426c/transformed/datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/16ab439006bb434e658ea1d23e97426c/transformed/datastore-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/6f615194f56bcb29b91f1fb8ad3af7d3/transformed/datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.datastore:datastore-preferences-android:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/6f615194f56bcb29b91f1fb8ad3af7d3/transformed/datastore-preferences-release/AndroidManifest.xml:20:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/a73cd4356e4b3cf29cc25f200cceca33/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/a73cd4356e4b3cf29cc25f200cceca33/transformed/runtime-saveable-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/bdba3f72e586b78a07a39cd397e84996/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/bdba3f72e586b78a07a39cd397e84996/transformed/runtime-release/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/ggpark/.gradle/caches/8.9/transforms/72311721aa2d10a1d9ebb484ee014d64/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.annotation:annotation-experimental:1.4.0] /Users/ggpark/.gradle/caches/8.9/transforms/72311721aa2d10a1d9ebb484ee014d64/transformed/annotation-experimental-1.4.0/AndroidManifest.xml:5:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/a53757455e678bea2dc161622c643fde/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/a53757455e678bea2dc161622c643fde/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/a342fce255341292420a098e980f5824/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/a342fce255341292420a098e980f5824/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/7d268195412519115ae86b96541a612e/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.2.0] /Users/ggpark/.gradle/caches/8.9/transforms/7d268195412519115ae86b96541a612e/transformed/core-runtime-2.2.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/136c30ee82bcdfe57d788f3116fd5c51/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/136c30ee82bcdfe57d788f3116fd5c51/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/c215c7d3fa67c9c27be6d4674ce68b22/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /Users/ggpark/.gradle/caches/8.9/transforms/c215c7d3fa67c9c27be6d4674ce68b22/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /Users/ggpark/.gradle/caches/8.9/transforms/4e717891a1dece8e99e62970757cd4e9/transformed/exifinterface-1.3.7/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /Users/ggpark/.gradle/caches/8.9/transforms/4e717891a1dece8e99e62970757cd4e9/transformed/exifinterface-1.3.7/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.dagger:dagger-lint-aar:2.50] /Users/ggpark/.gradle/caches/8.9/transforms/34de6b5e50fa92ab98f012ff16779cf8/transformed/dagger-lint-aar-2.50/AndroidManifest.xml:18:3-42
+MERGED from [com.google.dagger:dagger-lint-aar:2.50] /Users/ggpark/.gradle/caches/8.9/transforms/34de6b5e50fa92ab98f012ff16779cf8/transformed/dagger-lint-aar-2.50/AndroidManifest.xml:18:3-42
+	android:targetSdkVersion
+		INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/ggpark/Desktop/git/BYDLauncher/app/src/main/AndroidManifest.xml
+activity#androidx.compose.ui.tooling.PreviewActivity
+ADDED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:23:9-25:39
+	android:exported
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:25:13-36
+	android:name
+		ADDED from [androidx.compose.ui:ui-tooling-android:1.6.1] /Users/ggpark/.gradle/caches/8.9/transforms/fa2a4957eb22241dd1bb1e54df541ccb/transformed/ui-tooling-release/AndroidManifest.xml:24:13-71
+provider#androidx.startup.InitializationProvider
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:24:9-32:20
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/136c30ee82bcdfe57d788f3116fd5c51/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+MERGED from [androidx.startup:startup-runtime:1.1.1] /Users/ggpark/.gradle/caches/8.9/transforms/136c30ee82bcdfe57d788f3116fd5c51/transformed/startup-runtime-1.1.1/AndroidManifest.xml:26:9-30:34
+	tools:node
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:28:13-31
+	android:authorities
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+	android:exported
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+meta-data#androidx.emoji2.text.EmojiCompatInitializer
+ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.emoji2:emoji2:1.3.0] /Users/ggpark/.gradle/caches/8.9/transforms/fd681c08f4539f9405b7e7a0d39d9e25/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+meta-data#androidx.lifecycle.ProcessLifecycleInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] /Users/ggpark/.gradle/caches/8.9/transforms/24c92b9e945c0dd5db2f994b33ecf237/transformed/lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+permission#com.bydlauncher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
+	android:protectionLevel
+		ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
+uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+uses-permission#com.bydlauncher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
+	android:name
+		ADDED from [androidx.core:core:1.12.0] /Users/ggpark/.gradle/caches/8.9/transforms/5758ed29bb2806c68d8d9dcdcdc4f401/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
+meta-data#androidx.profileinstaller.ProfileInstallerInitializer
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+	android:value
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+receiver#androidx.profileinstaller.ProfileInstallReceiver
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+	android:enabled
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+	android:permission
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+	android:directBootAware
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+intent-filter#action:name:androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+action#androidx.profileinstaller.action.INSTALL_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+intent-filter#action:name:androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+action#androidx.profileinstaller.action.SKIP_FILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+intent-filter#action:name:androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+action#androidx.profileinstaller.action.SAVE_PROFILE
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+intent-filter#action:name:androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+action#androidx.profileinstaller.action.BENCHMARK_OPERATION
+ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+	android:name
+		ADDED from [androidx.profileinstaller:profileinstaller:1.3.1] /Users/ggpark/.gradle/caches/8.9/transforms/6e07e87d826f4bfae90103623c20e770/transformed/profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
