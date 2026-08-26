@@ -1,6 +1,7 @@
 package com.bydlauncher.ui.components
 
 import android.Manifest
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -13,11 +14,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.bydlauncher.MainActivity
 import com.bydlauncher.domain.weather.WeatherState
 import com.bydlauncher.ui.sidepanel.SidePanelViewModel
 import com.bydlauncher.ui.theme.BackgroundCard
@@ -28,6 +34,8 @@ fun SidePanel(modifier: Modifier = Modifier) {
     val viewModel: SidePanelViewModel = hiltViewModel()
     val weatherState by viewModel.weatherState.collectAsState()
     val calendarEvents by viewModel.calendarEvents.collectAsState()
+    val activity = LocalContext.current as ComponentActivity
+    var isDefaultHome by remember { mutableStateOf(MainActivity.isDefaultHome(activity)) }
 
     // 위치 + 캘린더 권한 동시 요청
     val permissionLauncher = rememberLauncherForActivityResult(
@@ -80,5 +88,16 @@ fun SidePanel(modifier: Modifier = Modifier) {
         Spacer(Modifier.height(12.dp))
 
         CampingModeButton(modifier = Modifier.padding(horizontal = 16.dp))
+
+        if (!isDefaultHome) {
+            Spacer(Modifier.height(8.dp))
+            SetDefaultHomeButton(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                onClick = {
+                    MainActivity.openDefaultHomeSettings(activity)
+                    isDefaultHome = MainActivity.isDefaultHome(activity)
+                },
+            )
+        }
     }
 }
