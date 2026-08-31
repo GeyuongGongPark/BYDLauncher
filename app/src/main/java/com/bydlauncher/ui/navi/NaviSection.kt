@@ -1,6 +1,7 @@
 package com.bydlauncher.ui.navi
 
 import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bydlauncher.domain.navi.NaviApp
+import com.bydlauncher.overlay.OverlayService
 import com.bydlauncher.ui.theme.AccentCyan
 import com.bydlauncher.ui.theme.BackgroundCard
 import com.bydlauncher.ui.theme.DividerColor
@@ -162,6 +164,7 @@ private fun NaviFallbackCard(app: NaviApp) {
             context.packageManager.getApplicationIcon(app.packageName).toImageBitmap()
         }.getOrNull()
     }
+    val canDrawOverlay = remember { Settings.canDrawOverlays(context) }
 
     Box(
         modifier = Modifier
@@ -170,10 +173,24 @@ private fun NaviFallbackCard(app: NaviApp) {
             .background(BackgroundCard)
             .border(1.dp, DividerColor, RoundedCornerShape(16.dp))
             .clickable {
-                val intent = context.packageManager.getLaunchIntentForPackage(app.packageName)
-                intent?.let {
-                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    context.startActivity(it)
+                if (canDrawOverlay) {
+                    // 네비 앱 실행 + 오버레이 독 표시
+                    val naviIntent = context.packageManager.getLaunchIntentForPackage(app.packageName)
+                    naviIntent?.let {
+                        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        context.startActivity(it)
+                    }
+                    val overlayIntent = Intent(context, OverlayService::class.java).apply {
+                        action = OverlayService.ACTION_SHOW
+                    }
+                    context.startService(overlayIntent)
+                } else {
+                    // 오버레이 권한 요청
+                    val permIntent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        android.net.Uri.parse("package:${context.packageName}"),
+                    ).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
+                    context.startActivity(permIntent)
                 }
             },
         contentAlignment = Alignment.Center,
@@ -189,7 +206,11 @@ private fun NaviFallbackCard(app: NaviApp) {
             }
             Text(text = app.displayName, fontSize = 18.sp, fontWeight = FontWeight.Medium, color = TextPrimary)
             Spacer(Modifier.height(4.dp))
-            Text(text = "탭하여 실행", fontSize = 13.sp, color = TextSecondary)
+            Text(
+                text = if (canDrawOverlay) "탭하여 실행" else "탭하여 오버레이 권한 허용",
+                fontSize = 13.sp,
+                color = TextSecondary,
+            )
         }
     }
 }
