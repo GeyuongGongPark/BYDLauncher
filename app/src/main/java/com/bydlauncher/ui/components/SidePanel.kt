@@ -87,6 +87,10 @@ fun SidePanel(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(12.dp))
 
+        UpdateBanner(modifier = Modifier.padding(horizontal = 16.dp))
+
+        Spacer(Modifier.height(8.dp))
+
         CampingModeButton(modifier = Modifier.padding(horizontal = 16.dp))
 
         if (!isDefaultHome) {
