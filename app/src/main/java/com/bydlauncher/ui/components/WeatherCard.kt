@@ -13,10 +13,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.Air
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.FilterDrama
 import androidx.compose.material.icons.filled.LocationOff
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Thunderstorm
 import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.WbCloudy
+import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -28,7 +34,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.bydlauncher.domain.weather.WeatherInfo
 import com.bydlauncher.domain.weather.WeatherState
 import com.bydlauncher.ui.theme.AccentCyan
@@ -96,13 +101,13 @@ private fun WeatherContent(info: WeatherInfo) {
         modifier = Modifier.fillMaxWidth(),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // Coil로 OpenWeatherMap 날씨 아이콘
-            AsyncImage(
-                model = "https://openweathermap.org/img/wn/${info.iconCode}@2x.png",
+            Icon(
+                imageVector = wmoIcon(info.weatherCode),
                 contentDescription = info.description,
-                modifier = Modifier.size(52.dp),
+                tint = wmoIconTint(info.weatherCode),
+                modifier = Modifier.size(40.dp),
             )
-            Spacer(Modifier.width(4.dp))
+            Spacer(Modifier.width(8.dp))
             Column {
                 Text(
                     text = "${info.tempCelsius.roundToInt()}°",
@@ -111,7 +116,6 @@ private fun WeatherContent(info: WeatherInfo) {
                     color = TextPrimary,
                 )
                 Text(text = info.description, fontSize = 12.sp, color = TextSecondary)
-                Text(text = info.cityName, fontSize = 11.sp, color = TextDisabled)
             }
         }
 
@@ -144,8 +148,35 @@ private fun StatusRow(
         Text(message, fontSize = 12.sp, color = TextDisabled)
         if (actionLabel != null && onAction != null) {
             Spacer(Modifier.width(8.dp))
-            Text(actionLabel, fontSize = 12.sp, color = AccentCyan,
-                modifier = Modifier.clickable { onAction() })
+            Text(
+                text = actionLabel,
+                fontSize = 12.sp,
+                color = AccentCyan,
+                modifier = Modifier.clickable { onAction() },
+            )
         }
     }
+}
+
+private fun wmoIcon(code: Int): ImageVector = when (code) {
+    0 -> Icons.Default.WbSunny
+    1, 2 -> Icons.Default.FilterDrama
+    3 -> Icons.Default.WbCloudy
+    45, 48 -> Icons.Default.Cloud
+    in 51..67 -> Icons.Default.WaterDrop
+    in 71..77 -> Icons.Default.AcUnit
+    in 80..82 -> Icons.Default.WaterDrop
+    85, 86 -> Icons.Default.AcUnit
+    95, 96, 99 -> Icons.Default.Thunderstorm
+    else -> Icons.Default.WbSunny
+}
+
+private fun wmoIconTint(code: Int): androidx.compose.ui.graphics.Color = when (code) {
+    0 -> androidx.compose.ui.graphics.Color(0xFFFDD835)       // 노란색 (맑음)
+    1, 2 -> androidx.compose.ui.graphics.Color(0xFFB0BEC5)    // 회청색 (부분 흐림)
+    3 -> androidx.compose.ui.graphics.Color(0xFF90A4AE)        // 회색 (흐림)
+    in 51..67, in 80..82 -> androidx.compose.ui.graphics.Color(0xFF64B5F6)  // 파란색 (비)
+    in 71..77, 85, 86 -> androidx.compose.ui.graphics.Color(0xFFE0E0E0)     // 흰색 (눈)
+    95, 96, 99 -> androidx.compose.ui.graphics.Color(0xFFFFB74D)            // 주황 (뇌우)
+    else -> androidx.compose.ui.graphics.Color(0xFFB0BEC5)
 }

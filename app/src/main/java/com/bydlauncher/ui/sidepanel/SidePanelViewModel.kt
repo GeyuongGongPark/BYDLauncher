@@ -90,32 +90,29 @@ class SidePanelViewModel @Inject constructor(
             LocationManager.PASSIVE_PROVIDER,
         )
 
-        // 캐시된 위치 먼저 사용
+        // 기존 리스너 해제 후 새로 등록
+        activeLocationListener?.let { locationManager.removeUpdates(it) }
+        activeLocationListener = null
+
+        val enabledProvider = providers.firstOrNull { locationManager.isProviderEnabled(it) }
+
+        // 캐시된 위치로 즉시 갱신
         val cached = providers
             .filter { locationManager.isProviderEnabled(it) }
             .mapNotNull { runCatching { locationManager.getLastKnownLocation(it) }.getOrNull() }
             .maxByOrNull { it.time }
 
-        if (cached != null) {
-            onResult(cached)
-            return
-        }
+        if (cached != null) onResult(cached)
 
-        // 캐시 없으면 단발성 위치 요청
-        val enabledProvider = providers.firstOrNull { locationManager.isProviderEnabled(it) }
         if (enabledProvider == null) {
-            onResult(null)
+            if (cached == null) onResult(null)
             return
         }
 
-        // 기존 리스너 해제
-        activeLocationListener?.let { locationManager.removeUpdates(it) }
-
+        // 5km 이동마다 날씨 자동 갱신 (최소 10분 간격)
         val listener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
-                locationManager.removeUpdates(this)
-                activeLocationListener = null
-                onResult(location)
+                fetchWeather(location.latitude, location.longitude)
             }
             @Deprecated("Deprecated in Java")
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
@@ -123,10 +120,15 @@ class SidePanelViewModel @Inject constructor(
         activeLocationListener = listener
 
         runCatching {
-            locationManager.requestLocationUpdates(enabledProvider, 0L, 0f, listener)
+            locationManager.requestLocationUpdates(
+                enabledProvider,
+                10 * 60 * 1000L,  // 최소 10분
+                5_000f,            // 최소 5km
+                listener,
+            )
         }.onFailure {
             activeLocationListener = null
-            onResult(null)
+            if (cached == null) onResult(null)
         }
     }
 

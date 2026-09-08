@@ -4,9 +4,8 @@ data class WeatherInfo(
     val tempCelsius: Double,
     val feelsLikeCelsius: Double,
     val description: String,
-    val iconCode: String,       // OpenWeatherMap icon code (e.g. "01d")
-    val cityName: String,
-    val humidity: Int,          // %
+    val weatherCode: Int,   // WMO weather code
+    val humidity: Int,      // %
 )
 
 sealed class WeatherState {
