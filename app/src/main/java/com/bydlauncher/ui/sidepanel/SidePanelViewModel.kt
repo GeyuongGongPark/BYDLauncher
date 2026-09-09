@@ -109,10 +109,26 @@ class SidePanelViewModel @Inject constructor(
             return
         }
 
-        // 5km 이동마다 날씨 자동 갱신 (최소 10분 간격)
+        var firstFix = cached == null  // 캐시 없으면 첫 위치 대기 중
+
         val listener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
-                fetchWeather(location.latitude, location.longitude)
+                if (firstFix) {
+                    // 첫 위치: 즉시 날씨 갱신 후 30분 간격으로 재등록
+                    firstFix = false
+                    onResult(location)
+                    locationManager.removeUpdates(this)
+                    runCatching {
+                        locationManager.requestLocationUpdates(
+                            enabledProvider,
+                            30 * 60 * 1000L,  // 30분
+                            0f,
+                            this,
+                        )
+                    }
+                } else {
+                    fetchWeather(location.latitude, location.longitude)
+                }
             }
             @Deprecated("Deprecated in Java")
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) = Unit
@@ -122,8 +138,8 @@ class SidePanelViewModel @Inject constructor(
         runCatching {
             locationManager.requestLocationUpdates(
                 enabledProvider,
-                10 * 60 * 1000L,  // 최소 10분
-                5_000f,            // 최소 5km
+                0L,   // 첫 위치는 즉시
+                0f,
                 listener,
             )
         }.onFailure {
