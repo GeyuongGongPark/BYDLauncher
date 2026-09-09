@@ -1,8 +1,6 @@
 package com.bydlauncher.ui.navi
 
-import android.app.ActivityOptions
 import android.content.Context
-import android.content.Intent
 import android.hardware.display.DisplayManager
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -11,18 +9,21 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import kotlinx.coroutines.launch
 
 /**
- * VirtualDisplay를 이용한 네비 앱 임베딩 시도.
+ * VirtualDisplay + ADB loopback(am start --display)으로 네비 앱 임베딩.
  *
  * 동작 조건:
- * - BYDLauncher가 /system/priv-app/ 에 설치되어 있거나
- * - ADB로 INTERNAL_SYSTEM_WINDOW / MANAGE_ACTIVITY_TASKS 권한 부여 시
+ * - 차량에서 ADB TCP(포트 5555)가 활성화되어 있어야 함
+ * - 개발자 옵션 > 무선 디버깅 활성화
  *
- * 조건 불만족 시 [onEmbeddingFailed] 콜백이 호출되어 fallback UI로 전환됨.
+ * 실패 시 [onEmbeddingFailed] 콜백 → fallback UI로 전환.
  */
 @Composable
 fun EmbeddedNaviView(
@@ -30,37 +31,54 @@ fun EmbeddedNaviView(
     modifier: Modifier = Modifier,
     onEmbeddingFailed: () -> Unit,
 ) {
-    var virtualDisplayHolder by remember { mutableStateOf<android.hardware.display.VirtualDisplay?>(null) }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    var virtualDisplay by remember { mutableStateOf<android.hardware.display.VirtualDisplay?>(null) }
 
     DisposableEffect(packageName) {
         onDispose {
-            virtualDisplayHolder?.release()
-            virtualDisplayHolder = null
+            virtualDisplay?.release()
+            virtualDisplay = null
         }
     }
 
     AndroidView(
         modifier = modifier,
-        factory = { context ->
-            SurfaceView(context).also { sv ->
+        factory = { ctx ->
+            SurfaceView(ctx).also { sv ->
                 sv.holder.addCallback(object : SurfaceHolder.Callback {
                     override fun surfaceCreated(holder: SurfaceHolder) {
-                        val launched = tryLaunchOnVirtualDisplay(
-                            context = context,
-                            packageName = packageName,
+                        val vd = createVirtualDisplay(
+                            context = ctx,
                             surface = holder.surface,
                             width = sv.width.coerceAtLeast(1),
                             height = sv.height.coerceAtLeast(1),
-                            density = context.resources.displayMetrics.densityDpi,
-                            onDisplayCreated = { vd -> virtualDisplayHolder = vd },
+                            density = ctx.resources.displayMetrics.densityDpi,
                         )
-                        if (!launched) onEmbeddingFailed()
+                        if (vd == null) {
+                            onEmbeddingFailed()
+                            return
+                        }
+                        virtualDisplay = vd
+
+                        scope.launch {
+                            val result = AdbNaviLauncher.launch(
+                                context = context,
+                                packageName = packageName,
+                                displayId = vd.display.displayId,
+                            )
+                            if (result.isFailure) {
+                                vd.release()
+                                virtualDisplay = null
+                                onEmbeddingFailed()
+                            }
+                        }
                     }
 
                     override fun surfaceChanged(holder: SurfaceHolder, format: Int, w: Int, h: Int) = Unit
                     override fun surfaceDestroyed(holder: SurfaceHolder) {
-                        virtualDisplayHolder?.release()
-                        virtualDisplayHolder = null
+                        virtualDisplay?.release()
+                        virtualDisplay = null
                     }
                 })
             }
@@ -68,23 +86,16 @@ fun EmbeddedNaviView(
     )
 }
 
-/**
- * VirtualDisplay 생성 + reflection으로 setLaunchDisplayId 호출.
- * 실패(SecurityException, NoSuchMethodException 등) 시 false 반환.
- */
-private fun tryLaunchOnVirtualDisplay(
+private fun createVirtualDisplay(
     context: Context,
-    packageName: String,
     surface: android.view.Surface,
     width: Int,
     height: Int,
     density: Int,
-    onDisplayCreated: (android.hardware.display.VirtualDisplay) -> Unit,
-): Boolean = try {
+): android.hardware.display.VirtualDisplay? = runCatching {
     val dm = context.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-
     @Suppress("DEPRECATION")
-    val vd = dm.createVirtualDisplay(
+    dm.createVirtualDisplay(
         "BYDNaviDisplay",
         width,
         height,
@@ -93,24 +104,4 @@ private fun tryLaunchOnVirtualDisplay(
         DisplayManager.VIRTUAL_DISPLAY_FLAG_PUBLIC or
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_OWN_CONTENT_ONLY,
     )
-    onDisplayCreated(vd)
-
-    val intent = context.packageManager.getLaunchIntentForPackage(packageName)
-        ?: return false
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-    // Hidden API: ActivityOptions.setLaunchDisplayId(int)
-    val opts = ActivityOptions.makeBasic()
-    val method = ActivityOptions::class.java.getDeclaredMethod("setLaunchDisplayId", Int::class.java)
-    method.isAccessible = true
-    method.invoke(opts, vd.display.displayId)
-
-    context.startActivity(intent, opts.toBundle())
-    true
-} catch (e: SecurityException) {
-    false
-} catch (e: NoSuchMethodException) {
-    false
-} catch (e: Exception) {
-    false
-}
+}.getOrNull()
