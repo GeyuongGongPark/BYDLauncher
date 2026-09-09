@@ -85,8 +85,8 @@ class SidePanelViewModel @Inject constructor(
 
     private fun fetchLocation(onResult: (Location?) -> Unit) {
         val providers = listOf(
-            LocationManager.GPS_PROVIDER,
             LocationManager.NETWORK_PROVIDER,
+            LocationManager.GPS_PROVIDER,
             LocationManager.PASSIVE_PROVIDER,
         )
 
