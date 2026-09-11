@@ -16,6 +16,8 @@ import com.bydlauncher.domain.weather.WeatherRepository
 import com.bydlauncher.domain.weather.WeatherState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,6 +42,7 @@ class SidePanelViewModel @Inject constructor(
 
     // 정리를 위해 현재 활성 리스너 추적
     private var activeLocationListener: LocationListener? = null
+    private var locationTimeoutJob: Job? = null
 
     init {
         loadCalendar()
@@ -90,9 +93,11 @@ class SidePanelViewModel @Inject constructor(
             LocationManager.PASSIVE_PROVIDER,
         )
 
-        // 기존 리스너 해제 후 새로 등록
+        // 기존 리스너 및 타임아웃 해제
         activeLocationListener?.let { locationManager.removeUpdates(it) }
         activeLocationListener = null
+        locationTimeoutJob?.cancel()
+        locationTimeoutJob = null
 
         val enabledProvider = providers.firstOrNull { locationManager.isProviderEnabled(it) }
 
@@ -102,10 +107,16 @@ class SidePanelViewModel @Inject constructor(
             .mapNotNull { runCatching { locationManager.getLastKnownLocation(it) }.getOrNull() }
             .maxByOrNull { it.time }
 
-        if (cached != null) onResult(cached)
+        // 중복 콜백 방지
+        var delivered = false
+        fun deliver(loc: Location?) {
+            if (!delivered) { delivered = true; onResult(loc) }
+        }
+
+        if (cached != null) deliver(cached)
 
         if (enabledProvider == null) {
-            if (cached == null) onResult(null)
+            deliver(null)
             return
         }
 
@@ -113,10 +124,11 @@ class SidePanelViewModel @Inject constructor(
 
         val listener = object : LocationListener {
             override fun onLocationChanged(location: Location) {
+                locationTimeoutJob?.cancel()
+                locationTimeoutJob = null
                 if (firstFix) {
-                    // 첫 위치: 즉시 날씨 갱신 후 30분 간격으로 재등록
                     firstFix = false
-                    onResult(location)
+                    deliver(location)
                     locationManager.removeUpdates(this)
                     runCatching {
                         locationManager.requestLocationUpdates(
@@ -138,13 +150,24 @@ class SidePanelViewModel @Inject constructor(
         runCatching {
             locationManager.requestLocationUpdates(
                 enabledProvider,
-                0L,   // 첫 위치는 즉시
+                0L,
                 0f,
                 listener,
             )
         }.onFailure {
             activeLocationListener = null
-            if (cached == null) onResult(null)
+            deliver(null)
+            return
+        }
+
+        // 10초 내 위치 못 받으면 LocationUnavailable로 전환
+        if (firstFix) {
+            locationTimeoutJob = viewModelScope.launch {
+                delay(10_000L)
+                activeLocationListener?.let { locationManager.removeUpdates(it) }
+                activeLocationListener = null
+                deliver(null)
+            }
         }
     }
 
@@ -160,6 +183,7 @@ class SidePanelViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        locationTimeoutJob?.cancel()
         activeLocationListener?.let { locationManager.removeUpdates(it) }
         activeLocationListener = null
     }

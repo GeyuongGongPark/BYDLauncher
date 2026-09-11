@@ -22,10 +22,14 @@ BYD 차량 인포테인먼트(DiLink 3.0 / 5.0, Android 9+)용 홈 런처
 
 - **홈 런처** — `CATEGORY_HOME` 등록, 홈 버튼으로 즉시 진입
 - **회전 디스플레이 대응** — Landscape / Portrait 자동 전환
-- **위치 기반 날씨** — `LocationManager`(AOSP 표준, Play Services 불필요) + OpenWeatherMap
+- **위치 기반 날씨** — `LocationManager`(AOSP 표준, Play Services 불필요) + Open-Meteo API (API Key 불필요)
 - **캘린더 위젯** — 오늘 일정 최대 5개 표시
 - **즐겨찾기 앱 그리드** — 최대 8개, 길게 누르기 편집 모드
 - **앱 서랍 검색** — 실시간 필터링, 앱 변경 자동 반영
+- **네비게이션 앱 연동** — 카카오맵·T맵·네이버지도·구글맵 선택 실행
+- **네비 오버레이 모드** — 네비게이션 앱 위에 반투명 독 오버레이 표시 (Kinex 방식)
+- **기본 홈 앱 설정** — 앱 내에서 바로 기본 런처 변경 가능
+- **캠핑 모드** — 주차 중 공조/배터리 모니터링
 - **전체화면** — 시스템바 자동 숨김
 
 ## 빌드
@@ -35,16 +39,6 @@ BYD 차량 인포테인먼트(DiLink 3.0 / 5.0, Android 9+)용 홈 런처
 - JDK 17
 - Android SDK (compileSdk 34)
 
-### API Key 설정
-
-`local.properties`에 OpenWeatherMap API key 추가:
-
-```
-WEATHER_API_KEY=여기에_키_입력
-```
-
-[OpenWeatherMap 무료 가입](https://openweathermap.org/api) → Current Weather Data API
-
 ### 빌드 명령
 
 ```bash
@@ -52,11 +46,14 @@ WEATHER_API_KEY=여기에_키_입력
 ./gradlew :app:assembleRelease    # Release APK
 ```
 
+> 날씨는 [Open-Meteo](https://open-meteo.com/) API를 사용하며 API Key가 필요 없습니다.
+
 ## 설치
 
 1. [Releases](https://github.com/GeyuongGongPark/BYDLauncher/releases)에서 최신 APK 다운로드
 2. 인포테인먼트에서 **설정 > 보안 > 알 수 없는 출처** 허용
 3. APK 설치 후 홈 버튼 → **BYD Launcher** 선택 → **항상**
+4. (선택) 앱 내 **기본 홈 앱으로 설정** 버튼으로 즉시 변경 가능
 
 ## 릴리즈 (GitHub Actions)
 
@@ -71,7 +68,6 @@ git push origin v1.1.0
 
 | Secret | 설명 |
 |--------|------|
-| `WEATHER_API_KEY` | OpenWeatherMap API key |
 | `SIGNING_KEY_BASE64` | Keystore를 base64로 인코딩한 값 |
 | `SIGNING_KEY_ALIAS` | Key alias |
 | `SIGNING_STORE_PASSWORD` | Keystore 비밀번호 |
@@ -88,6 +84,7 @@ git push origin v1.1.0
 - **비동기**: Coroutines + Flow
 - **저장**: DataStore Preferences
 - **네트워크**: OkHttp + Coil
+- **날씨**: Open-Meteo (무료, API Key 불필요)
 
 ## 라이선스
 

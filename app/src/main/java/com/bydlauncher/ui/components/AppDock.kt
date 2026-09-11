@@ -1,7 +1,6 @@
 package com.bydlauncher.ui.components
 
 import android.content.Intent
-import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -61,8 +60,16 @@ fun AppDock(
             runCatching { context.startActivity(intent) }
         },
         DockItem(Icons.Default.Settings, "설정") {
-            val intent = Intent(Settings.ACTION_SETTINGS)
-            runCatching { context.startActivity(intent) }
+            // BYD 자체 설정 앱 우선 → 일반 시스템 설정 순으로 시도
+            val candidates = listOf(
+                "com.byd.carsettings",
+                "com.byd.settings",
+                "com.android.settings",
+            )
+            for (pkg in candidates) {
+                val intent = context.packageManager.getLaunchIntentForPackage(pkg) ?: continue
+                if (runCatching { context.startActivity(intent) }.isSuccess) break
+            }
         },
         DockItem(Icons.Default.Apps, "앱") {
             onOpenAppDrawer()

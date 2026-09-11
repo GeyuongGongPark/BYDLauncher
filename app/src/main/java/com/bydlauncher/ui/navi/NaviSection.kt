@@ -1,7 +1,6 @@
 package com.bydlauncher.ui.navi
 
 import android.content.Intent
-import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,15 +21,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,15 +46,15 @@ import com.bydlauncher.ui.utils.toImageBitmap
 /**
  * Landscape HOME에 표시되는 네비게이션 섹션.
  *
- * - 미선택: 설치된 앱 선택 카드 표시
- * - 선택됨 + 임베딩 가능(시스템 앱): [EmbeddedNaviView]
- * - 선택됨 + 임베딩 불가: 탭하여 실행 fallback 카드
+ * Kinex 방식: 앱 선택 시 전체화면으로 실행 + OverlayService로 왼쪽 패널 오버레이.
+ * VirtualDisplay/ADB 방식 사용 안 함.
  */
 @Composable
 fun NaviSection(
     modifier: Modifier = Modifier,
     viewModel: NaviViewModel = hiltViewModel(),
 ) {
+    val context = LocalContext.current
     val selected by viewModel.selectedNaviApp.collectAsState()
     val installed = viewModel.installedNaviApps
 
@@ -92,7 +85,22 @@ fun NaviSection(
                 NaviAppSelector(apps = installed, onSelect = { viewModel.selectNaviApp(it.packageName) })
             }
         } else {
-            NaviActiveView(app = selected!!)
+            NaviActiveCard(
+                app = selected!!,
+                onLaunch = {
+                    // T맵 전체화면 실행
+                    val naviIntent = context.packageManager.getLaunchIntentForPackage(selected!!.packageName)
+                        ?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    naviIntent?.let { context.startActivity(it) }
+
+                    // 왼쪽 패널 오버레이 시작
+                    val overlayIntent = Intent(context, OverlayService::class.java).apply {
+                        action = OverlayService.ACTION_SHOW
+                        putExtra(OverlayService.EXTRA_APP_NAME, selected!!.displayName)
+                    }
+                    context.startService(overlayIntent)
+                },
+            )
         }
     }
 }
@@ -136,9 +144,7 @@ private fun NaviAppCard(app: NaviApp, modifier: Modifier = Modifier, onClick: ()
                 modifier = Modifier.size(40.dp).clip(RoundedCornerShape(8.dp)),
             )
         } else {
-            Box(
-                modifier = Modifier.size(40.dp).clip(CircleShape).background(DividerColor),
-            )
+            Box(modifier = Modifier.size(40.dp).clip(CircleShape).background(DividerColor))
         }
         Spacer(Modifier.width(12.dp))
         Text(text = app.displayName, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = TextPrimary)
@@ -146,38 +152,12 @@ private fun NaviAppCard(app: NaviApp, modifier: Modifier = Modifier, onClick: ()
 }
 
 @Composable
-private fun NaviActiveView(app: NaviApp) {
-    var embeddingFailed by remember(app.packageName) { mutableStateOf(false) }
-
-    if (!embeddingFailed) {
-        EmbeddedNaviView(
-            packageName = app.packageName,
-            modifier = Modifier.fillMaxSize(),
-            onEmbeddingFailed = { embeddingFailed = true },
-        )
-    } else {
-        NaviFallbackCard(app = app)
-    }
-}
-
-@Composable
-private fun NaviFallbackCard(app: NaviApp) {
+private fun NaviActiveCard(app: NaviApp, onLaunch: () -> Unit) {
     val context = LocalContext.current
     val icon: ImageBitmap? = remember(app.packageName) {
         runCatching {
             context.packageManager.getApplicationIcon(app.packageName).toImageBitmap()
         }.getOrNull()
-    }
-    var canDrawOverlay by remember { mutableStateOf(Settings.canDrawOverlays(context)) }
-    val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                canDrawOverlay = Settings.canDrawOverlays(context)
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     Box(
@@ -186,27 +166,7 @@ private fun NaviFallbackCard(app: NaviApp) {
             .clip(RoundedCornerShape(16.dp))
             .background(BackgroundCard)
             .border(1.dp, DividerColor, RoundedCornerShape(16.dp))
-            .clickable {
-                if (canDrawOverlay) {
-                    // 네비 앱 실행 + 오버레이 독 표시
-                    val naviIntent = context.packageManager.getLaunchIntentForPackage(app.packageName)
-                    naviIntent?.let {
-                        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        context.startActivity(it)
-                    }
-                    val overlayIntent = Intent(context, OverlayService::class.java).apply {
-                        action = OverlayService.ACTION_SHOW
-                    }
-                    context.startService(overlayIntent)
-                } else {
-                    // 오버레이 권한 요청
-                    val permIntent = Intent(
-                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        android.net.Uri.parse("package:${context.packageName}"),
-                    ).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
-                    context.startActivity(permIntent)
-                }
-            },
+            .clickable(onClick = onLaunch),
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -214,17 +174,13 @@ private fun NaviFallbackCard(app: NaviApp) {
                 Image(
                     bitmap = icon,
                     contentDescription = app.displayName,
-                    modifier = Modifier.size(64.dp).clip(RoundedCornerShape(14.dp)),
+                    modifier = Modifier.size(72.dp).clip(RoundedCornerShape(16.dp)),
                 )
-                Spacer(Modifier.height(12.dp))
+                Spacer(Modifier.height(16.dp))
             }
-            Text(text = app.displayName, fontSize = 18.sp, fontWeight = FontWeight.Medium, color = TextPrimary)
-            Spacer(Modifier.height(4.dp))
-            Text(
-                text = if (canDrawOverlay) "탭하여 실행" else "탭하여 오버레이 권한 허용",
-                fontSize = 13.sp,
-                color = TextSecondary,
-            )
+            Text(text = app.displayName, fontSize = 20.sp, fontWeight = FontWeight.Medium, color = TextPrimary)
+            Spacer(Modifier.height(6.dp))
+            Text(text = "탭하여 열기", fontSize = 13.sp, color = AccentCyan)
         }
     }
 }

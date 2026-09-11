@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BYD Launcher — BYD 차량용 홈 런처</title>
-  <meta name="description" content="BYD Atto 3, Seal, Dolphin용 오픈소스 홈 런처. 날씨, 캘린더, 네비게이션을 한 화면에서." />
+  <meta name="description" content="BYD Atto 3, Seal, Dolphin용 오픈소스 홈 런처. 날씨(API Key 불필요), 캘린더, 네비게이션, 캠핑 모드를 한 화면에서." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -371,7 +371,7 @@
 <div class="hero">
   <div class="badge">오픈소스 · Android · DiLink 3.0 / 5.0</div>
   <h1>BYD 차량 화면을<br /><em>내 방식으로</em></h1>
-  <p>Atto 3, Seal, Dolphin의 인포테인먼트를 더 빠르고 직관적으로.<br />날씨, 일정, 네비게이션을 한 화면에서.</p>
+  <p>Atto 3, Seal, Dolphin의 인포테인먼트를 더 빠르고 직관적으로.<br />날씨, 일정, 네비게이션, 캠핑 모드를 한 화면에서.</p>
   <div class="btn-row">
     <a class="btn btn-p" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">↓ APK 다운로드</a>
     <a class="btn btn-s" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub 보기</a>
@@ -383,6 +383,7 @@
   <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 차종</div></div>
   <div class="stat"><div class="stat-val">28+</div><div class="stat-label">Android API 지원</div></div>
   <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 네비 앱</div></div>
+  <div class="stat"><div class="stat-val">무료</div><div class="stat-label">API Key 불필요</div></div>
   <div class="stat"><div class="stat-val">100%</div><div class="stat-label">오픈소스</div></div>
 </div>
 
@@ -528,10 +529,11 @@
   <div class="showcase">
     <div class="showcase-text">
       <h3>위치 기반 날씨</h3>
-      <p>GPS 또는 네트워크로 현재 위치를 감지해 온도, 체감온도, 습도, 날씨 아이콘을 실시간 표시합니다. Google Play Services 없이 Android 표준 <code>LocationManager</code>만 사용하므로 DiLink 환경에서 완벽하게 동작합니다.</p>
+      <p>GPS 또는 네트워크로 현재 위치를 감지해 온도, 체감온도, 습도, 날씨 아이콘을 실시간 표시합니다. Google Play Services 없이 Android 표준 <code>LocationManager</code>만 사용하며, <strong>Open-Meteo</strong> API를 사용하기 때문에 API Key 등록이 전혀 필요 없습니다.</p>
       <div class="tag-list">
         <span class="tag">LocationManager (AOSP)</span>
-        <span class="tag">OpenWeatherMap API</span>
+        <span class="tag">Open-Meteo API</span>
+        <span class="tag">API Key 불필요</span>
         <span class="tag">Play Services 불필요</span>
       </div>
     </div>
@@ -598,13 +600,14 @@
   <!-- 5. 네비게이션 임베딩 -->
   <div class="showcase">
     <div class="showcase-text">
-      <h3>네비게이션 앱 연동</h3>
-      <p>카카오맵, T맵, 네이버지도, 구글맵 중 기기에 설치된 앱을 Landscape 홈 화면에서 바로 선택해 연결합니다. 선택된 앱은 홈 화면 메인 영역에 표시되며, 탭 한 번으로 즉시 실행됩니다. 시스템 앱으로 설치 시 VirtualDisplay를 통한 인앱 임베딩을 지원합니다.</p>
+      <h3>네비게이션 앱 연동 + 오버레이 모드</h3>
+      <p>카카오맵, T맵, 네이버지도, 구글맵 중 기기에 설치된 앱을 Landscape 홈 화면에서 바로 선택해 연결합니다. 선택된 앱은 홈 화면 메인 영역에 표시되며, 탭 한 번으로 즉시 실행됩니다. <strong>오버레이 모드</strong>를 활성화하면 네비게이션 앱 위에 반투명 독이 떠서 홈 복귀·앱 전환이 가능합니다.</p>
       <div class="tag-list">
         <span class="tag">카카오맵</span>
         <span class="tag">T맵</span>
         <span class="tag">네이버지도</span>
         <span class="tag">구글맵</span>
+        <span class="tag">오버레이 독</span>
         <span class="tag">VirtualDisplay 임베딩</span>
         <span class="tag">DataStore 선택 저장</span>
       </div>
@@ -717,7 +720,7 @@
       <div class="step-num">4</div>
       <div>
         <h3>기본 런처 설정</h3>
-        <p>홈 버튼을 누르면 런처 선택 팝업이 나타납니다. <strong>BYD Launcher</strong>를 선택하고 <strong>항상</strong>을 탭합니다.</p>
+        <p>홈 버튼을 누르면 런처 선택 팝업이 나타납니다. <strong>BYD Launcher</strong>를 선택하고 <strong>항상</strong>을 탭합니다. 또는 앱 내 <strong>기본 홈 앱으로 설정</strong> 버튼을 사용하세요.</p>
       </div>
     </div>
   </div>

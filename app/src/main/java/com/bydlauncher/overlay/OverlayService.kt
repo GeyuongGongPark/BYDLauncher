@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.os.IBinder
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.WindowManager
 import androidx.compose.ui.platform.ComposeView
@@ -26,14 +27,16 @@ class OverlayService : Service() {
     companion object {
         const val ACTION_SHOW = "com.bydlauncher.overlay.SHOW"
         const val ACTION_HIDE = "com.bydlauncher.overlay.HIDE"
-        const val EXTRA_PACKAGE = "package_name"
+        const val EXTRA_APP_NAME = "app_name"
         private const val NOTIF_ID = 2
         private const val CHANNEL_ID = "overlay_service"
+        private const val PANEL_WIDTH_DP = 240
     }
 
     private lateinit var windowManager: WindowManager
     private var overlayView: ComposeView? = null
     private val lifecycleOwner = OverlayLifecycleOwner()
+    private var currentAppName: String = ""
 
     override fun onCreate() {
         super.onCreate()
@@ -44,7 +47,10 @@ class OverlayService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            ACTION_SHOW -> showOverlay()
+            ACTION_SHOW -> {
+                currentAppName = intent.getStringExtra(EXTRA_APP_NAME) ?: ""
+                showOverlay()
+            }
             ACTION_HIDE -> {
                 hideOverlay()
                 stopSelf()
@@ -64,34 +70,47 @@ class OverlayService : Service() {
     private fun showOverlay() {
         if (overlayView != null) return
 
+        val appName = currentAppName
+
         val view = ComposeView(this).apply {
             setViewTreeLifecycleOwner(lifecycleOwner)
             setViewTreeSavedStateRegistryOwner(lifecycleOwner)
             setContent {
                 BYDLauncherTheme {
-                    OverlayDock(
+                    OverlayNaviPanel(
+                        appName = appName,
                         onGoHome = {
+                            // 오버레이 종료 후 런처 포그라운드 복귀
                             val homeIntent = Intent(Intent.ACTION_MAIN).apply {
                                 addCategory(Intent.CATEGORY_HOME)
                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             }
                             startActivity(homeIntent)
+                            hideOverlay()
+                            stopSelf()
                         },
                     )
                 }
             }
         }
 
+        val widthPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            PANEL_WIDTH_DP.toFloat(),
+            resources.displayMetrics,
+        ).toInt()
+
         val params = WindowManager.LayoutParams(
+            widthPx,
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            // FLAG_NOT_TOUCH_MODAL: 패널 밖 터치는 T맵으로 전달
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                     WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT,
         ).apply {
-            gravity = Gravity.BOTTOM
+            gravity = Gravity.START or Gravity.TOP
         }
 
         windowManager.addView(view, params)
