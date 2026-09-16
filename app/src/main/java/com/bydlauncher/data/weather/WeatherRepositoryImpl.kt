@@ -13,6 +13,20 @@ class WeatherRepositoryImpl @Inject constructor(
     private val client: OkHttpClient,
 ) : WeatherRepository {
 
+    override suspend fun getWeatherByIp(): Result<WeatherInfo> = withContext(Dispatchers.IO) {
+        runCatching {
+            val req = Request.Builder().url("https://ipapi.co/json/").build()
+            val body = client.newCall(req).execute().use { resp ->
+                check(resp.isSuccessful) { "IP geolocation HTTP ${resp.code}" }
+                resp.body?.string() ?: error("빈 응답")
+            }
+            val json = JSONObject(body)
+            val lat = json.getDouble("latitude")
+            val lon = json.getDouble("longitude")
+            getWeather(lat, lon).getOrThrow()
+        }
+    }
+
     override suspend fun getWeather(lat: Double, lon: Double): Result<WeatherInfo> =
         withContext(Dispatchers.IO) {
             runCatching {

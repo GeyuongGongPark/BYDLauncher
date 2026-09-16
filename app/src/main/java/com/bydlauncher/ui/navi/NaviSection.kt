@@ -1,6 +1,5 @@
 package com.bydlauncher.ui.navi
 
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,7 +22,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bydlauncher.domain.navi.NaviApp
-import com.bydlauncher.overlay.OverlayService
 import com.bydlauncher.ui.theme.AccentCyan
 import com.bydlauncher.ui.theme.BackgroundCard
 import com.bydlauncher.ui.theme.DividerColor
@@ -46,15 +46,14 @@ import com.bydlauncher.ui.utils.toImageBitmap
 /**
  * Landscape HOME에 표시되는 네비게이션 섹션.
  *
- * Kinex 방식: 앱 선택 시 전체화면으로 실행 + OverlayService로 왼쪽 패널 오버레이.
- * VirtualDisplay/ADB 방식 사용 안 함.
+ * VirtualDisplay + ADB loopback으로 네비 앱 임베딩 (Kinex 방식).
+ * 실패 시 fallback: 탭하여 열기 카드.
  */
 @Composable
 fun NaviSection(
     modifier: Modifier = Modifier,
     viewModel: NaviViewModel = hiltViewModel(),
 ) {
-    val context = LocalContext.current
     val selected by viewModel.selectedNaviApp.collectAsState()
     val installed = viewModel.installedNaviApps
 
@@ -85,22 +84,7 @@ fun NaviSection(
                 NaviAppSelector(apps = installed, onSelect = { viewModel.selectNaviApp(it.packageName) })
             }
         } else {
-            NaviActiveCard(
-                app = selected!!,
-                onLaunch = {
-                    // T맵 전체화면 실행
-                    val naviIntent = context.packageManager.getLaunchIntentForPackage(selected!!.packageName)
-                        ?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    naviIntent?.let { context.startActivity(it) }
-
-                    // 왼쪽 패널 오버레이 시작
-                    val overlayIntent = Intent(context, OverlayService::class.java).apply {
-                        action = OverlayService.ACTION_SHOW
-                        putExtra(OverlayService.EXTRA_APP_NAME, selected!!.displayName)
-                    }
-                    context.startService(overlayIntent)
-                },
-            )
+            NaviActiveView(app = selected!!)
         }
     }
 }
@@ -152,7 +136,22 @@ private fun NaviAppCard(app: NaviApp, modifier: Modifier = Modifier, onClick: ()
 }
 
 @Composable
-private fun NaviActiveCard(app: NaviApp, onLaunch: () -> Unit) {
+private fun NaviActiveView(app: NaviApp) {
+    var embeddingFailed by remember(app.packageName) { mutableStateOf(false) }
+
+    if (!embeddingFailed) {
+        EmbeddedNaviView(
+            packageName = app.packageName,
+            modifier = Modifier.fillMaxSize(),
+            onEmbeddingFailed = { embeddingFailed = true },
+        )
+    } else {
+        NaviFallbackCard(app = app)
+    }
+}
+
+@Composable
+private fun NaviFallbackCard(app: NaviApp) {
     val context = LocalContext.current
     val icon: ImageBitmap? = remember(app.packageName) {
         runCatching {
@@ -166,7 +165,11 @@ private fun NaviActiveCard(app: NaviApp, onLaunch: () -> Unit) {
             .clip(RoundedCornerShape(16.dp))
             .background(BackgroundCard)
             .border(1.dp, DividerColor, RoundedCornerShape(16.dp))
-            .clickable(onClick = onLaunch),
+            .clickable {
+                val naviIntent = context.packageManager.getLaunchIntentForPackage(app.packageName)
+                naviIntent?.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                naviIntent?.let { context.startActivity(it) }
+            },
         contentAlignment = Alignment.Center,
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -174,13 +177,13 @@ private fun NaviActiveCard(app: NaviApp, onLaunch: () -> Unit) {
                 Image(
                     bitmap = icon,
                     contentDescription = app.displayName,
-                    modifier = Modifier.size(72.dp).clip(RoundedCornerShape(16.dp)),
+                    modifier = Modifier.size(64.dp).clip(RoundedCornerShape(14.dp)),
                 )
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(12.dp))
             }
-            Text(text = app.displayName, fontSize = 20.sp, fontWeight = FontWeight.Medium, color = TextPrimary)
-            Spacer(Modifier.height(6.dp))
-            Text(text = "탭하여 열기", fontSize = 13.sp, color = AccentCyan)
+            Text(text = app.displayName, fontSize = 18.sp, fontWeight = FontWeight.Medium, color = TextPrimary)
+            Spacer(Modifier.height(4.dp))
+            Text(text = "탭하여 실행", fontSize = 13.sp, color = TextSecondary)
         }
     }
 }

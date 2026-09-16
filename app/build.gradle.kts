@@ -47,7 +47,11 @@ android {
     }
 
     packaging {
-        resources.excludes += setOf("META-INF/LICENSE.md")
+        resources.excludes += setOf(
+            "META-INF/LICENSE.md",
+            "META-INF/LICENSE-notice.md",
+            "META-INF/NOTICE.md",
+        )
     }
 }
 
@@ -69,5 +73,6 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.coil.compose)
     implementation(libs.datastore.preferences)
+    implementation(libs.dadb)
     debugImplementation(libs.androidx.compose.ui.tooling)
 }

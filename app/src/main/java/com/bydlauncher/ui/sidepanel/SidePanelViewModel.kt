@@ -57,7 +57,7 @@ class SidePanelViewModel @Inject constructor(
         _weatherState.value = WeatherState.Loading
         fetchLocation { location ->
             if (location == null) {
-                _weatherState.value = WeatherState.LocationUnavailable
+                fetchWeatherByIp()
             } else {
                 fetchWeather(location.latitude, location.longitude)
             }
@@ -177,6 +177,16 @@ class SidePanelViewModel @Inject constructor(
             _weatherState.value = result.fold(
                 onSuccess = { WeatherState.Success(it) },
                 onFailure = { WeatherState.Error(it.message ?: "알 수 없는 오류") },
+            )
+        }
+    }
+
+    private fun fetchWeatherByIp() {
+        viewModelScope.launch {
+            val result = weatherRepository.getWeatherByIp()
+            _weatherState.value = result.fold(
+                onSuccess = { WeatherState.Success(it) },
+                onFailure = { WeatherState.LocationUnavailable },
             )
         }
     }
