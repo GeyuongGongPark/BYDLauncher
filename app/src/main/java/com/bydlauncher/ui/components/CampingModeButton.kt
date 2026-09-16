@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AcUnit
+import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -190,6 +191,38 @@ private fun RunningStatus(s: CampingState.Running) {
             ) {
                 Text("외부 온도", color = TextSecondary, fontSize = 11.sp)
                 Text("${s.outsideTemp}°C", color = TextPrimary, fontSize = 11.sp)
+            }
+        }
+        if (s.isCharging) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.BatteryChargingFull,
+                        contentDescription = null,
+                        tint = AccentCyan,
+                        modifier = Modifier.size(12.dp),
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text("충전 중", color = TextSecondary, fontSize = 11.sp)
+                }
+                Text(
+                    text = if (s.chargingPowerKw > 0.0) "${String.format("%.1f", s.chargingPowerKw)}kW" else "—",
+                    color = AccentCyan,
+                    fontSize = 11.sp,
+                )
+            }
+        }
+        if (s.estimatedRangeKm >= 0) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text("주행 가능", color = TextSecondary, fontSize = 11.sp)
+                Text("${s.estimatedRangeKm}km", color = TextPrimary, fontSize = 11.sp)
             }
         }
         Row(

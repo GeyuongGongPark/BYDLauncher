@@ -12,10 +12,13 @@ sealed interface CampingState {
 
     /** 캠핑 모드 실행 중 */
     data class Running(
-        val batteryPct: Int,       // -1 = 조회 불가
+        val batteryPct: Int,           // -1 = 조회 불가
         val elapsedMs: Long,
-        val outsideTemp: Int,      // -1 = 조회 불가
+        val outsideTemp: Int,          // -1 = 조회 불가
         val targetTemp: Int,
+        val isCharging: Boolean = false,
+        val chargingPowerKw: Double = 0.0,
+        val estimatedRangeKm: Int = -1, // -1 = 조회 불가
     ) : CampingState
 
     /** 오류 발생 */

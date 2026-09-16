@@ -87,6 +87,19 @@ class AcController(context: Context) {
         Log.i(TAG, "setTemperature($celsius°C) 호출")
     }
 
+    /**
+     * 순환 모드 설정.
+     * inLoop=true → 내기순환(AC_CYCLEMODE_INLOOP=1), false → 외기순환(0)
+     */
+    fun setCycleMode(inLoop: Boolean) {
+        val ac = acDevice ?: return
+        runCatching {
+            ac.javaClass.getMethod("setAcCycleMode", Int::class.java, Int::class.java)
+                .invoke(ac, 0, if (inLoop) 1 else 0)
+        }.onFailure { Log.w(TAG, "setCycleMode 실패: ${it.message}") }
+        Log.i(TAG, "setCycleMode(inLoop=$inLoop) 호출")
+    }
+
     /** 에어컨 현재 상태. 1=on, 0=off, -1=조회 불가 */
     fun getStartState(): Int =
         runCatching {

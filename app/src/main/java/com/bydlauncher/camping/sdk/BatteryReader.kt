@@ -45,11 +45,26 @@ class BatteryReader(context: Context) {
     }
 
     /** 배터리 SOC (%). 조회 불가 시 -1 반환 */
-    fun getSoc(): Int =
+    fun getSoc(): Int {
+        val d = device ?: return -1
+        // 공식 API 우선
         runCatching {
-            val d = device ?: return -1
+            val pct = d.javaClass.getMethod("getElecPercentageValue").invoke(d) as Double
+            if (pct in 0.0..100.0) return pct.toInt()
+        }
+        // fallback: 비공식 API
+        return runCatching {
             val raw = d.javaClass.getMethod("getESTIMATE_SOC_V1").invoke(d) as Int
             if (raw == INVALID || raw == INVALID2 || raw < 0 || raw > 100) -1 else raw
+        }.getOrDefault(-1)
+    }
+
+    /** 순수 전기 주행 가능 거리 (km). 조회 불가 시 -1 반환 */
+    fun getElecDrivingRangeKm(): Int =
+        runCatching {
+            val d = device ?: return -1
+            val raw = d.javaClass.getMethod("getElecDrivingRangeValue").invoke(d) as Int
+            if (raw <= 0 || raw > 9999) -1 else raw
         }.getOrDefault(-1)
 
     private fun getInstance(cl: ClassLoader): Any {

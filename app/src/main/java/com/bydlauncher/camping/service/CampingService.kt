@@ -14,6 +14,8 @@ import com.bydlauncher.MainActivity
 import com.bydlauncher.camping.CampingState
 import com.bydlauncher.camping.sdk.AcController
 import com.bydlauncher.camping.sdk.BatteryReader
+import com.bydlauncher.camping.sdk.ChargingReader
+import com.bydlauncher.camping.sdk.GearReader
 import com.bydlauncher.camping.storage.CampingPrefs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,9 +42,14 @@ class CampingService : Service() {
     private lateinit var prefs: CampingPrefs
     private lateinit var ac: AcController
     private lateinit var battery: BatteryReader
+    private lateinit var charging: ChargingReader
+    private lateinit var gear: GearReader
 
     private var startTimeMs = 0L
     private var lastBatteryPct = -1
+    private var lastCharging = false
+    private var lastChargingPowerKw = 0.0
+    private var lastRangeKm = -1
     private var acPollJob: Job? = null
     private var batPollJob: Job? = null
 
@@ -51,6 +58,8 @@ class CampingService : Service() {
         prefs = CampingPrefs(this)
         ac = AcController(this)
         battery = BatteryReader(this)
+        charging = ChargingReader(this)
+        gear = GearReader(this)
         createNotificationChannel()
     }
 
@@ -68,10 +77,19 @@ class CampingService : Service() {
             runCatching {
                 ac.connect()
                 battery.connect()
+                charging.connect()
+                gear.connect()
+
+                // P단 체크: SDK 로딩 성공 시에만 강제
+                if (!gear.isParked()) {
+                    error("P단(주차) 상태에서만 캠핑 모드를 시작할 수 있습니다")
+                }
+
                 ac.start()
                 ac.setTemperature(prefs.targetTemp)
+                ac.setCycleMode(inLoop = true)  // 내기순환으로 전환
                 publishState(running())
-                updateNotification("에어컨 켜짐 — ${prefs.targetTemp}°C")
+                updateNotification("에어컨 켜짐 — ${prefs.targetTemp}°C (내기순환)")
                 Log.i(TAG, "캠핑 모드 시작 성공")
             }.onFailure { e ->
                 Log.e(TAG, "시작 실패", e)
@@ -108,6 +126,7 @@ class CampingService : Service() {
                     runCatching {
                         ac.start()
                         ac.setTemperature(prefs.targetTemp)
+                        ac.setCycleMode(inLoop = true)
                     }
                 }
                 // 최대 시간 체크
@@ -121,14 +140,20 @@ class CampingService : Service() {
             }
         }
 
-        // 배터리 폴링
+        // 배터리 + 충전 폴링
         batPollJob = scope.launch {
             while (isActive) {
                 delay(BAT_POLL_INTERVAL_MS)
+
+                lastCharging = charging.isConnected()
+                lastChargingPowerKw = charging.getChargingPowerKw()
+                lastRangeKm = battery.getElecDrivingRangeKm()
+
                 val soc = battery.getSoc()
                 if (soc != -1) {
                     lastBatteryPct = soc
-                    if (soc < prefs.stopBatteryPct) {
+                    // 충전 중이면 배터리 임계값 체크 스킵
+                    if (!lastCharging && soc < prefs.stopBatteryPct) {
                         Log.i(TAG, "배터리 부족 ($soc% < ${prefs.stopBatteryPct}%) → 종료")
                         stopCamping()
                         return@launch
@@ -142,7 +167,10 @@ class CampingService : Service() {
 
     private fun stopCamping() {
         scope.launch {
-            runCatching { ac.stop() }
+            runCatching {
+                ac.stop()
+                ac.setCycleMode(inLoop = false)  // 외기순환 복원
+            }
             ac.disconnect()
             publishState(CampingState.Idle)
             stopSelfClean()
@@ -159,6 +187,9 @@ class CampingService : Service() {
         elapsedMs = System.currentTimeMillis() - startTimeMs,
         outsideTemp = ac.getOutsideTemp(),
         targetTemp = prefs.targetTemp,
+        isCharging = lastCharging,
+        chargingPowerKw = lastChargingPowerKw,
+        estimatedRangeKm = lastRangeKm,
     )
 
     private fun publishState(state: CampingState) {
@@ -173,7 +204,8 @@ class CampingService : Service() {
         val h = min / 60; val m = min % 60
         val timeStr = if (h > 0) "${h}시간 ${m}분" else "${m}분"
         val batStr = if (lastBatteryPct >= 0) " · 배터리 ${lastBatteryPct}%" else ""
-        return "캠핑 모드 실행 중 ($timeStr$batStr)"
+        val chargeStr = if (lastCharging) " · 충전중 ${String.format("%.1f", lastChargingPowerKw)}kW" else ""
+        return "캠핑 모드 실행 중 ($timeStr$batStr$chargeStr)"
     }
 
     private fun createNotificationChannel() {
