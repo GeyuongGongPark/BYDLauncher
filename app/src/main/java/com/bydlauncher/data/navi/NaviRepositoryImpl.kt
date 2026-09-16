@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.bydlauncher.domain.navi.NaviRepository
@@ -19,15 +20,23 @@ class NaviRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : NaviRepository {
 
-    private val KEY = stringPreferencesKey("selected_package")
+    private val KEY_PKG = stringPreferencesKey("selected_package")
+    private val KEY_DPI = intPreferencesKey("density_dpi")
 
     override fun getSelectedPackage(): Flow<String?> =
-        context.naviDataStore.data.map { it[KEY] }
+        context.naviDataStore.data.map { it[KEY_PKG] }
 
     override suspend fun setSelectedPackage(packageName: String?) {
         context.naviDataStore.edit { prefs ->
-            if (packageName == null) prefs.remove(KEY)
-            else prefs[KEY] = packageName
+            if (packageName == null) prefs.remove(KEY_PKG)
+            else prefs[KEY_PKG] = packageName
         }
+    }
+
+    override fun getDensityDpi(): Flow<Int> =
+        context.naviDataStore.data.map { it[KEY_DPI] ?: 0 }
+
+    override suspend fun setDensityDpi(dpi: Int) {
+        context.naviDataStore.edit { it[KEY_DPI] = dpi }
     }
 }

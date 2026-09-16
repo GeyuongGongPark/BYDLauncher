@@ -17,6 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -55,6 +60,7 @@ fun NaviSection(
     viewModel: NaviViewModel = hiltViewModel(),
 ) {
     val selected by viewModel.selectedNaviApp.collectAsState()
+    val densityDpi by viewModel.densityDpi.collectAsState()
     val installed = viewModel.installedNaviApps
 
     Column(
@@ -69,8 +75,27 @@ fun NaviSection(
         ) {
             Text(text = "내비게이션", fontSize = 13.sp, color = TextSecondary)
             if (selected != null) {
-                TextButton(onClick = { viewModel.clearNaviApp() }) {
-                    Text(text = "변경", fontSize = 13.sp, color = AccentCyan)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    val deviceDpi = LocalContext.current.resources.displayMetrics.densityDpi
+                    val currentDpi = if (densityDpi <= 0) deviceDpi else densityDpi
+                    Text(
+                        text = "DPI ${if (densityDpi <= 0) "기본" else "$densityDpi"}",
+                        fontSize = 11.sp,
+                        color = TextSecondary,
+                    )
+                    IconButton(
+                        onClick = { viewModel.setDensityDpi((currentDpi - 20).coerceAtLeast(80)) },
+                    ) {
+                        Icon(Icons.Default.Remove, null, modifier = Modifier.size(16.dp), tint = AccentCyan)
+                    }
+                    IconButton(
+                        onClick = { viewModel.setDensityDpi((currentDpi + 20).coerceAtMost(400)) },
+                    ) {
+                        Icon(Icons.Default.Add, null, modifier = Modifier.size(16.dp), tint = AccentCyan)
+                    }
+                    TextButton(onClick = { viewModel.clearNaviApp() }) {
+                        Text(text = "변경", fontSize = 13.sp, color = AccentCyan)
+                    }
                 }
             }
         }
@@ -84,7 +109,7 @@ fun NaviSection(
                 NaviAppSelector(apps = installed, onSelect = { viewModel.selectNaviApp(it.packageName) })
             }
         } else {
-            NaviActiveView(app = selected!!)
+            NaviActiveView(app = selected!!, densityDpi = densityDpi)
         }
     }
 }
@@ -136,12 +161,13 @@ private fun NaviAppCard(app: NaviApp, modifier: Modifier = Modifier, onClick: ()
 }
 
 @Composable
-private fun NaviActiveView(app: NaviApp) {
+private fun NaviActiveView(app: NaviApp, densityDpi: Int = 0) {
     var embeddingFailed by remember(app.packageName) { mutableStateOf(false) }
 
     if (!embeddingFailed) {
         EmbeddedNaviView(
             packageName = app.packageName,
+            densityDpi = densityDpi,
             modifier = Modifier.fillMaxSize(),
             onEmbeddingFailed = { embeddingFailed = true },
         )

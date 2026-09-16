@@ -28,6 +28,10 @@ class NaviViewModel @Inject constructor(
     }
 
     /** 선택된 네비 앱 (설치 여부 재검증 포함) */
+    /** VirtualDisplay density. 0 = 디바이스 기본값 */
+    val densityDpi: StateFlow<Int> = naviRepository.getDensityDpi()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
     val selectedNaviApp: StateFlow<NaviApp?> = naviRepository.getSelectedPackage()
         .map { pkg ->
             pkg?.let { p ->
@@ -43,6 +47,10 @@ class NaviViewModel @Inject constructor(
 
     fun clearNaviApp() = viewModelScope.launch {
         naviRepository.setSelectedPackage(null)
+    }
+
+    fun setDensityDpi(dpi: Int) = viewModelScope.launch {
+        naviRepository.setDensityDpi(dpi)
     }
 
     private fun isInstalled(packageName: String): Boolean =
