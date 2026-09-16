@@ -28,12 +28,15 @@ import com.bydlauncher.domain.weather.WeatherState
 import com.bydlauncher.ui.sidepanel.SidePanelViewModel
 import com.bydlauncher.ui.theme.BackgroundCard
 import com.bydlauncher.ui.theme.DividerColor
+import com.bydlauncher.ui.vehicle.VehicleViewModel
 
 @Composable
 fun SidePanel(modifier: Modifier = Modifier) {
     val viewModel: SidePanelViewModel = hiltViewModel()
+    val vehicleViewModel: VehicleViewModel = hiltViewModel()
     val weatherState by viewModel.weatherState.collectAsState()
     val calendarEvents by viewModel.calendarEvents.collectAsState()
+    val vehicleStatus by vehicleViewModel.status.collectAsState()
     val activity = LocalContext.current as ComponentActivity
     var isDefaultHome by remember { mutableStateOf(MainActivity.isDefaultHome(activity)) }
 
@@ -82,6 +85,20 @@ fun SidePanel(modifier: Modifier = Modifier) {
 
         CalendarCard(
             events = calendarEvents,
+            modifier = Modifier.padding(horizontal = 16.dp),
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        VehicleStatusCard(
+            status = vehicleStatus,
+            modifier = Modifier.padding(horizontal = 16.dp),
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        AirQualityCard(
+            status = vehicleStatus,
             modifier = Modifier.padding(horizontal = 16.dp),
         )
 

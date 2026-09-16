@@ -55,6 +55,15 @@ class ChargingReader(context: Context) {
             state != GUN_STATE_NOT_CONNECTED
         }.getOrDefault(false)
 
+    /** 충전 완료까지 남은 시간 (분). 조회 불가 시 -1 */
+    fun getRestMinutes(): Int =
+        runCatching {
+            val d = device ?: return -1
+            val arr = d.javaClass.getMethod("getChargingRestTime").invoke(d) as IntArray
+            val h = arr[0]; val m = arr[1]
+            if (h < 0 || m < 0) -1 else h * 60 + m
+        }.getOrDefault(-1)
+
     /** 실시간 충전 전력 (kW). 조회 불가 시 0.0 */
     fun getChargingPowerKw(): Double =
         runCatching {

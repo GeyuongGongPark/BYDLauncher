@@ -15,11 +15,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.bydlauncher.ui.apps.AppDrawer
 import com.bydlauncher.ui.components.AppDock
 import com.bydlauncher.ui.components.SidePanel
 import com.bydlauncher.ui.components.StatusBar
+import com.bydlauncher.ui.components.VehicleAlertBanner
 import com.bydlauncher.ui.theme.BackgroundDeep
+import com.bydlauncher.ui.vehicle.VehicleViewModel
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
@@ -44,7 +48,10 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
 private fun LandscapeLayout(
     currentTab: HomeTab,
     onToggleAppDrawer: () -> Unit,
+    vehicleViewModel: VehicleViewModel = hiltViewModel(),
 ) {
+    val vehicleStatus by vehicleViewModel.status.collectAsState()
+
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -53,6 +60,7 @@ private fun LandscapeLayout(
         SidePanel()
 
         Column(modifier = Modifier.weight(1f)) {
+            VehicleAlertBanner(status = vehicleStatus)
             AnimatedContent(
                 targetState = currentTab,
                 modifier = Modifier.weight(1f),
@@ -73,13 +81,17 @@ private fun LandscapeLayout(
 private fun PortraitLayout(
     currentTab: HomeTab,
     onToggleAppDrawer: () -> Unit,
+    vehicleViewModel: VehicleViewModel = hiltViewModel(),
 ) {
+    val vehicleStatus by vehicleViewModel.status.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(BackgroundDeep),
     ) {
         StatusBar()
+        VehicleAlertBanner(status = vehicleStatus)
 
         AnimatedContent(
             targetState = currentTab,

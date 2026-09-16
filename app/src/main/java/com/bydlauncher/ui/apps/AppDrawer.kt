@@ -40,23 +40,53 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bydlauncher.domain.apps.AppInfo
 import com.bydlauncher.ui.theme.BackgroundCard
 import com.bydlauncher.ui.theme.BackgroundDeep
 import com.bydlauncher.ui.theme.TextSecondary
 import com.bydlauncher.ui.utils.toImageBitmap
+import com.bydlauncher.ui.vehicle.VehicleViewModel
 
 @Composable
 fun AppDrawer(
     modifier: Modifier = Modifier,
     viewModel: AppDrawerViewModel = hiltViewModel(),
+    vehicleViewModel: VehicleViewModel = hiltViewModel(),
     onAppSelected: ((AppInfo) -> Unit)? = null,   // null이면 앱 실행, 값이면 선택 콜백
 ) {
     val apps by viewModel.apps.collectAsState()
     val query by viewModel.query.collectAsState()
+    val vehicleStatus by vehicleViewModel.status.collectAsState()
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
+
+    // 주행 중이고 선택 콜백 없는 경우(일반 앱 실행 서랍)만 잠금
+    if (vehicleStatus.isDriving && onAppSelected == null) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .background(BackgroundDeep),
+            contentAlignment = androidx.compose.ui.Alignment.Center,
+        ) {
+            Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
+                Icon(
+                    imageVector = Icons.Default.DirectionsCar,
+                    contentDescription = null,
+                    tint = Color(0xFF4A5070),
+                    modifier = Modifier.size(48.dp),
+                )
+                androidx.compose.foundation.layout.Spacer(Modifier.height(12.dp))
+                Text("주행 중 앱 서랍 잠금", color = Color(0xFF4A5070), fontSize = 15.sp)
+                Text("정차 후 이용하세요", color = Color(0xFF3A4060), fontSize = 12.sp)
+            }
+        }
+        return
+    }
 
     Column(
         modifier = modifier
