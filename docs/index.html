@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BYD Launcher — BYD 차량용 홈 런처</title>
-  <meta name="description" content="BYD Atto 3, Seal, Dolphin용 오픈소스 홈 런처. 날씨(API Key 불필요), 캘린더, 네비게이션, 캠핑 모드를 한 화면에서." />
+  <meta name="description" content="BYD Atto 3, Seal, Dolphin용 오픈소스 홈 런처. 날씨(API Key 불필요), 캘린더, 네비게이션, 캠핑 모드, AC 퀵 컨트롤, 에코 드라이브 코치를 한 화면에서." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -371,7 +371,7 @@
 <div class="hero">
   <div class="badge">오픈소스 · Android · DiLink 3.0 / 5.0</div>
   <h1>BYD 차량 화면을<br /><em>내 방식으로</em></h1>
-  <p>Atto 3, Seal, Dolphin의 인포테인먼트를 더 빠르고 직관적으로.<br />날씨, 일정, 네비게이션, 캠핑 모드를 한 화면에서.</p>
+  <p>Atto 3, Seal, Dolphin의 인포테인먼트를 더 빠르고 직관적으로.<br />날씨, 일정, 네비, 에어컨 제어, 에코 드라이브 코치를 한 화면에서.</p>
   <div class="btn-row">
     <a class="btn btn-p" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">↓ APK 다운로드</a>
     <a class="btn btn-s" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub 보기</a>
@@ -383,6 +383,7 @@
   <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 차종</div></div>
   <div class="stat"><div class="stat-val">28+</div><div class="stat-label">Android API 지원</div></div>
   <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 네비 앱</div></div>
+  <div class="stat"><div class="stat-val">100</div><div class="stat-label">에코 드라이브 점수</div></div>
   <div class="stat"><div class="stat-val">무료</div><div class="stat-label">API Key 불필요</div></div>
   <div class="stat"><div class="stat-val">100%</div><div class="stat-label">오픈소스</div></div>
 </div>
@@ -464,6 +465,7 @@
               <div class="dock-item"><div class="dock-icon">🎵</div><div class="dock-label">음악</div></div>
               <div class="dock-item"><div class="dock-icon">📞</div><div class="dock-label">전화</div></div>
               <div class="dock-item"><div class="dock-icon">⚙️</div><div class="dock-label">설정</div></div>
+              <div class="dock-item"><div class="dock-icon">🍃</div><div class="dock-label">드라이브</div></div>
               <div class="dock-item"><div class="dock-icon" style="background:rgba(0,200,240,.15);border-radius:8px;padding:2px 4px">⊞</div><div class="dock-label">앱</div></div>
             </div>
           </div>
@@ -518,6 +520,7 @@
             <div class="dock-item"><div class="dock-icon">🎵</div><div class="dock-label">음악</div></div>
             <div class="dock-item"><div class="dock-icon">📞</div><div class="dock-label">전화</div></div>
             <div class="dock-item"><div class="dock-icon">⚙️</div><div class="dock-label">설정</div></div>
+            <div class="dock-item"><div class="dock-icon">🍃</div><div class="dock-label">드라이브</div></div>
             <div class="dock-item"><div class="dock-icon">⊞</div><div class="dock-label">앱</div></div>
           </div>
         </div>
@@ -597,7 +600,171 @@
     </div>
   </div>
 
-  <!-- 5. 네비게이션 임베딩 -->
+  <!-- 5. 차량 제어 -->
+  <div class="showcase rev">
+    <div class="showcase-text">
+      <h3>AC 퀵 컨트롤 + 창문 상태</h3>
+      <p>SidePanel에서 에어컨을 바로 켜고 끄고, 온도를 ±1°C 단위로 조절합니다. BYD DiLink SDK(BYDAutoAcDevice)를 Reflection으로 직접 호출하여 별도 앱 없이 동작하며, 4개 창문의 개방률도 실시간으로 표시합니다. SDK가 없는 차종에서는 "미지원 차종" 상태로 자동 전환됩니다.</p>
+      <div class="tag-list">
+        <span class="tag">BYDAutoAcDevice</span>
+        <span class="tag">BYDAutoBodyworkDevice</span>
+        <span class="tag">ON/OFF 토글</span>
+        <span class="tag">온도 ±1°C</span>
+        <span class="tag">창문 개방률</span>
+      </div>
+    </div>
+    <div class="showcase-mock">
+      <div class="display-mock" style="width:260px">
+        <div style="padding:16px;background:#080A10;font-size:10px">
+          <!-- VehicleControlCard mock -->
+          <div style="background:#12151E;border-radius:10px;padding:12px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+              <span style="color:#00C8F0;font-size:14px">❄</span>
+              <span style="color:#8B93B0;font-size:10px">차량 제어</span>
+            </div>
+            <!-- AC 스위치 -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <span style="color:#EEF2FF;font-size:12px">에어컨 ON</span>
+              <div style="width:36px;height:20px;background:#0090B0;border-radius:10px;position:relative">
+                <div style="width:16px;height:16px;background:#00C8F0;border-radius:50%;position:absolute;right:2px;top:2px"></div>
+              </div>
+            </div>
+            <!-- 온도 -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <span style="color:#8B93B0;font-size:10px">목표 온도</span>
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="color:#00C8F0;font-size:14px">−</span>
+                <span style="color:#EEF2FF;font-size:13px">22°C</span>
+                <span style="color:#00C8F0;font-size:14px">+</span>
+              </div>
+            </div>
+            <!-- 풍량 -->
+            <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+              <span style="color:#8B93B0;font-size:10px">풍량</span>
+              <span style="color:#EEF2FF;font-size:10px">3단</span>
+            </div>
+            <!-- 창문 -->
+            <div style="border-top:1px solid #232840;padding-top:8px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <span style="color:#8B93B0;font-size:10px">운전석 창</span>
+                <span style="color:#00C8F0;font-size:10px">30%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:#8B93B0;font-size:10px">조수석 창</span>
+                <span style="color:#00C8F0;font-size:10px">15%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 에코 드라이브 코치 -->
+  <div class="showcase">
+    <div class="showcase-text">
+      <h3>에코 드라이브 코치</h3>
+      <p>D기어 진입 시 주행 세션이 자동 시작됩니다. 가속 페달 깊이 ≥80% 시 급가속, 브레이크 깊이 ≥70% 시 급제동으로 판단해 에코 점수(0~100점)에 반영합니다. 회생제동은 +점수를 얻습니다. 급가속/급제동이 감지되면 화면 테두리가 주황/빨강으로 순간 플래시하여 즉각적인 피드백을 제공하고, P기어 진입 시 세션 결과 팝업이 자동 표시됩니다. 세션 기록은 Room DB에 저장됩니다.</p>
+      <div class="tag-list">
+        <span class="tag">BYDAutoSpeedDevice</span>
+        <span class="tag">BYDAutoEnergyDevice</span>
+        <span class="tag">BYDAutoGearboxDevice</span>
+        <span class="tag">Room DB</span>
+        <span class="tag">에코 점수 0–100</span>
+        <span class="tag">화면 플래시 피드백</span>
+      </div>
+    </div>
+    <div class="showcase-mock">
+      <div class="display-mock" style="width:360px">
+        <div style="padding:16px;background:#080A10;font-size:10px">
+          <!-- DriveCoach 현재 세션 카드 -->
+          <div style="background:#1A1E2A;border-radius:10px;padding:14px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <span style="color:#00C8F0;font-size:10px;font-weight:600">주행 중</span>
+              <span style="color:#8B93B0;font-size:10px">23:14</span>
+            </div>
+            <div style="text-align:center;margin-bottom:14px">
+              <span style="font-size:52px;font-weight:200;color:#4CAF50">87</span>
+              <span style="font-size:18px;color:#4CAF50"> 점</span>
+            </div>
+            <div style="display:flex;justify-content:space-evenly">
+              <div style="text-align:center">
+                <div style="font-size:15px;font-weight:600;color:#FF6F00">1회</div>
+                <div style="font-size:9px;color:#8B93B0">급가속</div>
+              </div>
+              <div style="text-align:center">
+                <div style="font-size:15px;font-weight:600;color:#D32F2F">0회</div>
+                <div style="font-size:9px;color:#8B93B0">급제동</div>
+              </div>
+              <div style="text-align:center">
+                <div style="font-size:15px;font-weight:600;color:#4CAF50">8회</div>
+                <div style="font-size:9px;color:#8B93B0">회생</div>
+              </div>
+            </div>
+          </div>
+          <!-- EcoScoreWidget -->
+          <div style="display:flex;align-items:center;gap:14px;background:#1A1E2A;border-radius:10px;padding:10px 14px">
+            <div style="text-align:center">
+              <div style="font-size:16px;color:#4CAF50;font-weight:600">87</div>
+              <div style="font-size:8px;color:#8B93B0">점</div>
+            </div>
+            <div style="text-align:center">
+              <div style="font-size:14px;color:#EEF2FF;font-weight:600">14.2</div>
+              <div style="font-size:8px;color:#8B93B0">kWh/100km</div>
+            </div>
+            <div style="font-size:13px;color:#EEF2FF;font-weight:600">EV</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. 테마 전환 -->
+  <div class="showcase rev">
+    <div class="showcase-text">
+      <h3>Dark / Darker 테마 전환</h3>
+      <p>SidePanel 상단의 밝기 버튼 한 번으로 기본 다크 테마(#0A0C12)와 완전 블랙 기반 Darker 테마(#000000) 사이를 전환할 수 있습니다. 선택한 테마는 DataStore에 저장되어 재실행 후에도 유지됩니다. 탭 전환은 방향 기반 슬라이드 애니메이션(220ms)으로 자연스럽게 전환됩니다.</p>
+      <div class="tag-list">
+        <span class="tag">ThemeMode.DARK</span>
+        <span class="tag">ThemeMode.DARKER</span>
+        <span class="tag">DataStore 저장</span>
+        <span class="tag">슬라이드 애니메이션 220ms</span>
+        <span class="tag">48dp 터치 타겟</span>
+      </div>
+    </div>
+    <div class="showcase-mock">
+      <div style="display:flex;gap:16px;align-items:flex-start">
+        <!-- Dark 테마 -->
+        <div>
+          <div style="font-size:11px;color:#8B93B0;text-align:center;margin-bottom:6px">Dark</div>
+          <div class="display-mock" style="width:160px">
+            <div style="padding:12px;background:#0A0C12;height:120px;display:flex;flex-direction:column;gap:6px">
+              <div style="font-size:22px;font-weight:200;color:#00C8F0">14:32</div>
+              <div style="background:#1A1E2A;border-radius:6px;padding:6px;flex:1">
+                <div style="font-size:7px;color:#8B93B0;margin-bottom:4px">날씨</div>
+                <div style="font-size:18px;color:#EEF2FF">23°</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Darker 테마 -->
+        <div>
+          <div style="font-size:11px;color:#8B93B0;text-align:center;margin-bottom:6px">Darker</div>
+          <div class="display-mock" style="width:160px">
+            <div style="padding:12px;background:#000000;height:120px;display:flex;flex-direction:column;gap:6px">
+              <div style="font-size:22px;font-weight:200;color:#00C8F0">14:32</div>
+              <div style="background:#0F1118;border-radius:6px;padding:6px;flex:1">
+                <div style="font-size:7px;color:#8B93B0;margin-bottom:4px">날씨</div>
+                <div style="font-size:18px;color:#EEF2FF">23°</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 네비게이션 임베딩 -->
   <div class="showcase">
     <div class="showcase-text">
       <h3>네비게이션 앱 연동 + 오버레이 모드</h3>

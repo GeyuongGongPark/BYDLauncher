@@ -30,6 +30,11 @@ BYD 차량 인포테인먼트(DiLink 3.0 / 5.0, Android 9+)용 홈 런처
 - **네비 오버레이 모드** — 네비게이션 앱 위에 반투명 독 오버레이 표시 (Kinex 방식)
 - **기본 홈 앱 설정** — 앱 내에서 바로 기본 런처 변경 가능
 - **캠핑 모드** — 주차 중 공조/배터리 모니터링
+- **AC 퀵 컨트롤** — SidePanel에서 에어컨 ON/OFF, 온도 ±1°C 직접 조작
+- **창문 개방률 표시** — 4개 창문 실시간 개방률 (BYDAutoBodyworkDevice)
+- **에코 드라이브 코치** — D기어 진입 시 세션 자동 시작, 급가속/급제동/회생제동 감지, 에코 점수(0~100)
+- **주행 세션 기록** — Room DB에 세션별 기록 저장, P기어 진입 시 결과 팝업
+- **테마 전환** — Dark / Darker(완전 블랙) 두 가지 팔레트, DataStore 저장
 - **전체화면** — 시스템바 자동 숨김
 
 ## 빌드
@@ -82,9 +87,10 @@ git push origin v1.1.0
 - **아키텍처**: MVVM + Clean Architecture
 - **DI**: Hilt
 - **비동기**: Coroutines + Flow
-- **저장**: DataStore Preferences
+- **저장**: DataStore Preferences + Room 2.6.1 (주행 세션)
 - **네트워크**: OkHttp + Coil
 - **날씨**: Open-Meteo (무료, API Key 불필요)
+- **차량 SDK**: BYD DiLink Reflection (BYDAutoAcDevice, BYDAutoBodyworkDevice, BYDAutoSpeedDevice, BYDAutoEnergyDevice, BYDAutoGearboxDevice)
 
 ## 라이선스
 
