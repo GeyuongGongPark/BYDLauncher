@@ -10,17 +10,21 @@ import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bydlauncher.data.settings.AppSettingsRepositoryImpl
 import com.bydlauncher.domain.calendar.CalendarEvent
 import com.bydlauncher.domain.calendar.CalendarRepository
 import com.bydlauncher.domain.weather.WeatherRepository
 import com.bydlauncher.domain.weather.WeatherState
+import com.bydlauncher.ui.theme.ThemeMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +33,7 @@ class SidePanelViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val weatherRepository: WeatherRepository,
     private val calendarRepository: CalendarRepository,
+    private val settingsRepository: AppSettingsRepositoryImpl,
 ) : ViewModel() {
 
     private val _weatherState = MutableStateFlow<WeatherState>(WeatherState.Loading)
@@ -36,6 +41,16 @@ class SidePanelViewModel @Inject constructor(
 
     private val _calendarEvents = MutableStateFlow<List<CalendarEvent>>(emptyList())
     val calendarEvents: StateFlow<List<CalendarEvent>> = _calendarEvents.asStateFlow()
+
+    val themeMode: StateFlow<ThemeMode> = settingsRepository.themeMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ThemeMode.DARK)
+
+    fun toggleTheme() {
+        viewModelScope.launch {
+            val next = if (themeMode.value == ThemeMode.DARK) ThemeMode.DARKER else ThemeMode.DARK
+            settingsRepository.setThemeMode(next)
+        }
+    }
 
     private val locationManager =
         context.getSystemService(Context.LOCATION_SERVICE) as LocationManager

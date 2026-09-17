@@ -21,7 +21,13 @@ class GearReader(context: Context) {
             "com.byd.hvac", "com.byd.carsettings", "com.byd.mycar", "com.byd.scenemode"
         )
         private const val GEARBOX_AUTO_MODE_P = 1
+        private const val GEARBOX_AUTO_MODE_N = 5
+        private const val GEARBOX_AUTO_MODE_D = 6
+        private const val GEARBOX_AUTO_MODE_R = 7
+        private const val GEARBOX_AUTO_MODE_S = 8
     }
+
+    enum class GearState { PARK, NEUTRAL, DRIVE, REVERSE, SPORT, UNKNOWN }
 
     fun connect() {
         if (device != null) return
@@ -44,6 +50,20 @@ class GearReader(context: Context) {
         }
         Log.w(TAG, "GearboxDevice 로딩 실패 — 기어 체크 비활성")
     }
+
+    /** 현재 기어 상태. SDK 로딩 실패 시 UNKNOWN 반환 */
+    fun getCurrentGear(): GearState =
+        runCatching {
+            val d = device ?: return GearState.UNKNOWN
+            when (d.javaClass.getMethod("getGearboxAutoModeType").invoke(d) as Int) {
+                GEARBOX_AUTO_MODE_P -> GearState.PARK
+                GEARBOX_AUTO_MODE_N -> GearState.NEUTRAL
+                GEARBOX_AUTO_MODE_D -> GearState.DRIVE
+                GEARBOX_AUTO_MODE_R -> GearState.REVERSE
+                GEARBOX_AUTO_MODE_S -> GearState.SPORT
+                else -> GearState.UNKNOWN
+            }
+        }.getOrDefault(GearState.UNKNOWN)
 
     /**
      * P단(주차) 여부.

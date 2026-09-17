@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.Eco
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material.icons.filled.Phone
@@ -40,6 +42,7 @@ data class DockItem(
 @Composable
 fun AppDock(
     onOpenAppDrawer: () -> Unit,
+    onOpenDriveCoach: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -71,6 +74,9 @@ fun AppDock(
                 if (runCatching { context.startActivity(intent) }.isSuccess) break
             }
         },
+        DockItem(Icons.Default.Eco, "드라이브") {
+            onOpenDriveCoach()
+        },
         DockItem(Icons.Default.Apps, "앱") {
             onOpenAppDrawer()
         },
@@ -96,6 +102,7 @@ private fun DockButton(item: DockItem) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp)
             .clip(CircleShape)
             .clickable { item.onClick() }
             .padding(8.dp),

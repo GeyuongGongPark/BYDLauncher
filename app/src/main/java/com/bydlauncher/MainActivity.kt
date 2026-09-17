@@ -7,16 +7,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.bydlauncher.data.settings.AppSettingsRepositoryImpl
 import com.bydlauncher.overlay.OverlayService
 import com.bydlauncher.ui.home.HomeScreen
 import com.bydlauncher.ui.theme.BYDLauncherTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject lateinit var settingsRepository: AppSettingsRepositoryImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +34,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         hideSystemBars()
         setContent {
-            BYDLauncherTheme {
+            val themeMode by settingsRepository.themeMode.collectAsState(initial = com.bydlauncher.ui.theme.ThemeMode.DARK)
+            BYDLauncherTheme(themeMode = themeMode) {
                 HomeScreen()
             }
         }

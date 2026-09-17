@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bydlauncher.camping.sdk.ChargingReader
+import com.bydlauncher.camping.sdk.GearReader
 import com.bydlauncher.domain.vehicle.VehicleStatus
 import com.bydlauncher.vehicle.sdk.BodyworkReader
+import com.bydlauncher.vehicle.sdk.DriveInputReader
+import com.bydlauncher.vehicle.sdk.EnergyModeReader
 import com.bydlauncher.vehicle.sdk.MalfunctionReader
 import com.bydlauncher.vehicle.sdk.PM25Reader
 import com.bydlauncher.vehicle.sdk.SpeedReader
@@ -38,6 +41,9 @@ class VehicleViewModel @Inject constructor(
     private val malfunction = MalfunctionReader(context)
     private val pm25 = PM25Reader(context)
     private val charging = ChargingReader(context)
+    private val driveInput = DriveInputReader(context)
+    private val energyMode = EnergyModeReader(context)
+    private val gear = GearReader(context)
 
     private var fastPollJob: Job? = null
     private var slowPollJob: Job? = null
@@ -56,6 +62,9 @@ class VehicleViewModel @Inject constructor(
             malfunction.connect()
             pm25.connect()
             charging.connect()
+            driveInput.connect()
+            energyMode.connect()
+            gear.connect()
             // 초기값 즉시 갱신
             updateFast()
             updateSlow()
@@ -84,6 +93,13 @@ class VehicleViewModel @Inject constructor(
         _status.value = current.copy(
             speedKmh = speed.getCurrentSpeedKmh(),
             openDoors = bodywork.getOpenDoors(),
+            windowPercents = bodywork.getWindowPercents(),
+            accelerateDeepness = driveInput.getAccelerateDeepness(),
+            brakeDeepness = driveInput.getBrakeDeepness(),
+            regenActive = driveInput.isRegenActive(),
+            operationMode = energyMode.getOperationMode(),
+            instantElecCon = energyMode.getInstantElecCon(),
+            currentGear = gear.getCurrentGear().name,
         )
     }
 

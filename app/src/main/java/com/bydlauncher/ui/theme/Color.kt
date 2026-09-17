@@ -7,6 +7,11 @@ val BackgroundDeep = Color(0xFF0A0C12)
 val BackgroundSurface = Color(0xFF12151E)
 val BackgroundCard = Color(0xFF1A1E2A)
 
+// BYD Darker Palette
+val BackgroundDeepDarker = Color(0xFF000000)
+val BackgroundSurfaceDarker = Color(0xFF080A10)
+val BackgroundCardDarker = Color(0xFF0F1118)
+
 val AccentCyan = Color(0xFF00C8F0)
 val AccentCyanDim = Color(0xFF0090B0)
 

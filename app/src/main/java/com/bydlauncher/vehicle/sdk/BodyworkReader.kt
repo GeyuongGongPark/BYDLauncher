@@ -78,6 +78,19 @@ class BodyworkReader(context: Context) {
         return result
     }
 
+    /** 창문 개방률 맵. area 1~4 → % (0~100). 조회 실패 시 해당 area 제외 */
+    fun getWindowPercents(): Map<Int, Int> {
+        val d = device ?: return emptyMap()
+        val result = mutableMapOf<Int, Int>()
+        for (area in 1..4) {
+            runCatching {
+                val pct = d.javaClass.getMethod("getWindowOpenPercent", Int::class.java).invoke(d, area) as Int
+                result[area] = pct.coerceIn(0, 100)
+            }
+        }
+        return result
+    }
+
     private fun getInstance(cl: ClassLoader): Any {
         val cls = cl.loadClass(CLASS)
         return cls.getMethod("getInstance", Context::class.java).invoke(null, ctx)

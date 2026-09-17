@@ -4,6 +4,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 
+enum class ThemeMode { DARK, DARKER }
+
 private val DarkColorScheme = darkColorScheme(
     primary = AccentCyan,
     onPrimary = BackgroundDeep,
@@ -20,10 +22,30 @@ private val DarkColorScheme = darkColorScheme(
     outline = DividerColor,
 )
 
+private val DarkerColorScheme = darkColorScheme(
+    primary = AccentCyan,
+    onPrimary = BackgroundDeepDarker,
+    primaryContainer = AccentCyanDim,
+    onPrimaryContainer = TextPrimary,
+    secondary = TextSecondary,
+    onSecondary = TextPrimary,
+    background = BackgroundDeepDarker,
+    onBackground = TextPrimary,
+    surface = BackgroundSurfaceDarker,
+    onSurface = TextPrimary,
+    surfaceVariant = BackgroundCardDarker,
+    onSurfaceVariant = TextSecondary,
+    outline = DividerColor,
+)
+
 @Composable
-fun BYDLauncherTheme(content: @Composable () -> Unit) {
+fun BYDLauncherTheme(
+    themeMode: ThemeMode = ThemeMode.DARK,
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = if (themeMode == ThemeMode.DARKER) DarkerColorScheme else DarkColorScheme
     MaterialTheme(
-        colorScheme = DarkColorScheme,
+        colorScheme = colorScheme,
         typography = Typography,
         content = content,
     )
