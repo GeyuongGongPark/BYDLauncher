@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — BYD Launcher</title>
+  <meta name="description" content="Privacy Policy for the BYD Launcher app." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0A0C12;
+      --surface:   #12151E;
+      --card:      #1A1E2A;
+      --border:    #232840;
+      --cyan:      #00C8F0;
+      --text:      #EEF2FF;
+      --text-sub:  #8B93B0;
+      --text-dim:  #4A5070;
+      --radius:    12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 18px; font-weight: 600; color: var(--cyan); letter-spacing: -0.5px; }
+    .nav-back { font-size: 14px; color: var(--text-sub); }
+    .nav-back:hover { color: var(--text); text-decoration: none; }
+
+    .content {
+      max-width: 720px; margin: 0 auto; padding: 64px 24px 80px;
+    }
+
+    .page-label {
+      font-size: 12px; color: var(--cyan);
+      letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 300; letter-spacing: -0.5px; margin-bottom: 8px;
+    }
+
+    .updated { font-size: 13px; color: var(--text-dim); margin-bottom: 48px; }
+
+    .intro {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--cyan);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 24px;
+      font-size: 15px; color: var(--text-sub); margin-bottom: 48px;
+    }
+
+    .policy-section { margin-bottom: 40px; }
+
+    h2 {
+      font-size: 20px; font-weight: 500; color: var(--text);
+      margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    p { font-size: 15px; color: var(--text-sub); margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
+
+    ul {
+      list-style: none; display: flex; flex-direction: column;
+      gap: 8px; margin-bottom: 12px;
+    }
+
+    li {
+      font-size: 15px; color: var(--text-sub);
+      padding-left: 20px; position: relative;
+    }
+    li::before { content: '·'; color: var(--cyan); position: absolute; left: 6px; }
+
+    .info-table {
+      width: 100%; border-collapse: collapse;
+      margin: 16px 0; font-size: 14px;
+    }
+    .info-table th {
+      background: var(--card); color: var(--text-sub);
+      font-weight: 500; text-align: left;
+      padding: 10px 16px; border: 1px solid var(--border);
+    }
+    .info-table td {
+      color: var(--text-sub); padding: 10px 16px;
+      border: 1px solid var(--border); vertical-align: top;
+    }
+    .info-table tr:nth-child(even) td { background: var(--surface); }
+
+    .highlight { color: var(--text); font-weight: 500; }
+
+    .contact-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 24px;
+    }
+    .contact-box p { margin-bottom: 6px; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px; text-align: center;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 12px; }
+    .footer-links a { font-size: 14px; color: var(--text-sub); }
+    .footer-links a:hover { color: var(--text); text-decoration: none; }
+    .footer-copy { font-size: 13px; color: var(--text-dim); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">BYD Launcher</span>
+  <div style="display:flex;gap:20px;align-items:center">
+    <a href="privacy.html" style="font-size:13px;color:var(--text-sub)">한국어</a>
+    <a class="nav-back" href="index-en.html">← Home</a>
+  </div>
+</nav>
+
+<div class="content">
+  <div class="page-label">Privacy Policy</div>
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: August 14, 2025</p>
+
+  <div class="intro">
+    BYD Launcher respects your privacy. The app requests only the minimum permissions necessary to provide its features, and never transmits your personal data to third parties or stores it on external servers.
+  </div>
+
+  <!-- 1 -->
+  <div class="policy-section">
+    <h2>1. Data We Access and Why</h2>
+    <table class="info-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Permission</th>
+          <th>Purpose</th>
+          <th>Transmitted?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Location (city level)</td>
+          <td><code>ACCESS_COARSE_LOCATION</code><br /><code>ACCESS_FINE_LOCATION</code></td>
+          <td>Obtain latitude/longitude for weather lookup</td>
+          <td>Coordinates only sent to the Open-Meteo API (city-level precision)</td>
+        </tr>
+        <tr>
+          <td>Calendar events</td>
+          <td><code>READ_CALENDAR</code></td>
+          <td>Display today's events (title and time)</td>
+          <td>Never — processed on-device only</td>
+        </tr>
+        <tr>
+          <td>Installed app list</td>
+          <td>—</td>
+          <td>Populate the app drawer and favorites grid</td>
+          <td>Never</td>
+        </tr>
+        <tr>
+          <td>Favorites selection</td>
+          <td>—</td>
+          <td>Store chosen app package names on-device</td>
+          <td>Never</td>
+        </tr>
+        <tr>
+          <td>Drive session data</td>
+          <td>—</td>
+          <td>Record eco-drive sessions (score, event counts) in local Room database</td>
+          <td>Never — stored locally only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2 -->
+  <div class="policy-section">
+    <h2>2. Third-Party Services</h2>
+    <p>BYD Launcher uses <span class="highlight">Open-Meteo</span> for weather data. When weather is requested, your device's latitude and longitude are sent to Open-Meteo servers. Please review their privacy policy below.</p>
+    <ul>
+      <li><a href="https://open-meteo.com/en/terms" target="_blank" rel="noopener">Open-Meteo Terms &amp; Privacy</a></li>
+    </ul>
+    <p>The app contains no analytics SDKs, advertising SDKs, crash-reporting services, or any other third-party tracking libraries.</p>
+  </div>
+
+  <!-- 3 -->
+  <div class="policy-section">
+    <h2>3. Data Retention and Deletion</h2>
+    <ul>
+      <li>Location data is used only at the moment of a weather request and is never persisted inside the app.</li>
+      <li>Your favorites list (package names) is stored in an on-device DataStore and is deleted when the app is uninstalled.</li>
+      <li>Calendar data is read for display purposes only and is not stored separately.</li>
+      <li>Drive session records are stored in a local Room database on the device and are deleted when the app is uninstalled.</li>
+    </ul>
+  </div>
+
+  <!-- 4 -->
+  <div class="policy-section">
+    <h2>4. Behavior When Permissions Are Denied</h2>
+    <ul>
+      <li><span class="highlight">Location permission denied</span> — The weather card displays a "Location permission required" message. All other features continue to work normally.</li>
+      <li><span class="highlight">Calendar permission denied</span> — The calendar card shows no events. All other features continue to work normally.</li>
+    </ul>
+  </div>
+
+  <!-- 5 -->
+  <div class="policy-section">
+    <h2>5. Children's Privacy</h2>
+    <p>BYD Launcher is designed for use inside vehicle infotainment systems and is not directed at children under the age of 13. We do not knowingly collect personal information from children.</p>
+  </div>
+
+  <!-- 6 -->
+  <div class="policy-section">
+    <h2>6. Changes to This Policy</h2>
+    <p>If this policy changes, the updated version will be published on this page in the GitHub repository. Continued use of the app after a policy change constitutes acceptance of the revised policy.</p>
+  </div>
+
+  <!-- 7 -->
+  <div class="policy-section">
+    <h2>7. Contact</h2>
+    <div class="contact-box">
+      <p>For questions or concerns about this privacy policy, please open an issue on GitHub.</p>
+      <p><a href="https://github.com/GeyuongGongPark/BYDLauncher/issues" target="_blank" rel="noopener">github.com/GeyuongGongPark/BYDLauncher/issues</a></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="index-en.html">Home</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/releases" target="_blank" rel="noopener">Releases</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/issues" target="_blank" rel="noopener">Report a Bug</a>
+  </div>
+  <p class="footer-copy">© 2025 BYD Launcher · MIT License</p>
+</footer>
+
+</body>
+</html>

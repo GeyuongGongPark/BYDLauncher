@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BYD Launcher — BYD 차량용 홈 런처</title>
-  <meta name="description" content="BYD Atto 3, Seal, Dolphin용 오픈소스 홈 런처. 날씨(API Key 불필요), 캘린더, 네비게이션, 캠핑 모드, AC 퀵 컨트롤, 에코 드라이브 코치를 한 화면에서." />
+  <title>BYD Launcher — Home Launcher for BYD Vehicles</title>
+  <meta name="description" content="Open-source home launcher for BYD Atto 3, Seal, and Dolphin. Weather (no API key), calendar, navigation, camping mode, AC control, and eco-drive coach in one screen." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -119,7 +119,7 @@
     }
     .showcase-mock { flex: 0 0 auto; }
 
-    /* ── 차량 디스플레이 목업 (Landscape) ── */
+    /* ── Car display mock (Landscape) ── */
     .display-mock {
       width: 480px;
       background: #080A10;
@@ -136,19 +136,11 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
       pointer-events: none;
     }
+    .display-mock.portrait { width: 240px; }
 
-    /* Portrait 목업 */
-    .display-mock.portrait {
-      width: 240px;
-    }
-
-    /* ── 인앱 UI 시뮬레이션 ── */
-
-    /* Landscape 홈화면 */
+    /* ── In-app UI simulation ── */
     .app-landscape {
-      display: flex;
-      height: 270px;
-      font-size: 10px;
+      display: flex; height: 270px; font-size: 10px;
     }
     .app-sidepanel {
       width: 130px;
@@ -161,11 +153,7 @@
     .app-clock-big { font-size: 26px; font-weight: 200; color: #00C8F0; letter-spacing: -1px; line-height: 1; }
     .app-date { font-size: 9px; color: #8B93B0; margin-top: 2px; }
     .mini-divider { border: none; border-top: 1px solid #232840; margin: 4px 0; }
-    .mini-card {
-      background: rgba(35,40,64,.6);
-      border-radius: 8px;
-      padding: 8px 10px;
-    }
+    .mini-card { background: rgba(35,40,64,.6); border-radius: 8px; padding: 8px 10px; }
     .mini-card-label { font-size: 8px; color: #8B93B0; letter-spacing: .5px; margin-bottom: 4px; }
     .mini-weather-row { display: flex; align-items: center; gap: 6px; }
     .mini-temp { font-size: 20px; font-weight: 200; color: #EEF2FF; }
@@ -177,20 +165,16 @@
     .app-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
     .app-content { flex: 1; padding: 14px 12px; }
 
-    /* 네비게이션 섹션 in 목업 */
     .navi-label { font-size: 9px; color: #8B93B0; margin-bottom: 8px; }
     .navi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; }
     .navi-card {
-      background: #1A1E2A;
-      border: 1px solid #232840;
-      border-radius: 8px;
-      padding: 8px 10px;
+      background: #1A1E2A; border: 1px solid #232840;
+      border-radius: 8px; padding: 8px 10px;
       display: flex; align-items: center; gap: 7px;
     }
     .navi-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
     .navi-name { font-size: 9px; color: #EEF2FF; font-weight: 500; }
 
-    /* 앱 독 */
     .app-dock {
       height: 52px;
       background: rgba(26,30,42,.9);
@@ -202,55 +186,31 @@
     .dock-icon { font-size: 18px; }
     .dock-label { font-size: 7px; color: #8B93B0; }
 
-    /* 네비 fallback 카드 목업 */
-    .navi-active-mock {
-      flex: 1;
-      margin: 10px;
-      background: #1A1E2A;
-      border: 1px solid #232840;
-      border-radius: 10px;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-    }
-    .navi-active-icon { font-size: 36px; }
-    .navi-active-name { font-size: 13px; font-weight: 500; color: #EEF2FF; }
-    .navi-active-hint { font-size: 9px; color: #8B93B0; }
-    .navi-change-btn { font-size: 9px; color: #00C8F0; margin-top: 2px; }
-
-    /* Portrait 홈화면 */
     .app-portrait {
-      display: flex; flex-direction: column;
-      height: 380px;
-      font-size: 10px;
+      display: flex; flex-direction: column; height: 380px; font-size: 10px;
     }
     .app-statusbar {
       height: 24px;
       background: rgba(10,12,18,.9);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 12px;
-      font-size: 9px; color: #8B93B0;
+      padding: 0 12px; font-size: 9px; color: #8B93B0;
       border-bottom: 1px solid #232840;
     }
     .portrait-content {
       flex: 1; padding: 16px 14px;
-      display: flex; flex-direction: column; gap: 10px;
-      overflow: hidden;
+      display: flex; flex-direction: column; gap: 10px; overflow: hidden;
     }
     .p-clock { font-size: 40px; font-weight: 200; color: #00C8F0; letter-spacing: -2px; line-height: 1; }
     .p-date { font-size: 10px; color: #8B93B0; }
-    .p-card {
-      background: #1A1E2A; border-radius: 10px; padding: 10px 12px;
-    }
+    .p-card { background: #1A1E2A; border-radius: 10px; padding: 10px 12px; }
     .p-card-label { font-size: 8px; color: #8B93B0; letter-spacing: .5px; margin-bottom: 6px; }
     .p-weather-main { display: flex; align-items: center; gap: 8px; }
     .p-weather-icon { font-size: 26px; }
     .p-temp { font-size: 28px; font-weight: 200; color: #EEF2FF; }
     .p-weather-detail { font-size: 9px; color: #8B93B0; }
 
-    /* 날씨 카드 클로즈업 목업 */
     .weather-mock-inner { padding: 20px; background: #080A10; }
-    .w-card {
-      background: #1A1E2A; border-radius: 12px; padding: 16px 18px;
-    }
+    .w-card { background: #1A1E2A; border-radius: 12px; padding: 16px 18px; }
     .w-label { font-size: 10px; color: #8B93B0; letter-spacing: .5px; margin-bottom: 10px; }
     .w-main { display: flex; align-items: center; justify-content: space-between; }
     .w-left { display: flex; align-items: center; gap: 10px; }
@@ -262,7 +222,6 @@
     .w-meta { font-size: 11px; color: #8B93B0; display: flex; align-items: center; gap: 4px; }
     .w-meta-icon { font-size: 12px; }
 
-    /* 앱 서랍 목업 */
     .drawer-mock-inner { padding: 12px; background: #080A10; height: 300px; }
     .drawer-search {
       background: #1A1E2A; border-radius: 10px;
@@ -276,7 +235,6 @@
     .drawer-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
     .drawer-name { font-size: 8px; color: #8B93B0; text-align: center; }
 
-    /* 네비 선택 full-mock */
     .navi-select-inner { padding: 16px; background: #080A10; }
     .navi-select-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 10px; color: #8B93B0; }
     .navi-select-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -287,7 +245,7 @@
     .navi-select-icon { width: 38px; height: 38px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
     .navi-select-name { font-size: 13px; font-weight: 500; color: #EEF2FF; }
 
-    /* ── 디바이스 그리드 ── */
+    /* ── DEVICE GRID ── */
     .device-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
     .device-card {
       background: var(--surface); border: 1px solid var(--border);
@@ -360,33 +318,33 @@
 <nav>
   <a href="#" class="nav-logo">BYD Launcher</a>
   <div class="nav-links">
-    <a href="#features" class="hide-mobile">기능</a>
-    <a href="#devices" class="hide-mobile">지원 기기</a>
-    <a href="#install" class="hide-mobile">설치</a>
-    <a href="index-en.html" style="font-size:13px;color:var(--sub)">EN</a>
-    <a class="nav-btn" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">다운로드</a>
+    <a href="#features" class="hide-mobile">Features</a>
+    <a href="#devices" class="hide-mobile">Devices</a>
+    <a href="#install" class="hide-mobile">Install</a>
+    <a href="index.html" style="font-size:13px;color:var(--sub)">한국어</a>
+    <a class="nav-btn" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">Download</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="badge">오픈소스 · Android · DiLink 3.0 / 5.0</div>
-  <h1>BYD 차량 화면을<br /><em>내 방식으로</em></h1>
-  <p>Atto 3, Seal, Dolphin의 인포테인먼트를 더 빠르고 직관적으로.<br />날씨, 일정, 네비, 에어컨 제어, 에코 드라이브 코치를 한 화면에서.</p>
+  <div class="badge">Open Source · Android · DiLink 3.0 / 5.0</div>
+  <h1>Your BYD Display,<br /><em>Your Way</em></h1>
+  <p>A smarter, faster home screen for Atto 3, Seal, and Dolphin.<br />Weather, calendar, navigation, AC control, and eco-drive coaching — all in one place.</p>
   <div class="btn-row">
-    <a class="btn btn-p" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">↓ APK 다운로드</a>
-    <a class="btn btn-s" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub 보기</a>
+    <a class="btn btn-p" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">↓ Download APK</a>
+    <a class="btn btn-s" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">View on GitHub</a>
   </div>
 </div>
 
 <!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 차종</div></div>
-  <div class="stat"><div class="stat-val">28+</div><div class="stat-label">Android API 지원</div></div>
-  <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 네비 앱</div></div>
-  <div class="stat"><div class="stat-val">100</div><div class="stat-label">에코 드라이브 점수</div></div>
-  <div class="stat"><div class="stat-val">무료</div><div class="stat-label">API Key 불필요</div></div>
-  <div class="stat"><div class="stat-val">100%</div><div class="stat-label">오픈소스</div></div>
+  <div class="stat"><div class="stat-val">4</div><div class="stat-label">Supported Models</div></div>
+  <div class="stat"><div class="stat-val">28+</div><div class="stat-label">Android API</div></div>
+  <div class="stat"><div class="stat-val">4</div><div class="stat-label">Navigation Apps</div></div>
+  <div class="stat"><div class="stat-val">100</div><div class="stat-label">Eco Drive Score</div></div>
+  <div class="stat"><div class="stat-val">Free</div><div class="stat-label">No API Key Needed</div></div>
+  <div class="stat"><div class="stat-val">100%</div><div class="stat-label">Open Source</div></div>
 </div>
 
 <hr class="divider" />
@@ -394,80 +352,66 @@
 <!-- FEATURES -->
 <div class="section" id="features">
   <div class="sec-label">Features</div>
-  <div class="sec-title">필요한 건 모두, 불필요한 건 없이</div>
+  <div class="sec-title">Everything you need, nothing you don't</div>
 
-  <!-- 1. Landscape 홈화면 — 네비게이션 -->
+  <!-- 1. Landscape Home -->
   <div class="showcase">
     <div class="showcase-text">
-      <h3>Landscape 홈 — 네비게이션 통합</h3>
-      <p>가로 화면에서 좌측 패널에 시계·날씨·캘린더를, 우측에 네비게이션 앱을 배치합니다. 카카오맵·T맵·네이버지도·구글맵 중 설치된 앱을 탭 한 번으로 선택하면 메인 영역에 바로 연결됩니다. 회전 디스플레이를 장착한 Atto 3(12.8"), Seal(15.6")에서 최적 경험을 제공합니다.</p>
+      <h3>Landscape Home — Navigation Hub</h3>
+      <p>In landscape mode, the left panel shows your clock, weather, and calendar events while the right area connects directly to your preferred navigation app. Choose from Kakao Maps, T-map, Naver Maps, or Google Maps — whichever is installed — and tap once to launch. Optimized for the rotating displays on Atto 3 (12.8") and Seal (15.6").</p>
       <div class="tag-list">
         <span class="tag">SidePanel</span>
-        <span class="tag">네비게이션 통합</span>
+        <span class="tag">Navigation Integration</span>
         <span class="tag">AppDock</span>
-        <span class="tag">회전 대응</span>
+        <span class="tag">Rotation Adaptive</span>
       </div>
     </div>
     <div class="showcase-mock">
       <div class="display-mock">
         <div class="app-landscape">
-          <!-- SidePanel -->
           <div class="app-sidepanel">
             <div class="app-clock-big">14:32</div>
-            <div class="app-date">8월 15일 금요일</div>
+            <div class="app-date">Fri, Aug 15</div>
             <hr class="mini-divider" />
             <div class="mini-card">
-              <div class="mini-card-label">날씨</div>
+              <div class="mini-card-label">Weather</div>
               <div class="mini-weather-row">
                 <span style="font-size:18px">⛅</span>
                 <div>
                   <div class="mini-temp">23°</div>
-                  <div class="mini-weather-info">서울시 · 습도 61%</div>
+                  <div class="mini-weather-info">Seoul · 61% humidity</div>
                 </div>
               </div>
             </div>
             <div class="mini-card">
-              <div class="mini-card-label">오늘 일정</div>
+              <div class="mini-card-label">Today</div>
               <div class="mini-event">
                 <div class="mini-dot" style="background:#4285F4"></div>
-                <div class="mini-event-text">서비스센터 예약</div>
+                <div class="mini-event-text">Service center appt.</div>
               </div>
               <div class="mini-event">
                 <div class="mini-dot" style="background:#34A853"></div>
-                <div class="mini-event-text">가족 저녁 식사</div>
+                <div class="mini-event-text">Family dinner</div>
               </div>
             </div>
           </div>
-          <!-- Main — 네비 선택 UI -->
           <div class="app-main">
             <div class="app-content">
-              <div class="navi-label">내비게이션</div>
+              <div class="navi-label">Navigation</div>
               <div class="navi-grid">
-                <div class="navi-card">
-                  <div class="navi-icon" style="background:#FFCD00">🗺</div>
-                  <div class="navi-name">카카오맵</div>
-                </div>
-                <div class="navi-card">
-                  <div class="navi-icon" style="background:#E8002D">🧭</div>
-                  <div class="navi-name">T맵</div>
-                </div>
-                <div class="navi-card">
-                  <div class="navi-icon" style="background:#03C75A">📍</div>
-                  <div class="navi-name">네이버지도</div>
-                </div>
-                <div class="navi-card">
-                  <div class="navi-icon" style="background:#4285F4">🌐</div>
-                  <div class="navi-name">구글맵</div>
-                </div>
+                <div class="navi-card"><div class="navi-icon" style="background:#FFCD00">🗺</div><div class="navi-name">Kakao Maps</div></div>
+                <div class="navi-card"><div class="navi-icon" style="background:#E8002D">🧭</div><div class="navi-name">T-map</div></div>
+                <div class="navi-card"><div class="navi-icon" style="background:#03C75A">📍</div><div class="navi-name">Naver Maps</div></div>
+                <div class="navi-card"><div class="navi-icon" style="background:#4285F4">🌐</div><div class="navi-name">Google Maps</div></div>
               </div>
             </div>
             <div class="app-dock">
-              <div class="dock-item"><div class="dock-icon">🗺</div><div class="dock-label">지도</div></div>
-              <div class="dock-item"><div class="dock-icon">🎵</div><div class="dock-label">음악</div></div>
-              <div class="dock-item"><div class="dock-icon">📞</div><div class="dock-label">전화</div></div>
-              <div class="dock-item"><div class="dock-icon">⚙️</div><div class="dock-label">설정</div></div>
-              <div class="dock-item"><div class="dock-icon">🍃</div><div class="dock-label">드라이브</div></div>
-              <div class="dock-item"><div class="dock-icon" style="background:rgba(0,200,240,.15);border-radius:8px;padding:2px 4px">⊞</div><div class="dock-label">앱</div></div>
+              <div class="dock-item"><div class="dock-icon">🗺</div><div class="dock-label">Maps</div></div>
+              <div class="dock-item"><div class="dock-icon">🎵</div><div class="dock-label">Music</div></div>
+              <div class="dock-item"><div class="dock-icon">📞</div><div class="dock-label">Phone</div></div>
+              <div class="dock-item"><div class="dock-icon">⚙️</div><div class="dock-label">Settings</div></div>
+              <div class="dock-item"><div class="dock-icon">🍃</div><div class="dock-label">Drive</div></div>
+              <div class="dock-item"><div class="dock-icon" style="background:rgba(0,200,240,.15);border-radius:8px;padding:2px 4px">⊞</div><div class="dock-label">Apps</div></div>
             </div>
           </div>
         </div>
@@ -475,16 +419,16 @@
     </div>
   </div>
 
-  <!-- 2. Portrait 홈화면 -->
+  <!-- 2. Portrait Home -->
   <div class="showcase rev">
     <div class="showcase-text">
-      <h3>Portrait 홈화면</h3>
-      <p>세로 화면에서는 상단 상태바 아래로 대형 시계, 날씨 카드, 캘린더 카드가 순서대로 배치됩니다. 화면 방향이 전환되면 레이아웃이 자동으로 재구성됩니다.</p>
+      <h3>Portrait Home Screen</h3>
+      <p>In portrait orientation, a large clock, weather card, and calendar card stack neatly below the status bar. The layout automatically reconfigures when the screen rotates — no action needed.</p>
       <div class="tag-list">
         <span class="tag">StatusBar</span>
-        <span class="tag">시계 위젯</span>
-        <span class="tag">날씨 카드</span>
-        <span class="tag">캘린더 카드</span>
+        <span class="tag">Clock Widget</span>
+        <span class="tag">Weather Card</span>
+        <span class="tag">Calendar Card</span>
       </div>
     </div>
     <div class="showcase-mock">
@@ -497,67 +441,67 @@
           <div class="portrait-content">
             <div>
               <div class="p-clock">14:32</div>
-              <div class="p-date">8월 15일 금요일</div>
+              <div class="p-date">Friday, August 15</div>
             </div>
             <div class="p-card">
-              <div class="p-card-label">날씨</div>
+              <div class="p-card-label">Weather</div>
               <div class="p-weather-main">
                 <div class="p-weather-icon">⛅</div>
                 <div>
                   <div class="p-temp">23°</div>
-                  <div class="p-weather-detail">구름 조금 · 서울</div>
-                  <div class="p-weather-detail">체감 21° · 습도 61%</div>
+                  <div class="p-weather-detail">Partly cloudy · Seoul</div>
+                  <div class="p-weather-detail">Feels like 21° · 61% humidity</div>
                 </div>
               </div>
             </div>
             <div class="p-card">
-              <div class="p-card-label">오늘 일정</div>
-              <div class="mini-event"><div class="mini-dot" style="background:#4285F4"></div><div class="mini-event-text">14:00 서비스센터 예약</div></div>
-              <div class="mini-event"><div class="mini-dot" style="background:#34A853"></div><div class="mini-event-text">19:00 가족 저녁 식사</div></div>
+              <div class="p-card-label">Today</div>
+              <div class="mini-event"><div class="mini-dot" style="background:#4285F4"></div><div class="mini-event-text">14:00 Service center appt.</div></div>
+              <div class="mini-event"><div class="mini-dot" style="background:#34A853"></div><div class="mini-event-text">19:00 Family dinner</div></div>
             </div>
           </div>
           <div class="app-dock">
-            <div class="dock-item"><div class="dock-icon">🗺</div><div class="dock-label">지도</div></div>
-            <div class="dock-item"><div class="dock-icon">🎵</div><div class="dock-label">음악</div></div>
-            <div class="dock-item"><div class="dock-icon">📞</div><div class="dock-label">전화</div></div>
-            <div class="dock-item"><div class="dock-icon">⚙️</div><div class="dock-label">설정</div></div>
-            <div class="dock-item"><div class="dock-icon">🍃</div><div class="dock-label">드라이브</div></div>
-            <div class="dock-item"><div class="dock-icon">⊞</div><div class="dock-label">앱</div></div>
+            <div class="dock-item"><div class="dock-icon">🗺</div><div class="dock-label">Maps</div></div>
+            <div class="dock-item"><div class="dock-icon">🎵</div><div class="dock-label">Music</div></div>
+            <div class="dock-item"><div class="dock-icon">📞</div><div class="dock-label">Phone</div></div>
+            <div class="dock-item"><div class="dock-icon">⚙️</div><div class="dock-label">Settings</div></div>
+            <div class="dock-item"><div class="dock-icon">🍃</div><div class="dock-label">Drive</div></div>
+            <div class="dock-item"><div class="dock-icon">⊞</div><div class="dock-label">Apps</div></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3. 날씨 -->
+  <!-- 3. Weather -->
   <div class="showcase">
     <div class="showcase-text">
-      <h3>위치 기반 날씨</h3>
-      <p>GPS 또는 네트워크로 현재 위치를 감지해 온도, 체감온도, 습도, 날씨 아이콘을 실시간 표시합니다. Google Play Services 없이 Android 표준 <code>LocationManager</code>만 사용하며, <strong>Open-Meteo</strong> API를 사용하기 때문에 API Key 등록이 전혀 필요 없습니다.</p>
+      <h3>Location-Based Weather</h3>
+      <p>Detects your current location via GPS or network and shows real-time temperature, feels-like, humidity, and weather icon. Uses Android's standard <code>LocationManager</code> (no Google Play Services required) and the <strong>Open-Meteo</strong> API — completely free with no API key registration needed.</p>
       <div class="tag-list">
         <span class="tag">LocationManager (AOSP)</span>
         <span class="tag">Open-Meteo API</span>
-        <span class="tag">API Key 불필요</span>
-        <span class="tag">Play Services 불필요</span>
+        <span class="tag">No API Key</span>
+        <span class="tag">No Play Services</span>
       </div>
     </div>
     <div class="showcase-mock">
       <div class="display-mock" style="width:360px">
         <div class="weather-mock-inner">
           <div class="w-card">
-            <div class="w-label">날씨</div>
+            <div class="w-label">Weather</div>
             <div class="w-main">
               <div class="w-left">
                 <div class="w-icon-big">⛅</div>
                 <div>
                   <div class="w-temp-big">23°</div>
-                  <div class="w-desc">구름 조금</div>
-                  <div class="w-city">서울특별시</div>
+                  <div class="w-desc">Partly Cloudy</div>
+                  <div class="w-city">Seoul, Korea</div>
                 </div>
               </div>
               <div class="w-right">
                 <div class="w-meta"><span class="w-meta-icon">💧</span>61%</div>
-                <div class="w-meta"><span class="w-meta-icon">🌬</span>체감 21°</div>
+                <div class="w-meta"><span class="w-meta-icon">🌬</span>Feels 21°</div>
               </div>
             </div>
           </div>
@@ -566,15 +510,15 @@
     </div>
   </div>
 
-  <!-- 4. 앱 서랍 -->
+  <!-- 4. App Drawer -->
   <div class="showcase rev">
     <div class="showcase-text">
-      <h3>앱 서랍 + 실시간 검색</h3>
-      <p>설치된 모든 앱을 격자로 표시하고, 상단 검색창에서 앱 이름을 입력하면 즉시 필터링됩니다. 앱 설치·삭제 시 목록이 자동으로 갱신됩니다.</p>
+      <h3>App Drawer + Live Search</h3>
+      <p>All installed apps in a scrollable grid with instant search filtering at the top. The list updates automatically when apps are installed or removed.</p>
       <div class="tag-list">
         <span class="tag">LazyVerticalGrid</span>
-        <span class="tag">실시간 필터링</span>
-        <span class="tag">BroadcastReceiver 자동 갱신</span>
+        <span class="tag">Real-time Filter</span>
+        <span class="tag">BroadcastReceiver Auto-refresh</span>
       </div>
     </div>
     <div class="showcase-mock">
@@ -582,76 +526,71 @@
         <div class="drawer-mock-inner">
           <div class="drawer-search">
             <span class="search-icon">🔍</span>
-            <span class="search-placeholder">앱 검색</span>
+            <span class="search-placeholder">Search apps</span>
           </div>
           <div class="drawer-grid">
-            <div class="drawer-app"><div class="drawer-icon" style="background:#FFCD00">🗺</div><div class="drawer-name">카카오맵</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#E8002D">🧭</div><div class="drawer-name">T맵</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#1A2A1A">🎵</div><div class="drawer-name">음악</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#2A1A1A">📞</div><div class="drawer-name">전화</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#1A1A2A">🌐</div><div class="drawer-name">브라우저</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#2A2A1A">📸</div><div class="drawer-name">카메라</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#1A2A2A">💬</div><div class="drawer-name">메시지</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#2A1A2A">📧</div><div class="drawer-name">메일</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#FFCD00">🗺</div><div class="drawer-name">Kakao Maps</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#E8002D">🧭</div><div class="drawer-name">T-map</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#1A2A1A">🎵</div><div class="drawer-name">Music</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#2A1A1A">📞</div><div class="drawer-name">Phone</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#1A1A2A">🌐</div><div class="drawer-name">Browser</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#2A2A1A">📸</div><div class="drawer-name">Camera</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#1A2A2A">💬</div><div class="drawer-name">Messages</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#2A1A2A">📧</div><div class="drawer-name">Mail</div></div>
             <div class="drawer-app"><div class="drawer-icon" style="background:#1A3A2A">▶️</div><div class="drawer-name">YouTube</div></div>
-            <div class="drawer-app"><div class="drawer-icon" style="background:#03C75A">📍</div><div class="drawer-name">네이버지도</div></div>
+            <div class="drawer-app"><div class="drawer-icon" style="background:#03C75A">📍</div><div class="drawer-name">Naver Maps</div></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 5. 차량 제어 -->
-  <div class="showcase rev">
+  <!-- 5. AC Quick Control -->
+  <div class="showcase">
     <div class="showcase-text">
-      <h3>AC 퀵 컨트롤 + 창문 상태</h3>
-      <p>SidePanel에서 에어컨을 바로 켜고 끄고, 온도를 ±1°C 단위로 조절합니다. BYD DiLink SDK(BYDAutoAcDevice)를 Reflection으로 직접 호출하여 별도 앱 없이 동작하며, 4개 창문의 개방률도 실시간으로 표시합니다. SDK가 없는 차종에서는 "미지원 차종" 상태로 자동 전환됩니다.</p>
+      <h3>AC Quick Control + Window Status</h3>
+      <p>Toggle the air conditioner on/off and adjust the target temperature in ±1 °C steps directly from the SidePanel — no separate app needed. Calls the BYD DiLink SDK (BYDAutoAcDevice) via Reflection. Real-time window opening percentage for all four windows is also shown. Falls back to "unsupported" state gracefully when the SDK is unavailable.</p>
       <div class="tag-list">
         <span class="tag">BYDAutoAcDevice</span>
         <span class="tag">BYDAutoBodyworkDevice</span>
-        <span class="tag">ON/OFF 토글</span>
-        <span class="tag">온도 ±1°C</span>
-        <span class="tag">창문 개방률</span>
+        <span class="tag">ON/OFF Toggle</span>
+        <span class="tag">±1 °C Control</span>
+        <span class="tag">Window % Status</span>
       </div>
     </div>
     <div class="showcase-mock">
       <div class="display-mock" style="width:260px">
         <div style="padding:16px;background:#080A10;font-size:10px">
-          <!-- VehicleControlCard mock -->
           <div style="background:#12151E;border-radius:10px;padding:12px">
             <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
               <span style="color:#00C8F0;font-size:14px">❄</span>
-              <span style="color:#8B93B0;font-size:10px">차량 제어</span>
+              <span style="color:#8B93B0;font-size:10px">Vehicle Control</span>
             </div>
-            <!-- AC 스위치 -->
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-              <span style="color:#EEF2FF;font-size:12px">에어컨 ON</span>
+              <span style="color:#EEF2FF;font-size:12px">A/C ON</span>
               <div style="width:36px;height:20px;background:#0090B0;border-radius:10px;position:relative">
                 <div style="width:16px;height:16px;background:#00C8F0;border-radius:50%;position:absolute;right:2px;top:2px"></div>
               </div>
             </div>
-            <!-- 온도 -->
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-              <span style="color:#8B93B0;font-size:10px">목표 온도</span>
+              <span style="color:#8B93B0;font-size:10px">Target Temp</span>
               <div style="display:flex;align-items:center;gap:8px">
                 <span style="color:#00C8F0;font-size:14px">−</span>
                 <span style="color:#EEF2FF;font-size:13px">22°C</span>
                 <span style="color:#00C8F0;font-size:14px">+</span>
               </div>
             </div>
-            <!-- 풍량 -->
             <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-              <span style="color:#8B93B0;font-size:10px">풍량</span>
-              <span style="color:#EEF2FF;font-size:10px">3단</span>
+              <span style="color:#8B93B0;font-size:10px">Fan Speed</span>
+              <span style="color:#EEF2FF;font-size:10px">Level 3</span>
             </div>
-            <!-- 창문 -->
             <div style="border-top:1px solid #232840;padding-top:8px">
               <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-                <span style="color:#8B93B0;font-size:10px">운전석 창</span>
+                <span style="color:#8B93B0;font-size:10px">Driver window</span>
                 <span style="color:#00C8F0;font-size:10px">30%</span>
               </div>
               <div style="display:flex;justify-content:space-between">
-                <span style="color:#8B93B0;font-size:10px">조수석 창</span>
+                <span style="color:#8B93B0;font-size:10px">Passenger window</span>
                 <span style="color:#00C8F0;font-size:10px">15%</span>
               </div>
             </div>
@@ -661,53 +600,51 @@
     </div>
   </div>
 
-  <!-- 6. 에코 드라이브 코치 -->
-  <div class="showcase">
+  <!-- 6. Eco Drive Coach -->
+  <div class="showcase rev">
     <div class="showcase-text">
-      <h3>에코 드라이브 코치</h3>
-      <p>D기어 진입 시 주행 세션이 자동 시작됩니다. 가속 페달 깊이 ≥80% 시 급가속, 브레이크 깊이 ≥70% 시 급제동으로 판단해 에코 점수(0~100점)에 반영합니다. 회생제동은 +점수를 얻습니다. 급가속/급제동이 감지되면 화면 테두리가 주황/빨강으로 순간 플래시하여 즉각적인 피드백을 제공하고, P기어 진입 시 세션 결과 팝업이 자동 표시됩니다. 세션 기록은 Room DB에 저장됩니다.</p>
+      <h3>Eco Drive Coach</h3>
+      <p>A driving session starts automatically when you shift into Drive (D gear) and ends when you park (P gear). Harsh acceleration (pedal ≥ 80%) and harsh braking (≥ 70%) deduct points from your eco score; regenerative braking earns points back. Instant flash feedback — orange for harsh acceleration, red for harsh braking — keeps you aware in real time. Session results pop up automatically when you park. All session history is saved to a local Room database.</p>
       <div class="tag-list">
         <span class="tag">BYDAutoSpeedDevice</span>
         <span class="tag">BYDAutoEnergyDevice</span>
         <span class="tag">BYDAutoGearboxDevice</span>
         <span class="tag">Room DB</span>
-        <span class="tag">에코 점수 0–100</span>
-        <span class="tag">화면 플래시 피드백</span>
+        <span class="tag">Eco Score 0–100</span>
+        <span class="tag">Flash Feedback</span>
       </div>
     </div>
     <div class="showcase-mock">
       <div class="display-mock" style="width:360px">
         <div style="padding:16px;background:#080A10;font-size:10px">
-          <!-- DriveCoach 현재 세션 카드 -->
           <div style="background:#1A1E2A;border-radius:10px;padding:14px;margin-bottom:10px">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-              <span style="color:#00C8F0;font-size:10px;font-weight:600">주행 중</span>
+              <span style="color:#00C8F0;font-size:10px;font-weight:600">Driving</span>
               <span style="color:#8B93B0;font-size:10px">23:14</span>
             </div>
             <div style="text-align:center;margin-bottom:14px">
               <span style="font-size:52px;font-weight:200;color:#4CAF50">87</span>
-              <span style="font-size:18px;color:#4CAF50"> 점</span>
+              <span style="font-size:18px;color:#4CAF50"> pts</span>
             </div>
             <div style="display:flex;justify-content:space-evenly">
               <div style="text-align:center">
-                <div style="font-size:15px;font-weight:600;color:#FF6F00">1회</div>
-                <div style="font-size:9px;color:#8B93B0">급가속</div>
+                <div style="font-size:15px;font-weight:600;color:#FF6F00">1×</div>
+                <div style="font-size:9px;color:#8B93B0">Hard Accel</div>
               </div>
               <div style="text-align:center">
-                <div style="font-size:15px;font-weight:600;color:#D32F2F">0회</div>
-                <div style="font-size:9px;color:#8B93B0">급제동</div>
+                <div style="font-size:15px;font-weight:600;color:#D32F2F">0×</div>
+                <div style="font-size:9px;color:#8B93B0">Hard Brake</div>
               </div>
               <div style="text-align:center">
-                <div style="font-size:15px;font-weight:600;color:#4CAF50">8회</div>
-                <div style="font-size:9px;color:#8B93B0">회생</div>
+                <div style="font-size:15px;font-weight:600;color:#4CAF50">8×</div>
+                <div style="font-size:9px;color:#8B93B0">Regen</div>
               </div>
             </div>
           </div>
-          <!-- EcoScoreWidget -->
           <div style="display:flex;align-items:center;gap:14px;background:#1A1E2A;border-radius:10px;padding:10px 14px">
             <div style="text-align:center">
               <div style="font-size:16px;color:#4CAF50;font-weight:600">87</div>
-              <div style="font-size:8px;color:#8B93B0">점</div>
+              <div style="font-size:8px;color:#8B93B0">pts</div>
             </div>
             <div style="text-align:center">
               <div style="font-size:14px;color:#EEF2FF;font-weight:600">14.2</div>
@@ -720,42 +657,40 @@
     </div>
   </div>
 
-  <!-- 7. 테마 전환 -->
-  <div class="showcase rev">
+  <!-- 7. Theme Switching -->
+  <div class="showcase">
     <div class="showcase-text">
-      <h3>Dark / Darker 테마 전환</h3>
-      <p>SidePanel 상단의 밝기 버튼 한 번으로 기본 다크 테마(#0A0C12)와 완전 블랙 기반 Darker 테마(#000000) 사이를 전환할 수 있습니다. 선택한 테마는 DataStore에 저장되어 재실행 후에도 유지됩니다. 탭 전환은 방향 기반 슬라이드 애니메이션(220ms)으로 자연스럽게 전환됩니다.</p>
+      <h3>Dark / Darker Theme</h3>
+      <p>One tap on the brightness icon in the SidePanel switches between the standard Dark theme (#0A0C12) and the full-black Darker theme (#000000). Your preference is saved to DataStore and persists across restarts. Tab transitions use a direction-aware slide animation (220 ms) for a polished feel.</p>
       <div class="tag-list">
         <span class="tag">ThemeMode.DARK</span>
         <span class="tag">ThemeMode.DARKER</span>
-        <span class="tag">DataStore 저장</span>
-        <span class="tag">슬라이드 애니메이션 220ms</span>
-        <span class="tag">48dp 터치 타겟</span>
+        <span class="tag">DataStore Persistence</span>
+        <span class="tag">Slide Animation 220ms</span>
+        <span class="tag">48dp Touch Targets</span>
       </div>
     </div>
     <div class="showcase-mock">
       <div style="display:flex;gap:16px;align-items:flex-start">
-        <!-- Dark 테마 -->
         <div>
           <div style="font-size:11px;color:#8B93B0;text-align:center;margin-bottom:6px">Dark</div>
           <div class="display-mock" style="width:160px">
             <div style="padding:12px;background:#0A0C12;height:120px;display:flex;flex-direction:column;gap:6px">
               <div style="font-size:22px;font-weight:200;color:#00C8F0">14:32</div>
               <div style="background:#1A1E2A;border-radius:6px;padding:6px;flex:1">
-                <div style="font-size:7px;color:#8B93B0;margin-bottom:4px">날씨</div>
+                <div style="font-size:7px;color:#8B93B0;margin-bottom:4px">Weather</div>
                 <div style="font-size:18px;color:#EEF2FF">23°</div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Darker 테마 -->
         <div>
           <div style="font-size:11px;color:#8B93B0;text-align:center;margin-bottom:6px">Darker</div>
           <div class="display-mock" style="width:160px">
             <div style="padding:12px;background:#000000;height:120px;display:flex;flex-direction:column;gap:6px">
               <div style="font-size:22px;font-weight:200;color:#00C8F0">14:32</div>
               <div style="background:#0F1118;border-radius:6px;padding:6px;flex:1">
-                <div style="font-size:7px;color:#8B93B0;margin-bottom:4px">날씨</div>
+                <div style="font-size:7px;color:#8B93B0;margin-bottom:4px">Weather</div>
                 <div style="font-size:18px;color:#EEF2FF">23°</div>
               </div>
             </div>
@@ -765,55 +700,39 @@
     </div>
   </div>
 
-  <!-- 네비게이션 임베딩 -->
-  <div class="showcase">
+  <!-- Navigation App Integration -->
+  <div class="showcase rev">
     <div class="showcase-text">
-      <h3>네비게이션 앱 연동 + 오버레이 모드</h3>
-      <p>카카오맵, T맵, 네이버지도, 구글맵 중 기기에 설치된 앱을 Landscape 홈 화면에서 바로 선택해 연결합니다. 선택된 앱은 홈 화면 메인 영역에 표시되며, 탭 한 번으로 즉시 실행됩니다. <strong>오버레이 모드</strong>를 활성화하면 네비게이션 앱 위에 반투명 독이 떠서 홈 복귀·앱 전환이 가능합니다.</p>
+      <h3>Navigation App Integration + Overlay Mode</h3>
+      <p>Select from Kakao Maps, T-map, Naver Maps, or Google Maps — whichever is installed — and launch it directly from the landscape home screen. Enable <strong>Overlay Mode</strong> to float a translucent dock on top of the navigation app, so you can return home or switch apps without interrupting your route.</p>
       <div class="tag-list">
-        <span class="tag">카카오맵</span>
-        <span class="tag">T맵</span>
-        <span class="tag">네이버지도</span>
-        <span class="tag">구글맵</span>
-        <span class="tag">오버레이 독</span>
-        <span class="tag">VirtualDisplay 임베딩</span>
-        <span class="tag">DataStore 선택 저장</span>
+        <span class="tag">Kakao Maps</span>
+        <span class="tag">T-map</span>
+        <span class="tag">Naver Maps</span>
+        <span class="tag">Google Maps</span>
+        <span class="tag">Overlay Dock</span>
+        <span class="tag">DataStore Persistence</span>
       </div>
     </div>
     <div class="showcase-mock">
       <div class="display-mock" style="width:360px">
         <div class="navi-select-inner">
-          <div class="navi-select-header">
-            <span>내비게이션</span>
-          </div>
+          <div class="navi-select-header"><span>Navigation</span></div>
           <div class="navi-select-grid">
-            <div class="navi-select-card">
-              <div class="navi-select-icon" style="background:#FFCD00">🗺</div>
-              <div class="navi-select-name">카카오맵</div>
-            </div>
-            <div class="navi-select-card">
-              <div class="navi-select-icon" style="background:#E8002D">🧭</div>
-              <div class="navi-select-name">T맵</div>
-            </div>
-            <div class="navi-select-card">
-              <div class="navi-select-icon" style="background:#03C75A">📍</div>
-              <div class="navi-select-name">네이버지도</div>
-            </div>
-            <div class="navi-select-card">
-              <div class="navi-select-icon" style="background:#4285F4">🌐</div>
-              <div class="navi-select-name">구글맵</div>
-            </div>
+            <div class="navi-select-card"><div class="navi-select-icon" style="background:#FFCD00">🗺</div><div class="navi-select-name">Kakao Maps</div></div>
+            <div class="navi-select-card"><div class="navi-select-icon" style="background:#E8002D">🧭</div><div class="navi-select-name">T-map</div></div>
+            <div class="navi-select-card"><div class="navi-select-icon" style="background:#03C75A">📍</div><div class="navi-select-name">Naver Maps</div></div>
+            <div class="navi-select-card"><div class="navi-select-icon" style="background:#4285F4">🌐</div><div class="navi-select-name">Google Maps</div></div>
           </div>
-          <!-- 선택 후 상태 -->
           <div style="margin-top:12px;background:#1A1E2A;border:1px solid #00C8F0;border-radius:10px;padding:14px 12px;display:flex;align-items:center;justify-content:space-between;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:38px;height:38px;border-radius:9px;background:#FFCD00;display:flex;align-items:center;justify-content:center;font-size:22px">🗺</div>
               <div>
-                <div style="font-size:13px;font-weight:500;color:#EEF2FF">카카오맵</div>
-                <div style="font-size:10px;color:#8B93B0">탭하여 실행</div>
+                <div style="font-size:13px;font-weight:500;color:#EEF2FF">Kakao Maps</div>
+                <div style="font-size:10px;color:#8B93B0">Tap to launch</div>
               </div>
             </div>
-            <div style="font-size:11px;color:#00C8F0">변경</div>
+            <div style="font-size:11px;color:#00C8F0">Change</div>
           </div>
         </div>
       </div>
@@ -826,34 +745,34 @@
 <!-- DEVICES -->
 <div class="section" id="devices">
   <div class="sec-label">Compatibility</div>
-  <div class="sec-title">지원 기기</div>
+  <div class="sec-title">Supported Vehicles</div>
   <div class="device-grid">
     <div class="device-card">
       <div class="device-emoji">🚗</div>
       <div class="device-name">Atto 3</div>
-      <div class="device-meta">12.8" 회전 디스플레이</div>
+      <div class="device-meta">12.8" rotating display</div>
       <span class="device-tag">DiLink 3.0</span>
     </div>
     <div class="device-card">
       <div class="device-emoji">🚗</div>
       <div class="device-name">Seal</div>
-      <div class="device-meta">15.6" 회전 디스플레이</div>
+      <div class="device-meta">15.6" rotating display</div>
       <span class="device-tag">DiLink 5.0</span>
     </div>
     <div class="device-card">
       <div class="device-emoji">🚙</div>
       <div class="device-name">Seal U DM-i</div>
-      <div class="device-meta">10.25" 고정 디스플레이</div>
+      <div class="device-meta">10.25" fixed display</div>
       <span class="device-tag">DiLink 5.0</span>
     </div>
     <div class="device-card">
       <div class="device-emoji">🚗</div>
       <div class="device-name">Dolphin</div>
-      <div class="device-meta">12.8" 회전 디스플레이</div>
+      <div class="device-meta">12.8" rotating display</div>
       <span class="device-tag">DiLink 3.0</span>
     </div>
   </div>
-  <p style="margin-top:20px;font-size:13px;color:var(--dim)">* Android 9 (API 28) 이상의 DiLink 시스템 전반에서 동작합니다.</p>
+  <p style="margin-top:20px;font-size:13px;color:var(--dim)">* Compatible with any DiLink system running Android 9 (API 28) or higher.</p>
 </div>
 
 <hr class="divider" />
@@ -861,34 +780,34 @@
 <!-- INSTALL -->
 <div class="section" id="install">
   <div class="sec-label">Installation</div>
-  <div class="sec-title">설치 방법</div>
+  <div class="sec-title">Up and running in four steps</div>
   <div class="steps">
     <div class="step">
       <div class="step-num">1</div>
       <div>
-        <h3>APK 다운로드</h3>
-        <p><a href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">최신 릴리즈</a>에서 <code>app-release.apk</code>를 다운로드합니다.</p>
+        <h3>Download the APK</h3>
+        <p>Get <code>app-release.apk</code> from the <a href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">latest release</a>.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">2</div>
       <div>
-        <h3>알 수 없는 출처 허용</h3>
-        <p>인포테인먼트에서 <strong>설정 → 보안 → 알 수 없는 출처</strong>를 허용합니다.</p>
+        <h3>Allow Unknown Sources</h3>
+        <p>On the infotainment system, go to <strong>Settings → Security → Unknown Sources</strong> and enable it.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">3</div>
       <div>
-        <h3>APK 설치</h3>
-        <p>파일 매니저에서 다운로드한 APK 파일을 열어 설치합니다.</p>
+        <h3>Install the APK</h3>
+        <p>Open the downloaded file in the file manager and follow the install prompts.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-num">4</div>
       <div>
-        <h3>기본 런처 설정</h3>
-        <p>홈 버튼을 누르면 런처 선택 팝업이 나타납니다. <strong>BYD Launcher</strong>를 선택하고 <strong>항상</strong>을 탭합니다. 또는 앱 내 <strong>기본 홈 앱으로 설정</strong> 버튼을 사용하세요.</p>
+        <h3>Set as Default Launcher</h3>
+        <p>Press the Home button — a launcher picker will appear. Select <strong>BYD Launcher</strong> and tap <strong>Always</strong>. You can also use the in-app <strong>Set as Default Home</strong> button.</p>
       </div>
     </div>
   </div>
@@ -896,11 +815,11 @@
 
 <!-- CTA -->
 <div class="cta-block">
-  <h2>지금 바로 시작해보세요</h2>
-  <p>오픈소스로 누구나 사용하고 기여할 수 있습니다.</p>
+  <h2>Ready to get started?</h2>
+  <p>Free and open source — use it, fork it, contribute.</p>
   <div class="btn-row">
-    <a class="btn btn-p" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">↓ APK 다운로드</a>
-    <a class="btn btn-s" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub 보기</a>
+    <a class="btn btn-p" href="https://github.com/GeyuongGongPark/BYDLauncher/releases/latest" target="_blank" rel="noopener">↓ Download APK</a>
+    <a class="btn btn-s" href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">View on GitHub</a>
   </div>
 </div>
 
@@ -908,9 +827,9 @@
 <footer>
   <div class="footer-links">
     <a href="https://github.com/GeyuongGongPark/BYDLauncher" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://github.com/GeyuongGongPark/BYDLauncher/releases" target="_blank" rel="noopener">릴리즈</a>
-    <a href="https://github.com/GeyuongGongPark/BYDLauncher/issues" target="_blank" rel="noopener">버그 신고</a>
-    <a href="privacy.html">개인정보 처리방침</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/releases" target="_blank" rel="noopener">Releases</a>
+    <a href="https://github.com/GeyuongGongPark/BYDLauncher/issues" target="_blank" rel="noopener">Report a Bug</a>
+    <a href="privacy-en.html">Privacy Policy</a>
   </div>
   <p class="footer-copy">© 2025 BYD Launcher · MIT License</p>
 </footer>
