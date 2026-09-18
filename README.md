@@ -11,12 +11,13 @@ BYD 차량 인포테인먼트(DiLink 3.0 / 5.0, Android 9+)용 홈 런처
 
 ## 지원 기기
 
-| 모델 | 디스플레이 | DiLink |
-|------|-----------|--------|
-| Atto 3 | 12.8" 회전 | 3.0 |
-| Seal | 15.6" 회전 | 5.0 |
-| Seal U DM-i | 10.25" | 5.0 |
-| Dolphin | 12.8" | 3.0 |
+| 모델 | 디스플레이 | DiLink | 비고 |
+|------|-----------|--------|------|
+| Atto 3 | 12.8" 회전 | 3.0 | |
+| Seal | 15.6" 회전 | 5.0 | |
+| Seal U DM-i | 10.25" | 5.0 | |
+| Dolphin | 12.8" | 3.0 | |
+| Sea Lion 7 Plus (씨라이언 7+) | — | 5.0 | 메모리 시트 전용 |
 
 ## 주요 기능
 
@@ -34,6 +35,7 @@ BYD 차량 인포테인먼트(DiLink 3.0 / 5.0, Android 9+)용 홈 런처
 - **창문 개방률 표시** — 4개 창문 실시간 개방률 (BYDAutoBodyworkDevice)
 - **에코 드라이브 코치** — D기어 진입 시 세션 자동 시작, 급가속/급제동/회생제동 감지, 에코 점수(0~100)
 - **주행 세션 기록** — Room DB에 세션별 기록 저장, P기어 진입 시 결과 팝업
+- **메모리 시트** — 드라이빙 포지션 저장, P기어 시 시트 최대 뒤로(하차 편의), D기어 시 자동 복원 *(씨라이언 7 플러스 전용)*
 - **테마 전환** — Dark / Darker(완전 블랙) 두 가지 팔레트, DataStore 저장
 - **전체화면** — 시스템바 자동 숨김
 
@@ -90,7 +92,8 @@ git push origin v1.1.0
 - **저장**: DataStore Preferences + Room 2.6.1 (주행 세션)
 - **네트워크**: OkHttp + Coil
 - **날씨**: Open-Meteo (무료, API Key 불필요)
-- **차량 SDK**: BYD DiLink Reflection (BYDAutoAcDevice, BYDAutoBodyworkDevice, BYDAutoSpeedDevice, BYDAutoEnergyDevice, BYDAutoGearboxDevice)
+- **차량 SDK**: BYD DiLink Reflection (BYDAutoAcDevice, BYDAutoBodyworkDevice, BYDAutoSpeedDevice, BYDAutoEnergyDevice, BYDAutoGearboxDevice, BYDAutoSeatDevice¹)
+- ¹ 씨라이언 7 플러스(DiLink 5.0) 전용. 실차에서 logcat `SeatController` 태그로 API 탐색 결과 확인 가능.
 
 ## 라이선스
 

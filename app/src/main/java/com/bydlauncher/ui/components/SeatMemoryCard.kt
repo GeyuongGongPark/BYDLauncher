@@ -84,7 +84,7 @@ fun SeatMemoryCard(
         // 미지원 차종: 간단히 표시 후 종료
         if (seatState == SeatSdkState.UNAVAILABLE) {
             Text(
-                "시트 제어 SDK가 이 기기에서 지원되지 않습니다.",
+                "씨라이언 7 플러스(DiLink 5.0) 전용 기능입니다.",
                 color = TextDisabled,
                 fontSize = 11.sp,
             )
