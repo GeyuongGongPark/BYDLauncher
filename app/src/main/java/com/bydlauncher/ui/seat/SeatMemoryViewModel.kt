@@ -3,7 +3,6 @@ package com.bydlauncher.ui.seat
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,38 +35,33 @@ class SeatMemoryViewModel @Inject constructor(
     private val _autoMode = MutableStateFlow(false)
     val autoMode: StateFlow<Boolean> = _autoMode.asStateFlow()
 
-    private val _seatState = MutableStateFlow(SeatSdkState.LOADING)
-    val seatState: StateFlow<SeatSdkState> = _seatState.asStateFlow()
+    /** SDK 초기화 완료 여부 */
+    private val _ready = MutableStateFlow(false)
+    val ready: StateFlow<Boolean> = _ready.asStateFlow()
 
-    /** 저장 작업 중 여부 (UI 피드백용) */
-    private val _isSaving = MutableStateFlow(false)
-    val isSaving: StateFlow<Boolean> = _isSaving.asStateFlow()
+    /** SDK 사용 가능 여부 (씨라이언 7 플러스) */
+    val isAvailable: Boolean get() = seatController.isAvailable
+
+    /** 슬롯 작업 진행 중 여부 (버튼 비활성화용) */
+    private val _busy = MutableStateFlow(false)
+    val busy: StateFlow<Boolean> = _busy.asStateFlow()
 
     private var lastGear = "UNKNOWN"
-    private var sessionRestored = false
-
-    enum class SeatSdkState {
-        LOADING,       // 초기화 중
-        AVAILABLE,     // SDK + setter 모두 사용 가능 → 실제 제어 가능
-        READ_ONLY,     // SDK는 있으나 setter 미발견
-        UNAVAILABLE,   // SDK 클래스 자체 없음
-    }
 
     companion object {
-        private val FORE_AFT_KEY = intPreferencesKey("seat_fore_aft")
-        private val HAS_PRESET_KEY = booleanPreferencesKey("seat_has_preset")
+        private val HAS_DRIVING_KEY = booleanPreferencesKey("seat_has_driving")
+        private val HAS_ENTRY_KEY = booleanPreferencesKey("seat_has_entry")
         private val AUTO_MODE_KEY = booleanPreferencesKey("seat_auto_mode")
+
+        const val DRIVING_SLOT = 1
+        const val ENTRY_SLOT = 2
     }
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             loadSettings()
             seatController.connect()
-            _seatState.value = when {
-                seatController.isAvailable -> SeatSdkState.AVAILABLE
-                seatController.isClassFound -> SeatSdkState.READ_ONLY
-                else -> SeatSdkState.UNAVAILABLE
-            }
+            _ready.value = true
         }
         viewModelScope.launch {
             vehicleViewModel.status.collect { status ->
@@ -78,51 +72,38 @@ class SeatMemoryViewModel @Inject constructor(
     }
 
     /**
-     * 기어 변화 처리.
-     * - P 진입: 하차 편의를 위해 시트 최대 뒤로
-     * - P→D 첫 진입: 저장된 드라이빙 포지션 복원
-     * 안전: 시트 이동은 P기어 상태에서만 실행 (D 복원도 직전이 P였으므로 OK)
+     * 기어 변화에 따른 자동 시트 제어.
+     * - P 진입: 하차 편의 포지션(슬롯 2) 복원
+     * - P→D: 드라이빙 포지션(슬롯 1) 복원
+     * 안전: 시트 이동은 P기어 상태에서만 실행 (D 복원도 바로 직전 P였으므로 OK)
      */
     private fun handleGearChange(old: String, new: String) {
-        if (!_autoMode.value || _seatState.value != SeatSdkState.AVAILABLE) return
+        if (!_autoMode.value || !seatController.isAvailable) return
 
-        if (new == "PARK" && old != "PARK") {
-            // 하차 준비: 시트 최대 뒤로 (하차 후 시동 꺼질 것으로 간주)
-            sessionRestored = false
+        if (new == "PARK" && old != "PARK" && _preset.value.hasEntrySlot) {
             viewModelScope.launch(Dispatchers.IO) {
-                seatController.moveToEntryPosition()
+                seatController.recallSlot(ENTRY_SLOT)
             }
         }
 
-        if (new == "DRIVE" && old == "PARK" && !sessionRestored) {
-            // 운전 시작: 저장된 포지션으로 복원
-            sessionRestored = true
-            val p = _preset.value
-            if (p.hasPreset) {
-                viewModelScope.launch(Dispatchers.IO) {
-                    seatController.restorePosition(p.foreAft)
-                }
+        if (new == "DRIVE" && old == "PARK" && _preset.value.hasDrivingSlot) {
+            viewModelScope.launch(Dispatchers.IO) {
+                seatController.recallSlot(DRIVING_SLOT)
             }
         }
     }
 
-    /**
-     * 현재 시트 포지션을 드라이빙 포지션으로 저장.
-     * SDK가 없으면 사용자가 직접 입력한 값(-1 = 미입력)을 저장.
-     */
-    fun saveDrivingPosition() {
-        _isSaving.value = true
-        viewModelScope.launch(Dispatchers.IO) {
-            val foreAft = seatController.getCurrentForeAft()
-            val preset = SeatPreset(foreAft = foreAft, hasPreset = foreAft >= 0)
-            _preset.value = preset
-            context.seatDataStore.edit {
-                it[FORE_AFT_KEY] = foreAft
-                it[HAS_PRESET_KEY] = foreAft >= 0
-            }
-            _isSaving.value = false
-        }
-    }
+    /** 현재 시트 포지션을 드라이빙 슬롯(1)에 저장 */
+    fun saveDrivingSlot() = saveSlot(DRIVING_SLOT)
+
+    /** 현재 시트 포지션을 하차 슬롯(2)에 저장 */
+    fun saveEntrySlot() = saveSlot(ENTRY_SLOT)
+
+    /** 드라이빙 슬롯(1)으로 수동 복원 */
+    fun recallDrivingSlot() = recallSlot(DRIVING_SLOT)
+
+    /** 하차 슬롯(2)으로 수동 복원 */
+    fun recallEntrySlot() = recallSlot(ENTRY_SLOT)
 
     fun toggleAutoMode() {
         val new = !_autoMode.value
@@ -132,11 +113,40 @@ class SeatMemoryViewModel @Inject constructor(
         }
     }
 
+    private fun saveSlot(slot: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _busy.value = true
+            val ok = seatController.saveSlot(slot)
+            if (ok) {
+                val newPreset = when (slot) {
+                    DRIVING_SLOT -> _preset.value.copy(hasDrivingSlot = true)
+                    ENTRY_SLOT -> _preset.value.copy(hasEntrySlot = true)
+                    else -> _preset.value
+                }
+                _preset.value = newPreset
+                context.seatDataStore.edit {
+                    it[HAS_DRIVING_KEY] = newPreset.hasDrivingSlot
+                    it[HAS_ENTRY_KEY] = newPreset.hasEntrySlot
+                }
+            }
+            _busy.value = false
+        }
+    }
+
+    private fun recallSlot(slot: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _busy.value = true
+            seatController.recallSlot(slot)
+            _busy.value = false
+        }
+    }
+
     private suspend fun loadSettings() {
         val prefs = context.seatDataStore.data.first()
         _autoMode.value = prefs[AUTO_MODE_KEY] ?: false
-        val foreAft = prefs[FORE_AFT_KEY] ?: -1
-        val hasPreset = prefs[HAS_PRESET_KEY] ?: false
-        _preset.value = SeatPreset(foreAft = foreAft, hasPreset = hasPreset)
+        _preset.value = SeatPreset(
+            hasDrivingSlot = prefs[HAS_DRIVING_KEY] ?: false,
+            hasEntrySlot = prefs[HAS_ENTRY_KEY] ?: false,
+        )
     }
 }

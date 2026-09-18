@@ -15,12 +15,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AirlineSeatReclineExtra
 import androidx.compose.material.icons.filled.BookmarkAdd
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.filled.RestorePage
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bydlauncher.ui.seat.SeatMemoryViewModel
-import com.bydlauncher.ui.seat.SeatMemoryViewModel.SeatSdkState
 import com.bydlauncher.ui.theme.AccentCyan
 import com.bydlauncher.ui.theme.AccentCyanDim
 import com.bydlauncher.ui.theme.BackgroundSurface
@@ -46,8 +45,10 @@ fun SeatMemoryCard(
 ) {
     val preset by viewModel.preset.collectAsState()
     val autoMode by viewModel.autoMode.collectAsState()
-    val seatState by viewModel.seatState.collectAsState()
-    val isSaving by viewModel.isSaving.collectAsState()
+    val ready by viewModel.ready.collectAsState()
+    val busy by viewModel.busy.collectAsState()
+
+    val sdkAvailable = ready && viewModel.isAvailable
 
     Column(
         modifier = modifier
@@ -61,28 +62,31 @@ fun SeatMemoryCard(
             Icon(
                 imageVector = Icons.Default.AirlineSeatReclineExtra,
                 contentDescription = null,
-                tint = if (seatState == SeatSdkState.AVAILABLE) AccentCyan else TextDisabled,
+                tint = if (sdkAvailable) AccentCyan else TextDisabled,
                 modifier = Modifier.size(16.dp),
             )
             Spacer(Modifier.width(6.dp))
             Text("메모리 시트", color = TextSecondary, fontSize = 12.sp)
-
             Spacer(Modifier.weight(1f))
-
-            // SDK 상태 뱃지
-            val (badgeText, badgeColor) = when (seatState) {
-                SeatSdkState.LOADING -> "초기화 중" to TextDisabled
-                SeatSdkState.AVAILABLE -> "사용 가능" to AccentCyan
-                SeatSdkState.READ_ONLY -> "읽기 전용" to TextSecondary
-                SeatSdkState.UNAVAILABLE -> "미지원" to TextDisabled
-            }
-            Text(badgeText, color = badgeColor, fontSize = 10.sp)
+            Text(
+                text = when {
+                    !ready -> "초기화 중"
+                    sdkAvailable -> "M1 / M2"
+                    else -> "미지원"
+                },
+                color = if (sdkAvailable) AccentCyan else TextDisabled,
+                fontSize = 10.sp,
+            )
         }
 
         Spacer(Modifier.height(8.dp))
 
-        // 미지원 차종: 간단히 표시 후 종료
-        if (seatState == SeatSdkState.UNAVAILABLE) {
+        if (!ready) {
+            Text("초기화 중...", color = TextDisabled, fontSize = 11.sp)
+            return@Column
+        }
+
+        if (!sdkAvailable) {
             Text(
                 "씨라이언 7 플러스(DiLink 5.0) 전용 기능입니다.",
                 color = TextDisabled,
@@ -91,75 +95,99 @@ fun SeatMemoryCard(
             return@Column
         }
 
-        // 저장된 드라이빙 포지션
+        // 슬롯 1: 드라이빙 포지션
+        SlotRow(
+            label = "M1  드라이빙",
+            saved = preset.hasDrivingSlot,
+            busy = busy,
+            onSave = viewModel::saveDrivingSlot,
+            onRecall = viewModel::recallDrivingSlot,
+        )
+
+        Spacer(Modifier.height(6.dp))
+
+        // 슬롯 2: 하차 편의 포지션
+        SlotRow(
+            label = "M2  하차 편의",
+            saved = preset.hasEntrySlot,
+            busy = busy,
+            onSave = viewModel::saveEntrySlot,
+            onRecall = viewModel::recallEntrySlot,
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        // 자동 제어 토글
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text("드라이빙 포지션", color = TextSecondary, fontSize = 11.sp)
-            Text(
-                text = if (preset.hasPreset) "앞뒤 ${100 - preset.foreAft}%" else "미설정",
-                color = if (preset.hasPreset) TextPrimary else TextDisabled,
-                fontSize = 11.sp,
+            Column {
+                Text("자동 제어", color = TextSecondary, fontSize = 11.sp)
+                Text(
+                    text = if (autoMode) "P→M2, D→M1" else "수동",
+                    color = TextDisabled,
+                    fontSize = 10.sp,
+                )
+            }
+            Switch(
+                checked = autoMode,
+                onCheckedChange = { viewModel.toggleAutoMode() },
+                enabled = preset.hasDrivingSlot || preset.hasEntrySlot,
+                colors = SwitchDefaults.colors(
+                    checkedThumbColor = AccentCyan,
+                    checkedTrackColor = AccentCyanDim,
+                ),
+                modifier = Modifier.defaultMinSize(minHeight = 48.dp),
             )
         }
+    }
+}
 
-        Spacer(Modifier.height(8.dp))
-
-        // [현재 위치 저장] 버튼
-        Button(
-            onClick = viewModel::saveDrivingPosition,
-            enabled = seatState != SeatSdkState.LOADING && !isSaving,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = AccentCyanDim,
-                contentColor = TextPrimary,
-                disabledContainerColor = BackgroundSurface,
-                disabledContentColor = TextDisabled,
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 40.dp),
+@Composable
+private fun SlotRow(
+    label: String,
+    saved: Boolean,
+    busy: Boolean,
+    onSave: () -> Unit,
+    onRecall: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = label,
+            color = if (saved) TextPrimary else TextSecondary,
+            fontSize = 11.sp,
+            modifier = Modifier.weight(1f),
+        )
+        // 저장
+        TextButton(
+            onClick = onSave,
+            enabled = !busy,
+            modifier = Modifier.defaultMinSize(minWidth = 48.dp, minHeight = 36.dp),
         ) {
             Icon(
                 Icons.Default.BookmarkAdd,
-                contentDescription = null,
+                contentDescription = "저장",
+                tint = if (busy) TextDisabled else AccentCyan,
                 modifier = Modifier.size(14.dp),
             )
-            Spacer(Modifier.width(6.dp))
-            Text(
-                text = if (isSaving) "저장 중..." else "현재 위치 저장",
-                fontSize = 12.sp,
-            )
         }
-
-        // 자동 제어 토글 (SDK AVAILABLE 상태에서만)
-        if (seatState == SeatSdkState.AVAILABLE) {
-            Spacer(Modifier.height(4.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column {
-                    Text("자동 제어", color = TextSecondary, fontSize = 11.sp)
-                    Text(
-                        text = if (autoMode) "P기어→뒤로, D기어→복원" else "수동 모드",
-                        color = TextDisabled,
-                        fontSize = 10.sp,
-                    )
-                }
-                Switch(
-                    checked = autoMode,
-                    onCheckedChange = { viewModel.toggleAutoMode() },
-                    enabled = preset.hasPreset,
-                    colors = SwitchDefaults.colors(
-                        checkedThumbColor = AccentCyan,
-                        checkedTrackColor = AccentCyanDim,
-                    ),
-                    modifier = Modifier.defaultMinSize(minHeight = 48.dp),
-                )
-            }
+        // 복원 (저장된 경우에만 활성화)
+        TextButton(
+            onClick = onRecall,
+            enabled = saved && !busy,
+            modifier = Modifier.defaultMinSize(minWidth = 48.dp, minHeight = 36.dp),
+        ) {
+            Icon(
+                Icons.Default.RestorePage,
+                contentDescription = "복원",
+                tint = if (saved && !busy) TextPrimary else TextDisabled,
+                modifier = Modifier.size(14.dp),
+            )
         }
     }
 }
