@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bydlauncher.camping.sdk.ChargingReader
 import com.bydlauncher.camping.sdk.GearReader
 import com.bydlauncher.domain.vehicle.VehicleStatus
+import com.bydlauncher.domain.vehicle.VehicleStatusHolder
 import com.bydlauncher.vehicle.sdk.BodyworkReader
 import com.bydlauncher.vehicle.sdk.DriveInputReader
 import com.bydlauncher.vehicle.sdk.EnergyModeReader
@@ -19,9 +20,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,10 +28,10 @@ import javax.inject.Inject
 @HiltViewModel
 class VehicleViewModel @Inject constructor(
     @ApplicationContext context: Context,
+    private val statusHolder: VehicleStatusHolder,
 ) : ViewModel() {
 
-    private val _status = MutableStateFlow(VehicleStatus())
-    val status: StateFlow<VehicleStatus> = _status.asStateFlow()
+    val status: StateFlow<VehicleStatus> = statusHolder.status
 
     private val statistic = StatisticReader(context)
     private val speed = SpeedReader(context)
@@ -89,8 +88,8 @@ class VehicleViewModel @Inject constructor(
     }
 
     private fun updateFast() {
-        val current = _status.value
-        _status.value = current.copy(
+        val current = statusHolder.status.value
+        statusHolder.update(current.copy(
             speedKmh = speed.getCurrentSpeedKmh(),
             openDoors = bodywork.getOpenDoors(),
             windowPercents = bodywork.getWindowPercents(),
@@ -100,12 +99,12 @@ class VehicleViewModel @Inject constructor(
             operationMode = energyMode.getOperationMode(),
             instantElecCon = energyMode.getInstantElecCon(),
             currentGear = gear.getCurrentGear().name,
-        )
+        ))
     }
 
     private fun updateSlow() {
-        val current = _status.value
-        _status.value = current.copy(
+        val current = statusHolder.status.value
+        statusHolder.update(current.copy(
             batteryPct = statistic.getBatteryPct(),
             elecRangeKm = statistic.getElecRangeKm(),
             fuelPct = statistic.getFuelPct(),
@@ -117,7 +116,7 @@ class VehicleViewModel @Inject constructor(
             pm25Indoor = pm25.getIndoorValue(),
             pm25Outdoor = pm25.getOutdoorValue(),
             pm25Level = pm25.getIndoorLevel(),
-        )
+        ))
     }
 
     override fun onCleared() {

@@ -7,7 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bydlauncher.domain.seat.SeatPreset
-import com.bydlauncher.ui.vehicle.VehicleViewModel
+import com.bydlauncher.domain.vehicle.VehicleStatusHolder
 import com.bydlauncher.vehicle.sdk.SeatController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -24,7 +24,7 @@ private val Context.seatDataStore by preferencesDataStore(name = "seat_memory")
 @HiltViewModel
 class SeatMemoryViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val vehicleViewModel: VehicleViewModel,
+    private val vehicleStatusHolder: VehicleStatusHolder,
 ) : ViewModel() {
 
     private val seatController = SeatController(context)
@@ -64,7 +64,7 @@ class SeatMemoryViewModel @Inject constructor(
             _ready.value = true
         }
         viewModelScope.launch {
-            vehicleViewModel.status.collect { status ->
+            vehicleStatusHolder.status.collect { status ->
                 handleGearChange(lastGear, status.currentGear)
                 lastGear = status.currentGear
             }

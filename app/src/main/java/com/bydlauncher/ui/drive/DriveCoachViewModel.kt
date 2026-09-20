@@ -9,7 +9,7 @@ import com.bydlauncher.domain.drive.DriveEventType
 import com.bydlauncher.domain.drive.DriveRepository
 import com.bydlauncher.domain.drive.DriveSession
 import com.bydlauncher.domain.drive.EcoScoreCalculator
-import com.bydlauncher.ui.vehicle.VehicleViewModel
+import com.bydlauncher.domain.vehicle.VehicleStatusHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,7 +38,7 @@ data class DriveCoachUiState(
 @HiltViewModel
 class DriveCoachViewModel @Inject constructor(
     private val driveRepository: DriveRepository,
-    private val vehicleViewModel: VehicleViewModel,
+    private val vehicleStatusHolder: VehicleStatusHolder,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DriveCoachUiState())
@@ -56,7 +56,7 @@ class DriveCoachViewModel @Inject constructor(
 
     private fun observeGear() {
         viewModelScope.launch {
-            vehicleViewModel.status.collect { status ->
+            vehicleStatusHolder.status.collect { status ->
                 val gear = try {
                     GearReader.GearState.valueOf(status.currentGear)
                 } catch (_: Exception) {
@@ -127,7 +127,7 @@ class DriveCoachViewModel @Inject constructor(
         sessionJob = viewModelScope.launch(Dispatchers.IO) {
             while (isActive) {
                 delay(5_000L)
-                val status = vehicleViewModel.status.value
+                val status = vehicleStatusHolder.status.value
                 val nowMs = System.currentTimeMillis()
                 val state = _uiState.value
 
