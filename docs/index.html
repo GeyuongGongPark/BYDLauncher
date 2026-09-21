@@ -381,7 +381,7 @@
 
 <!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 차종</div></div>
+  <div class="stat"><div class="stat-val">5+</div><div class="stat-label">지원 차종</div></div>
   <div class="stat"><div class="stat-val">28+</div><div class="stat-label">Android API 지원</div></div>
   <div class="stat"><div class="stat-val">4</div><div class="stat-label">지원 네비 앱</div></div>
   <div class="stat"><div class="stat-val">100</div><div class="stat-label">에코 드라이브 점수</div></div>
@@ -765,6 +765,59 @@
     </div>
   </div>
 
+  <!-- 메모리 시트 -->
+  <div class="showcase">
+    <div class="showcase-text">
+      <h3>메모리 시트 <span style="font-size:13px;color:#00C8F0;font-weight:400;margin-left:8px">씨라이언 7 플러스 전용</span></h3>
+      <p>원하는 운전 자세를 <strong>M1(드라이빙)</strong>에, 넓게 빠지는 하차 자세를 <strong>M2(하차 편의)</strong>에 저장해두면 이후 기어 변경 시 시트가 자동으로 이동합니다. P기어 진입 시 M2로 시트가 뒤로 밀려 내리기 편해지고, D기어 진입 시 M1으로 복원되어 바로 운전 자세가 잡힙니다.</p>
+      <div class="tag-list">
+        <span class="tag">BYDAutoSettingDevice</span>
+        <span class="tag">saveSeatParamsAll</span>
+        <span class="tag">M1 드라이빙</span>
+        <span class="tag">M2 하차 편의</span>
+        <span class="tag">P→M2 자동</span>
+        <span class="tag">D→M1 자동</span>
+      </div>
+    </div>
+    <div class="showcase-mock">
+      <div class="display-mock" style="width:220px">
+        <div style="padding:14px;background:#12151E;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:14px">🪑</span>
+            <span style="font-size:12px;color:#8B93B0">메모리 시트</span>
+            <span style="margin-left:auto;font-size:10px;color:#00C8F0">M1 / M2</span>
+          </div>
+          <!-- M1 -->
+          <div style="background:#1A1E2A;border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:11px;color:#EEF2FF;font-weight:500">M1  드라이빙</span>
+            <div style="display:flex;gap:6px">
+              <div style="padding:4px 8px;border:1px solid #00C8F0;border-radius:4px;font-size:10px;color:#00C8F0">저장</div>
+              <div style="padding:4px 8px;border:1px solid #232840;border-radius:4px;font-size:10px;color:#8B93B0">복원</div>
+            </div>
+          </div>
+          <!-- M2 -->
+          <div style="background:#1A1E2A;border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:11px;color:#EEF2FF;font-weight:500">M2  하차 편의</span>
+            <div style="display:flex;gap:6px">
+              <div style="padding:4px 8px;border:1px solid #00C8F0;border-radius:4px;font-size:10px;color:#00C8F0">저장</div>
+              <div style="padding:4px 8px;border:1px solid #232840;border-radius:4px;font-size:10px;color:#8B93B0">복원</div>
+            </div>
+          </div>
+          <!-- 자동 제어 -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0">
+            <div>
+              <div style="font-size:11px;color:#8B93B0">자동 제어</div>
+              <div style="font-size:10px;color:#4A5070">P→M2, D→M1</div>
+            </div>
+            <div style="width:34px;height:18px;background:#00C8F0;border-radius:9px;display:flex;align-items:center;justify-content:flex-end;padding:2px">
+              <div style="width:14px;height:14px;background:#fff;border-radius:50%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 네비게이션 임베딩 -->
   <div class="showcase">
     <div class="showcase-text">
@@ -851,6 +904,13 @@
       <div class="device-name">Dolphin</div>
       <div class="device-meta">12.8" 회전 디스플레이</div>
       <span class="device-tag">DiLink 3.0</span>
+    </div>
+    <div class="device-card" style="border-color:#00C8F030">
+      <div class="device-emoji">🚗</div>
+      <div class="device-name">Sea Lion 7 Plus</div>
+      <div class="device-meta">씨라이언 7 플러스</div>
+      <span class="device-tag">DiLink 5.0</span>
+      <div style="margin-top:8px;font-size:10px;color:#00C8F0">+ 메모리 시트</div>
     </div>
   </div>
   <p style="margin-top:20px;font-size:13px;color:var(--dim)">* Android 9 (API 28) 이상의 DiLink 시스템 전반에서 동작합니다.</p>
