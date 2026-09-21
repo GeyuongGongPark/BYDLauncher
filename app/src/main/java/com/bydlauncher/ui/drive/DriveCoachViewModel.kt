@@ -82,13 +82,15 @@ class DriveCoachViewModel @Inject constructor(
 
     private fun startSession() {
         sessionStartMs = System.currentTimeMillis()
+        // UI를 즉시 활성 상태로 전환 (Room insert 완료 전에도 반응하도록)
+        _uiState.value = DriveCoachUiState(
+            isSessionActive = true,
+            sessionId = -1L,
+            recentSessions = _uiState.value.recentSessions,
+        )
         viewModelScope.launch(Dispatchers.IO) {
             val id = driveRepository.startSession(sessionStartMs)
-            _uiState.value = DriveCoachUiState(
-                isSessionActive = true,
-                sessionId = id,
-                recentSessions = _uiState.value.recentSessions,
-            )
+            _uiState.value = _uiState.value.copy(sessionId = id)
             startPolling(id)
         }
     }
