@@ -58,9 +58,20 @@ fun AppDock(
             }
         },
         DockItem(Icons.Default.MusicNote, "음악") {
-            val intent = context.packageManager.getLaunchIntentForPackage("com.google.android.music")
-                ?: Intent(Intent.ACTION_VIEW)
-            runCatching { context.startActivity(intent) }
+            // 설치된 음악 앱 순서대로 시도
+            val musicPackages = listOf(
+                "com.byd.music.kr",       // BYD 내장 음악 (한국)
+                "com.spotify.music",      // 스포티파이
+                "com.apple.android.music",// 애플 뮤직
+                "skplanet.musicmate",     // SKT 뮤직메이트
+                "com.vivid.music.byd",    // Vivid Music
+                "com.byd.mediacenter",    // BYD 미디어 센터
+                "com.google.android.music",
+            )
+            for (pkg in musicPackages) {
+                val intent = context.packageManager.getLaunchIntentForPackage(pkg) ?: continue
+                if (runCatching { context.startActivity(intent) }.isSuccess) break
+            }
         },
         DockItem(Icons.Default.Phone, "전화") {
             val intent = Intent(Intent.ACTION_DIAL)
