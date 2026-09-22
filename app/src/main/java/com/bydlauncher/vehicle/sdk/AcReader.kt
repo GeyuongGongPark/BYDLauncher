@@ -49,8 +49,10 @@ class AcReader(context: Context) {
     fun getAcOn(): Boolean =
         runCatching {
             val d = device ?: return false
-            (d.javaClass.getMethod("getAcStartState").invoke(d) as Int) == 1
-        }.getOrDefault(false)
+            val raw = d.javaClass.getMethod("getAcStartState").invoke(d) as Int
+            Log.d(TAG, "getAcStartState() = $raw")
+            raw == 1
+        }.onFailure { Log.w(TAG, "getAcOn 실패: ${it.message}") }.getOrDefault(false)
 
     /**
      * 운전석 설정 온도 (°C). -1=조회 불가.
@@ -60,16 +62,20 @@ class AcReader(context: Context) {
         runCatching {
             val d = device ?: return -1
             val raw = d.javaClass.getMethod("getTemprature", Int::class.java).invoke(d, 1) as Int
-            if (raw < 16 || raw > 32) -1 else raw
-        }.getOrDefault(-1)
+            Log.d(TAG, "getTemprature(1) = $raw")
+            // BYD SDK는 온도를 0.5°C 단위(×2)로 저장: raw=48 → 24°C
+            val celsius = if (raw > 32) raw / 2 else raw
+            if (celsius < 16 || celsius > 32) -1 else celsius
+        }.onFailure { Log.w(TAG, "getSetTemp 실패: ${it.message}") }.getOrDefault(-1)
 
     /** 풍량 단계 (1~7). -1=조회 불가 */
     fun getWindLevel(): Int =
         runCatching {
             val d = device ?: return -1
             val raw = d.javaClass.getMethod("getAcWindLevel").invoke(d) as Int
+            Log.d(TAG, "getAcWindLevel() = $raw")
             if (raw < 1 || raw > 7) -1 else raw
-        }.getOrDefault(-1)
+        }.onFailure { Log.w(TAG, "getWindLevel 실패: ${it.message}") }.getOrDefault(-1)
 
     private fun getInstance(cl: ClassLoader): Any {
         val cls = cl.loadClass(AC_CLASS)
