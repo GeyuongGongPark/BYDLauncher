@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bydlauncher.domain.navi.SUPPORTED_NAVI_APPS
 import com.bydlauncher.ui.theme.AccentCyan
 import com.bydlauncher.ui.theme.BackgroundCard
 import com.bydlauncher.ui.theme.TextSecondary
@@ -49,9 +50,12 @@ fun AppDock(
 
     val items = listOf(
         DockItem(Icons.Default.Navigation, "지도") {
-            val intent = context.packageManager.getLaunchIntentForPackage("com.google.android.apps.maps")
-                ?: Intent(Intent.ACTION_VIEW).apply { `package` = "com.google.android.apps.maps" }
-            runCatching { context.startActivity(intent) }
+            // 설치된 네비 앱 순서대로 시도 (카카오맵 → T맵 → 네이버지도 → 구글맵)
+            for (navi in SUPPORTED_NAVI_APPS) {
+                val intent = context.packageManager.getLaunchIntentForPackage(navi.packageName)
+                    ?: continue
+                if (runCatching { context.startActivity(intent) }.isSuccess) break
+            }
         },
         DockItem(Icons.Default.MusicNote, "음악") {
             val intent = context.packageManager.getLaunchIntentForPackage("com.google.android.music")
