@@ -18,7 +18,8 @@ class GearReader(context: Context) {
         private const val TAG = "GearReader"
         private const val GEARBOX_CLASS = "android.hardware.bydauto.gearbox.BYDAutoGearboxDevice"
         private val SDK_PACKAGES = listOf(
-            "com.byd.hvac", "com.byd.carsettings", "com.byd.mycar", "com.byd.scenemode"
+            "com.byd.hvac", "com.byd.carsettings", "com.byd.mycar", "com.byd.scenemode",
+            "com.byd.autoservice",
         )
         private const val GEARBOX_AUTO_MODE_P = 1
         private const val GEARBOX_AUTO_MODE_N = 5
@@ -55,7 +56,9 @@ class GearReader(context: Context) {
     fun getCurrentGear(): GearState =
         runCatching {
             val d = device ?: return GearState.UNKNOWN
-            when (d.javaClass.getMethod("getGearboxAutoModeType").invoke(d) as Int) {
+            val raw = d.javaClass.getMethod("getGearboxAutoModeType").invoke(d) as Int
+            Log.d(TAG, "getGearboxAutoModeType() = $raw")
+            when (raw) {
                 GEARBOX_AUTO_MODE_P -> GearState.PARK
                 GEARBOX_AUTO_MODE_N -> GearState.NEUTRAL
                 GEARBOX_AUTO_MODE_D -> GearState.DRIVE

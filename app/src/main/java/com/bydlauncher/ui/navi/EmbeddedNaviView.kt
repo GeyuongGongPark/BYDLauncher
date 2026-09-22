@@ -9,6 +9,7 @@ import android.view.Surface
 import android.view.TextureView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
@@ -38,13 +39,20 @@ fun EmbeddedNaviView(
 ) {
     val context = LocalContext.current
 
-    // packageName 또는 densityDpi가 바뀌면 VirtualDisplay + 앱 재시작
-    key(packageName, densityDpi) {
+    // packageName이 바뀌면 VirtualDisplay + 앱 재시작 (densityDpi 변경은 resize만)
+    key(packageName) {
         val scope = rememberCoroutineScope()
         var virtualDisplay by remember { mutableStateOf<VirtualDisplay?>(null) }
         var currentDisplayId by remember { mutableIntStateOf(-1) }
         var vdWidth by remember { mutableIntStateOf(0) }
         var vdHeight by remember { mutableIntStateOf(0) }
+
+        // densityDpi 변경 시 앱 재실행 없이 VirtualDisplay resize만
+        LaunchedEffect(densityDpi) {
+            if (densityDpi <= 0) return@LaunchedEffect
+            val vd = virtualDisplay ?: return@LaunchedEffect
+            vd.resize(vdWidth.coerceAtLeast(1), vdHeight.coerceAtLeast(1), densityDpi)
+        }
 
         DisposableEffect(Unit) {
             onDispose {

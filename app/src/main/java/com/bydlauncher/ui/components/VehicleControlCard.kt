@@ -94,55 +94,53 @@ fun VehicleControlCard(
             )
         }
 
-        // 온도 조절 (AC ON 상태에서만 표시)
-        if (state.acOn) {
-            Spacer(Modifier.height(4.dp))
+        // 온도 조절 (항상 표시)
+        Spacer(Modifier.height(4.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text("목표 온도", color = TextSecondary, fontSize = 11.sp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(
+                    onClick = viewModel::tempDown,
+                    modifier = Modifier.defaultMinSize(minWidth = 48.dp, minHeight = 48.dp),
+                ) {
+                    Icon(
+                        Icons.Default.Remove,
+                        contentDescription = "온도 낮추기",
+                        tint = AccentCyan,
+                        modifier = Modifier.size(16.dp),
+                    )
+                }
+                Text(
+                    text = if (state.acTemp > 0) "${state.acTemp}°C" else "--°C",
+                    color = TextPrimary,
+                    fontSize = 13.sp,
+                )
+                IconButton(
+                    onClick = viewModel::tempUp,
+                    modifier = Modifier.defaultMinSize(minWidth = 48.dp, minHeight = 48.dp),
+                ) {
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = "온도 올리기",
+                        tint = AccentCyan,
+                        modifier = Modifier.size(16.dp),
+                    )
+                }
+            }
+        }
+
+        // 풍량
+        if (state.acWindLevel > 0) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("목표 온도", color = TextSecondary, fontSize = 11.sp)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconButton(
-                        onClick = viewModel::tempDown,
-                        modifier = Modifier.defaultMinSize(minWidth = 48.dp, minHeight = 48.dp),
-                    ) {
-                        Icon(
-                            Icons.Default.Remove,
-                            contentDescription = "온도 낮추기",
-                            tint = AccentCyan,
-                            modifier = Modifier.size(16.dp),
-                        )
-                    }
-                    Text(
-                        text = if (state.acTemp > 0) "${state.acTemp}°C" else "--°C",
-                        color = TextPrimary,
-                        fontSize = 13.sp,
-                    )
-                    IconButton(
-                        onClick = viewModel::tempUp,
-                        modifier = Modifier.defaultMinSize(minWidth = 48.dp, minHeight = 48.dp),
-                    ) {
-                        Icon(
-                            Icons.Default.Add,
-                            contentDescription = "온도 올리기",
-                            tint = AccentCyan,
-                            modifier = Modifier.size(16.dp),
-                        )
-                    }
-                }
-            }
-
-            // 풍량
-            if (state.acWindLevel > 0) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text("풍량", color = TextSecondary, fontSize = 11.sp)
-                    Text("${state.acWindLevel}단", color = TextPrimary, fontSize = 11.sp)
-                }
+                Text("풍량", color = TextSecondary, fontSize = 11.sp)
+                Text("${state.acWindLevel}단", color = TextPrimary, fontSize = 11.sp)
             }
         }
 

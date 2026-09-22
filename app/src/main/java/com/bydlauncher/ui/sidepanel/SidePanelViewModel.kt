@@ -201,7 +201,14 @@ class SidePanelViewModel @Inject constructor(
             val result = weatherRepository.getWeatherByIp()
             _weatherState.value = result.fold(
                 onSuccess = { WeatherState.Success(it) },
-                onFailure = { WeatherState.LocationUnavailable },
+                onFailure = {
+                    // IP geolocation 실패 시 서울 기본 좌표로 fallback
+                    val seoulResult = weatherRepository.getWeather(37.5665, 126.9780)
+                    seoulResult.fold(
+                        onSuccess = { WeatherState.Success(it) },
+                        onFailure = { WeatherState.LocationUnavailable },
+                    )
+                },
             )
         }
     }
