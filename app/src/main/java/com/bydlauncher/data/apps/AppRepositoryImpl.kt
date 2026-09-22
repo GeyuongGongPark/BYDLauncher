@@ -47,6 +47,7 @@ class AppRepositoryImpl @Inject constructor(
         }
         return pm.queryIntentActivities(intent, PackageManager.GET_META_DATA)
             .filter { it.activityInfo.packageName != context.packageName }
+            .distinctBy { it.activityInfo.packageName }
             .map { info ->
                 AppInfo(
                     packageName = info.activityInfo.packageName,
