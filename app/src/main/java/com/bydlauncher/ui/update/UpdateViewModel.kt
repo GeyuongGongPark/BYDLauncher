@@ -2,7 +2,9 @@ package com.bydlauncher.ui.update
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,6 +22,8 @@ import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
+import java.security.MessageDigest
+import java.security.cert.CertificateFactory
 import javax.inject.Inject
 
 sealed class UpdateState {
@@ -39,6 +43,10 @@ class UpdateViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<UpdateState>(UpdateState.Idle)
+
+    companion object {
+        private const val TAG = "UpdateViewModel"
+    }
     val state: StateFlow<UpdateState> = _state.asStateFlow()
 
     init {
@@ -63,6 +71,13 @@ class UpdateViewModel @Inject constructor(
             _state.value = UpdateState.Downloading
             runCatching {
                 val apkFile = downloadApk(info.downloadUrl)
+
+                if (!verifyApkSignature(apkFile)) {
+                    apkFile.delete()
+                    _state.value = UpdateState.Error("서명 검증 실패 — 신뢰할 수 없는 APK")
+                    return@launch
+                }
+
                 val uri = FileProvider.getUriForFile(
                     context,
                     "${context.packageName}.fileprovider",
@@ -74,6 +89,42 @@ class UpdateViewModel @Inject constructor(
                 _state.value = UpdateState.Error(it.message ?: "다운로드 실패")
             }
         }
+    }
+
+    /**
+     * 다운로드된 APK의 서명 인증서가 현재 앱의 서명과 일치하는지 검증.
+     * 동일한 개인키로 서명된 APK만 통과.
+     */
+    private fun verifyApkSignature(apkFile: File): Boolean = runCatching {
+        val pm = context.packageManager
+        val flags = PackageManager.GET_SIGNING_CERTIFICATES
+
+        val currentFingerprints = pm.getPackageInfo(context.packageName, flags)
+            .signingInfo?.signingCertificateHistory
+            ?.map { it.sha256() }
+            ?.toSet()
+            ?: return false
+
+        val apkFingerprints = pm.getPackageArchiveInfo(apkFile.absolutePath, flags)
+            ?.signingInfo?.signingCertificateHistory
+            ?.map { it.sha256() }
+            ?.toSet()
+            ?: return false
+
+        val matched = currentFingerprints.intersect(apkFingerprints).isNotEmpty()
+        Log.i(TAG, "서명 검증: ${if (matched) "통과" else "실패"}")
+        matched
+    }.getOrElse { e ->
+        Log.e(TAG, "서명 검증 오류: ${e.message}")
+        false
+    }
+
+    private fun android.content.pm.Signature.sha256(): String {
+        val cert = CertificateFactory.getInstance("X.509")
+            .generateCertificate(toByteArray().inputStream())
+        return MessageDigest.getInstance("SHA-256")
+            .digest(cert.encoded)
+            .joinToString("") { "%02x".format(it) }
     }
 
     private suspend fun downloadApk(url: String): File = withContext(Dispatchers.IO) {

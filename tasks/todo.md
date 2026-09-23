@@ -103,6 +103,15 @@
 
 - [ ] 스포츠 모드 일정 시간 지속 시 → "에코 전환 시 X km 추가 주행 가능" 토스트 (미구현)
 
+## 보안 강화
+
+- [x] 자동 업데이트 APK 서명 검증 — 현재 앱 서명과 다운로드 APK 서명 비교 후 불일치 시 설치 거부
+  - `UpdateViewModel.verifyApkSignature()` 추가
+  - `GET_SIGNING_CERTIFICATES`로 현재 앱 서명 핑거프린트(SHA-256) 추출
+  - 다운로드한 APK에서 동일하게 추출 후 교집합 검사
+  - 불일치 시 APK 삭제 + `UpdateState.Error` 반환
+  - 컴파일 검증 완료
+
 ---
 
 ## 검토 (완료 시 작성)
