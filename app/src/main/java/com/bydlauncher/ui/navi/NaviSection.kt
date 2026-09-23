@@ -18,12 +18,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bydlauncher.domain.navi.NaviApp
+import com.bydlauncher.ui.theme.AccentCyan
 import com.bydlauncher.ui.theme.BackgroundCard
 import com.bydlauncher.ui.theme.DividerColor
 import com.bydlauncher.ui.theme.TextPrimary
@@ -43,7 +51,9 @@ import com.bydlauncher.ui.utils.toImageBitmap
 
 /**
  * Landscape HOME에 표시되는 네비게이션 섹션.
- * 네비 앱 선택 후 탭하면 전체화면으로 실행.
+ *
+ * VirtualDisplay + dadb ADB loopback(am start --display)으로 네비 앱 임베딩.
+ * 실패 시 fallback: 탭하여 전체화면 실행 카드.
  */
 @Composable
 fun NaviSection(
@@ -51,6 +61,7 @@ fun NaviSection(
     viewModel: NaviViewModel = hiltViewModel(),
 ) {
     val selected by viewModel.selectedNaviApp.collectAsState()
+    val densityDpi by viewModel.densityDpi.collectAsState()
     val installed = viewModel.installedNaviApps
 
     Column(
@@ -65,8 +76,27 @@ fun NaviSection(
         ) {
             Text(text = "내비게이션", fontSize = 13.sp, color = TextSecondary)
             if (selected != null) {
-                TextButton(onClick = { viewModel.clearNaviApp() }) {
-                    Text(text = "변경", fontSize = 13.sp, color = TextSecondary)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    val deviceDpi = LocalContext.current.resources.displayMetrics.densityDpi
+                    val currentDpi = if (densityDpi <= 0) deviceDpi else densityDpi
+                    Text(
+                        text = "DPI ${if (densityDpi <= 0) "기본" else "$densityDpi"}",
+                        fontSize = 11.sp,
+                        color = TextSecondary,
+                    )
+                    IconButton(
+                        onClick = { viewModel.setDensityDpi((currentDpi - 20).coerceAtLeast(80)) },
+                    ) {
+                        Icon(Icons.Default.Remove, null, modifier = Modifier.size(16.dp), tint = AccentCyan)
+                    }
+                    IconButton(
+                        onClick = { viewModel.setDensityDpi((currentDpi + 20).coerceAtMost(400)) },
+                    ) {
+                        Icon(Icons.Default.Add, null, modifier = Modifier.size(16.dp), tint = AccentCyan)
+                    }
+                    TextButton(onClick = { viewModel.clearNaviApp() }) {
+                        Text(text = "변경", fontSize = 13.sp, color = AccentCyan)
+                    }
                 }
             }
         }
@@ -80,7 +110,7 @@ fun NaviSection(
                 NaviAppSelector(apps = installed, onSelect = { viewModel.selectNaviApp(it.packageName) })
             }
         } else {
-            NaviLaunchCard(app = selected!!)
+            NaviActiveView(app = selected!!, densityDpi = densityDpi)
         }
     }
 }
@@ -132,7 +162,23 @@ private fun NaviAppCard(app: NaviApp, modifier: Modifier = Modifier, onClick: ()
 }
 
 @Composable
-private fun NaviLaunchCard(app: NaviApp) {
+private fun NaviActiveView(app: NaviApp, densityDpi: Int = 0) {
+    var embeddingFailed by remember(app.packageName) { mutableStateOf(false) }
+
+    if (!embeddingFailed) {
+        EmbeddedNaviView(
+            packageName = app.packageName,
+            densityDpi = densityDpi,
+            modifier = Modifier.fillMaxSize(),
+            onEmbeddingFailed = { embeddingFailed = true },
+        )
+    } else {
+        NaviFallbackCard(app = app)
+    }
+}
+
+@Composable
+private fun NaviFallbackCard(app: NaviApp) {
     val context = LocalContext.current
     val icon: ImageBitmap? = remember(app.packageName) {
         runCatching {

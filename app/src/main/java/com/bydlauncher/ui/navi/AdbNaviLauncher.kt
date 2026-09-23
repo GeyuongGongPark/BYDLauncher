@@ -1,40 +1,49 @@
 package com.bydlauncher.ui.navi
 
-import android.app.ActivityOptions
 import android.content.Context
-import android.content.Intent
+import android.content.pm.PackageManager
 import android.util.Log
-import android.view.InputDevice
-import android.view.InputEvent
 import android.view.MotionEvent
+import dadb.AdbKeyPair
+import dadb.Dadb
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 /**
- * ADB 없이 ActivityOptions.setLaunchDisplayId()로 네비 앱을 VirtualDisplay에서 실행.
- * 터치는 InputManager.injectInputEvent() reflection으로 주입.
+ * dadb 라이브러리로 127.0.0.1:5555(ADB loopback) 연결 후
+ * am start --display <displayId>로 네비 앱을 VirtualDisplay에서 실행.
+ * Wi-Fi ADB가 켜진 상태에서 차량 내부에서 loopback 접근 가능.
  */
 object AdbNaviLauncher {
 
     private const val TAG = "AdbNaviLauncher"
+    private const val ADB_HOST = "127.0.0.1"
+    private const val ADB_PORT = 5555
 
     /**
-     * 네비 앱을 지정된 VirtualDisplay에서 실행.
-     * ActivityOptions.setLaunchDisplayId() 사용 — ADB 불필요.
+     * 네비 앱을 VirtualDisplay에서 실행하고, 2초 후 런처를 포그라운드로 복귀.
      */
     suspend fun launch(
         context: Context,
         packageName: String,
         displayId: Int,
-    ): Result<Unit> = withContext(Dispatchers.Main) {
-        runCatching<Unit> {
-            val intent = context.packageManager.getLaunchIntentForPackage(packageName)
+    ): Result<Unit> = withContext(Dispatchers.IO) {
+        runCatching {
+            val keyPair = getOrCreateKeyPair(context)
+            val activity = getLaunchActivity(context, packageName)
                 ?: error("$packageName 실행 가능한 Activity 없음")
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
 
-            val options = ActivityOptions.makeBasic().setLaunchDisplayId(displayId)
-            context.startActivity(intent, options.toBundle())
-            Log.i(TAG, "네비 실행 성공: $packageName → display $displayId")
+            Dadb.create(ADB_HOST, ADB_PORT, keyPair).use { adb ->
+                val startCmd = "am start --display $displayId -n $packageName/$activity"
+                val startResult = adb.shell(startCmd)
+                Log.i(TAG, "am start 결과: ${startResult.output.trim()}")
+                check(startResult.exitCode == 0) { "am start 실패: ${startResult.output}" }
+
+                // 2초 후 런처 포그라운드 복귀
+                adb.shell("sleep 2 ; am start -n ${context.packageName}/.MainActivityLauncher")
+                Unit
+            }
         }.onFailure {
             Log.w(TAG, "네비 실행 실패: ${it.message}")
         }
@@ -42,7 +51,6 @@ object AdbNaviLauncher {
 
     /**
      * VirtualDisplay에 터치 이벤트 주입.
-     * InputManager.injectInputEvent() hidden API 호출.
      */
     suspend fun injectTouch(
         context: Context,
@@ -52,19 +60,35 @@ object AdbNaviLauncher {
         y: Int,
     ): Result<Unit> = withContext(Dispatchers.IO) {
         runCatching {
-            val imClass = Class.forName("android.hardware.input.InputManager")
-            val im = imClass.getMethod("getInstance").invoke(null)
-            val now = android.os.SystemClock.uptimeMillis()
-            val event = MotionEvent.obtain(now, now, action, x.toFloat(), y.toFloat(), 0).apply {
-                source = InputDevice.SOURCE_TOUCHSCREEN
+            if (action != MotionEvent.ACTION_UP && action != MotionEvent.ACTION_MOVE) {
+                return@runCatching
             }
-            runCatching {
-                MotionEvent::class.java.getMethod("setDisplayId", Int::class.java)
-                    .invoke(event, displayId)
+            val keyPair = getOrCreateKeyPair(context)
+            Dadb.create(ADB_HOST, ADB_PORT, keyPair).use { adb ->
+                adb.shell("input -d $displayId tap $x $y")
+                Unit
             }
-            imClass.getMethod("injectInputEvent", InputEvent::class.java, Int::class.java)
-                .invoke(im, event, 0)
-            event.recycle()
+        }.onFailure {
+            Log.w(TAG, "터치 주입 실패: ${it.message}")
         }
+    }
+
+    private fun getOrCreateKeyPair(context: Context): AdbKeyPair {
+        val keyDir = File(context.filesDir, "adb_keys").also { it.mkdirs() }
+        val privateKey = File(keyDir, "adb.key")
+        val publicKey = File(keyDir, "adb.pub")
+        if (!privateKey.exists() || !publicKey.exists()) {
+            AdbKeyPair.generate(privateKey, publicKey)
+        }
+        return AdbKeyPair.read(privateKey, publicKey)
+    }
+
+    private fun getLaunchActivity(context: Context, packageName: String): String? {
+        val intent = context.packageManager.getLaunchIntentForPackage(packageName)
+            ?: return null
+        return intent.component?.className
+            ?: context.packageManager
+                .getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+                .activities?.firstOrNull()?.name
     }
 }
