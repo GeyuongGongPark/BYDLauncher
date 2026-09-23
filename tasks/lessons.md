@@ -31,10 +31,11 @@
 - `queryIntentActivities`는 동일 패키지의 복수 Activity를 반환할 수 있음
 - `.distinctBy { it.activityInfo.packageName }` 필수
 
-### L7. todo.md / lessons.md 업데이트 습관
-- 세션이 끝나면 항상 lessons.md에 새로운 교훈 기록
-- 다음 세션에서 같은 실수 반복 방지가 목적
-- CLAUDE.md에 명시된 규칙: "수정 후 lessons.md 업데이트"
+### L7. todo.md / lessons.md 업데이트 습관 (CLAUDE.md 핵심 규칙)
+- **작업 시작 전**: todo.md에 체크리스트 작성
+- **작업 완료 후**: todo.md 체크 + lessons.md 업데이트 — 사용자가 지적하기 전에 먼저
+- **수정 받았을 때**: 즉시 lessons.md에 해당 패턴 기록
+- 이 규칙을 반복적으로 어길 경우 프로젝트 폐기됨 (사용자 경고)
 
 ## 보안
 
