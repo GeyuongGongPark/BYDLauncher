@@ -20,7 +20,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * VirtualDisplay + ADB loopback(am start --display)으로 네비 앱 임베딩.
@@ -68,6 +70,9 @@ fun EmbeddedNaviView(
                     if (densityDpi > 0) densityDpi else ctx.resources.displayMetrics.densityDpi
 
                 TextureView(ctx).apply {
+                    // dadb 성공 후 실제 렌더링 여부 추적
+                    val hasRendered = AtomicBoolean(false)
+
                     surfaceTextureListener = object : TextureView.SurfaceTextureListener {
                         override fun onSurfaceTextureAvailable(st: SurfaceTexture, w: Int, h: Int) {
                             val surface = Surface(st)
@@ -94,6 +99,14 @@ fun EmbeddedNaviView(
                                     vd.release()
                                     virtualDisplay = null
                                     onEmbeddingFailed()
+                                    return@launch
+                                }
+                                // dadb 성공 → 8초 내 렌더링 없으면 fallback
+                                delay(8_000)
+                                if (!hasRendered.get()) {
+                                    vd.release()
+                                    virtualDisplay = null
+                                    onEmbeddingFailed()
                                 }
                             }
                         }
@@ -112,7 +125,9 @@ fun EmbeddedNaviView(
                             return true
                         }
 
-                        override fun onSurfaceTextureUpdated(st: SurfaceTexture) = Unit
+                        override fun onSurfaceTextureUpdated(st: SurfaceTexture) {
+                            hasRendered.set(true)
+                        }
                     }
 
                     setOnTouchListener { v, event ->

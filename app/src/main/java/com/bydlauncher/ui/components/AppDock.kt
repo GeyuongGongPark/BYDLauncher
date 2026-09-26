@@ -117,7 +117,20 @@ fun AppDock(
             }
         },
         DockItem(Icons.Default.Phone, "전화") {
-            runCatching { context.startActivity(Intent(Intent.ACTION_DIAL)) }
+            // BYD 전화 앱 직접 실행 (인터셉터 화면 우회)
+            val phonePkgs = listOf("com.byd.phone", "com.byd.dialer", "com.android.dialer")
+            val launched = phonePkgs.any { pkg ->
+                val intent = context.packageManager.getLaunchIntentForPackage(pkg) ?: return@any false
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                runCatching { context.startActivity(intent) }.isSuccess
+            }
+            if (!launched) {
+                runCatching {
+                    context.startActivity(
+                        Intent(Intent.ACTION_DIAL).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) }
+                    )
+                }
+            }
         },
         DockItem(Icons.Default.Settings, "설정") {
             for (pkg in listOf("com.byd.carsettings", "com.byd.settings", "com.android.settings")) {
