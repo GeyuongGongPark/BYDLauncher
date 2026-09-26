@@ -51,6 +51,16 @@
 
 ## 네비게이션 임베딩
 
+### L11. BYD 전화 버튼 인터셉터 우회
+- `Intent.ACTION_DIAL`은 BYD 시스템 인터셉터를 거쳐 독자 화면 노출
+- **해결**: `com.byd.phone` → `com.byd.dialer` → `com.android.dialer` 패키지 직접 실행 후, 모두 없으면 ACTION_DIAL + FLAG_ACTIVITY_NEW_TASK fallback
+- **패턴**: BYD DiLink에서 시스템 인텐트가 예상과 다르게 동작할 경우 BYD 전용 패키지명 직접 시도
+
+### L12. VirtualDisplay 네비 임베딩 — 렌더링 없는 검은 화면 대응
+- **문제**: dadb `am start --display` 성공 후 앱이 VirtualDisplay에 렌더링을 안 해도 `onSurfaceTextureUpdated` 미호출 → `onEmbeddingFailed` 영구 미호출 → 검은 화면 유지
+- **해결**: `AtomicBoolean hasRendered` + dadb 성공 후 `delay(8_000)` → `!hasRendered.get()` 이면 VirtualDisplay 해제 + `onEmbeddingFailed` 호출
+- **패턴**: VirtualDisplay 기반 임베딩은 항상 렌더링 확인 timeout을 두어야 함
+
 ### L8. dadb ADB loopback 방식이 실차에서 작동함
 - `dadb` 라이브러리로 127.0.0.1:5555 연결 후 `am start --display <displayId>` 명령 실행
 - Wi-Fi ADB가 켜진 상태에서 차량 내부 앱이 loopback으로 adbd에 접근 가능
