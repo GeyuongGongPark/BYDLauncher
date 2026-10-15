@@ -76,6 +76,7 @@ data class AppEntry(
 fun AppDock(
     onOpenAppDrawer: () -> Unit,
     onOpenDriveCoach: () -> Unit = {},
+    onOpenSettings: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -132,12 +133,7 @@ fun AppDock(
                 }
             }
         },
-        DockItem(Icons.Default.Settings, "설정") {
-            for (pkg in listOf("com.byd.carsettings", "com.byd.settings", "com.android.settings")) {
-                val intent = context.packageManager.getLaunchIntentForPackage(pkg) ?: continue
-                if (runCatching { context.startActivity(intent) }.isSuccess) break
-            }
-        },
+        DockItem(Icons.Default.Settings, "설정") { onOpenSettings() },
         DockItem(Icons.Default.Eco, "드라이브") { onOpenDriveCoach() },
         DockItem(Icons.Default.Apps, "앱") { onOpenAppDrawer() },
     )

@@ -123,6 +123,70 @@
 
 ---
 
+## Phase 7 — KBO 야구 팀 트래커 + 런처 설정 탭
+
+> 목표:
+> - SidePanel WeatherCard 아래 KboCard (경기 정보 표시)
+> - AppDock "설정" → 런처 설정 탭 (HomeTab.SETTINGS 신규)
+> - 런처 설정 탭 안에 KBO 응원팀 선택 포함
+> - Mock 데이터 UI 먼저, API 연동 추후
+>
+> 포스트시즌 지원: Scheduled/Live/Final에 isPostseason + roundName + seriesRecord 필드 포함
+> (API 연동 시 round 필드로 정규/포스트 구분)
+
+### 7-1. 도메인 레이어
+- [ ] `domain/kbo/KboTeam.kt` — 10개 팀 enum (이름, 약칭, 홈구장, 팀 색상)
+- [ ] `domain/kbo/KboGame.kt` — KboGameState sealed class
+  - `NoTeam` — 팀 미선택
+  - `NoGame(rank)` — 오늘 경기 없음 (휴식일)
+  - `Scheduled(opponent, time, venue, rank, isPostseason, roundName?, seriesRecord?)` — 예정
+  - `Live(myScore, oppScore, inning, isTop, outs, rank, isPostseason, roundName?, seriesRecord?)` — 진행 중
+  - `Final(myScore, oppScore, result, rank, isPostseason, roundName?, seriesRecord?)` — 종료
+  - `OffSeason` — 오프시즌
+- [ ] `domain/kbo/KboRepository.kt` — 인터페이스
+
+### 7-2. 데이터 레이어 (Mock)
+- [ ] `data/kbo/KboRepositoryMock.kt` — 7가지 시나리오 Mock 구현
+  - NO_TEAM / NO_GAME / SCHEDULED / LIVE / FINAL (정규시즌)
+  - POSTSEASON_LIVE — 포스트시즌 진행 중 (roundName, seriesRecord 포함)
+  - OFF_SEASON
+
+### 7-3. ViewModel
+- [ ] `ui/kbo/KboViewModel.kt`
+  - DataStore에서 즐겨찾기 팀 로드
+  - `selectTeam(team)` — 팀 선택 저장
+  - 폴링 루프: Live 30초, Scheduled 60초, 나머지 5분
+  - 이전 상태와 비교해 아웃카운트/이닝 변화 감지 시 즉시 갱신 트리거 구조 준비
+
+### 7-4. KboCard UI
+- [ ] `ui/components/KboCard.kt` — SidePanel WeatherCard 아래 배치
+  - `NoTeam`: "설정에서 응원팀을 선택하세요" 안내
+  - `NoGame / OffSeason`: 팀명 + 순위 + 메시지
+  - `Scheduled`: 상대팀, 시작 시간, 장소 + 포스트시즌 배지
+  - `Live`: 스코어(크게), 이닝+상하, 아웃카운트(●○) + 포스트시즌 배지 + 시리즈 현황
+  - `Final`: 최종 스코어, 승/패/무 배지 + 포스트시즌 배지 + 시리즈 현황
+  - 공통 하단: 최근 5경기 W/L 도트 (포스트시즌 포함)
+
+### 7-5. 런처 설정 탭
+- [ ] `HomeTab.SETTINGS` 추가 (`HomeViewModel.kt`)
+- [ ] `HomeViewModel.toggleSettings()` 추가
+- [ ] `ui/settings/SettingsScreen.kt` — 풀스크린 설정 화면
+  - [KBO 응원팀] 섹션: 10개 팀 선택 그리드 (현재 선택 팀 하이라이트)
+  - [시스템] 섹션: "BYD 시스템 설정 열기" 버튼 (기존 AppDock 설정 동작 이전)
+- [ ] `ui/components/AppDock.kt` — "설정" 버튼 → `onOpenSettings()` 콜백으로 변경
+- [ ] `ui/home/HomeScreen.kt` — `HomeTab.SETTINGS` 케이스 + `SettingsScreen()` 연결
+
+### 7-6. 연결
+- [ ] `di/AppModule.kt` — KboRepository Mock 바인딩 추가
+- [ ] `data/settings/AppSettingsRepositoryImpl.kt` — `kbo_favorite_team` 키 추가
+- [ ] `ui/components/SidePanel.kt` — WeatherCard 아래 KboCard 삽입
+
+### 7-7. 검증
+- [ ] 빌드 성공 확인
+- [ ] 7가지 Mock 시나리오 Compose Preview 확인
+
+---
+
 ## 검토 (완료 시 작성)
 
 ### Phase 1~3 완료 (2026-09)

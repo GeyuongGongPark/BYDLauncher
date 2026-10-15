@@ -117,6 +117,10 @@ fun SidePanel(modifier: Modifier = Modifier) {
 
         Spacer(Modifier.height(12.dp))
 
+        KboCard(modifier = Modifier.padding(horizontal = 16.dp))
+
+        Spacer(Modifier.height(12.dp))
+
         CalendarCard(
             events = calendarEvents,
             modifier = Modifier.padding(horizontal = 16.dp),

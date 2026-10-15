@@ -29,6 +29,7 @@ import com.bydlauncher.ui.components.StatusBar
 import com.bydlauncher.ui.components.VehicleAlertBanner
 import com.bydlauncher.ui.drive.DriveCoachScreen
 import com.bydlauncher.ui.drive.DriveCoachViewModel
+import com.bydlauncher.ui.settings.SettingsScreen
 import com.bydlauncher.ui.theme.BackgroundDeep
 import com.bydlauncher.ui.vehicle.VehicleViewModel
 
@@ -43,12 +44,14 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
             currentTab = currentTab,
             onToggleAppDrawer = viewModel::toggleAppDrawer,
             onToggleDriveCoach = viewModel::toggleDriveCoach,
+            onToggleSettings = viewModel::toggleSettings,
         )
     } else {
         PortraitLayout(
             currentTab = currentTab,
             onToggleAppDrawer = viewModel::toggleAppDrawer,
             onToggleDriveCoach = viewModel::toggleDriveCoach,
+            onToggleSettings = viewModel::toggleSettings,
         )
     }
 }
@@ -58,6 +61,7 @@ private fun LandscapeLayout(
     currentTab: HomeTab,
     onToggleAppDrawer: () -> Unit,
     onToggleDriveCoach: () -> Unit,
+    onToggleSettings: () -> Unit,
     vehicleViewModel: VehicleViewModel = hiltViewModel(),
     driveViewModel: DriveCoachViewModel = hiltViewModel(),
 ) {
@@ -88,11 +92,13 @@ private fun LandscapeLayout(
                         HomeTab.HOME -> LandscapeHomeContent()
                         HomeTab.APP_DRAWER -> AppDrawer()
                         HomeTab.DRIVE_COACH -> DriveCoachScreen()
+                        HomeTab.SETTINGS -> SettingsScreen()
                     }
                 }
                 AppDock(
                     onOpenAppDrawer = onToggleAppDrawer,
                     onOpenDriveCoach = onToggleDriveCoach,
+                    onOpenSettings = onToggleSettings,
                 )
             }
 
@@ -119,6 +125,7 @@ private fun PortraitLayout(
     currentTab: HomeTab,
     onToggleAppDrawer: () -> Unit,
     onToggleDriveCoach: () -> Unit,
+    onToggleSettings: () -> Unit,
     vehicleViewModel: VehicleViewModel = hiltViewModel(),
     driveViewModel: DriveCoachViewModel = hiltViewModel(),
 ) {
@@ -148,12 +155,14 @@ private fun PortraitLayout(
                     HomeTab.HOME -> PortraitHomeContent()
                     HomeTab.APP_DRAWER -> AppDrawer()
                     HomeTab.DRIVE_COACH -> DriveCoachScreen()
+                    HomeTab.SETTINGS -> SettingsScreen()
                 }
             }
 
             AppDock(
                 onOpenAppDrawer = onToggleAppDrawer,
                 onOpenDriveCoach = onToggleDriveCoach,
+                onOpenSettings = onToggleSettings,
             )
         }
 

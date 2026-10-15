@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class HomeTab { HOME, APP_DRAWER, DRIVE_COACH }
+enum class HomeTab { HOME, APP_DRAWER, DRIVE_COACH, SETTINGS }
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -52,6 +52,10 @@ class HomeViewModel @Inject constructor(
 
     fun toggleDriveCoach() {
         _currentTab.value = if (_currentTab.value == HomeTab.DRIVE_COACH) HomeTab.HOME else HomeTab.DRIVE_COACH
+    }
+
+    fun toggleSettings() {
+        _currentTab.value = if (_currentTab.value == HomeTab.SETTINGS) HomeTab.HOME else HomeTab.SETTINGS
     }
 
     fun toggleEditFavorites() {

@@ -1,7 +1,9 @@
 package com.bydlauncher.di
 
 import com.bydlauncher.data.apps.AppRepositoryImpl
+import com.bydlauncher.data.kbo.KboRepositoryMock
 import com.bydlauncher.domain.apps.AppRepository
+import com.bydlauncher.domain.kbo.KboRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,8 @@ abstract class AppModule {
     @Binds
     @Singleton
     abstract fun bindAppRepository(impl: AppRepositoryImpl): AppRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindKboRepository(impl: KboRepositoryMock): KboRepository
 }
