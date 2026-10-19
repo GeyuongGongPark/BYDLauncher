@@ -20,6 +20,10 @@ android {
         // OpenWeatherMap API key — local.properties에 WEATHER_API_KEY=실제키 추가
         val weatherApiKey = project.findProperty("WEATHER_API_KEY") as String? ?: ""
         buildConfigField("String", "WEATHER_API_KEY", "\"$weatherApiKey\"")
+
+        // api-sports.io Baseball API key — local.properties에 KBO_API_KEY=실제키 추가
+        val kboApiKey = project.findProperty("KBO_API_KEY") as String? ?: ""
+        buildConfigField("String", "KBO_API_KEY", "\"$kboApiKey\"")
     }
 
     buildTypes {

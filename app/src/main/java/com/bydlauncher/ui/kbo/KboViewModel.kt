@@ -2,6 +2,7 @@ package com.bydlauncher.ui.kbo
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bydlauncher.data.kbo.KboApiService
 import com.bydlauncher.domain.kbo.KboGameState
 import com.bydlauncher.domain.kbo.KboRepository
 import com.bydlauncher.domain.kbo.KboTeam
@@ -11,13 +12,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class KboViewModel @Inject constructor(
     private val repository: KboRepository,
+    private val apiService: KboApiService,
 ) : ViewModel() {
 
     private val _gameState = MutableStateFlow<KboGameState>(KboGameState.NoTeam)
@@ -29,6 +30,9 @@ class KboViewModel @Inject constructor(
     private var pollingJob: Job? = null
 
     init {
+        // KBO league ID 확인 (앱 시작 시 1회)
+        viewModelScope.launch { apiService.fetchLeagueId() }
+
         viewModelScope.launch {
             repository.getFavoriteTeam().collect { team ->
                 _favoriteTeam.value = team
