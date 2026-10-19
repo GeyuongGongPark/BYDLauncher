@@ -39,6 +39,7 @@ jobs:
         run: ./gradlew :app:assembleRelease
         env:
           ORG_GRADLE_PROJECT_WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+          ORG_GRADLE_PROJECT_KBO_API_KEY: ${{ secrets.KBO_API_KEY }}
 
       - name: Sign APK
         id: sign_apk
